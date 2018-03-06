@@ -1,5 +1,6 @@
 * Application kardia
-web application based on [[www.djangoproject.org][django]] to manage patients of the cardiology clinic of [[www.cliniquekardia.com]] , Algiers
+web application based on [[www.djangoproject.org][django]] to manage patients of the cardiology clinic of [[https://
+www.cliniquekardia.com]] , Algiers
 
 * components 
 the site is divided into components:
