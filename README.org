@@ -1,0 +1,23 @@
+* Application kardia
+web application based on [[www.djangoproject.org][django]] to manage patients of the cardiology clinic of [[www.cliniquekardia.com]] , Algiers
+
+* components 
+the site is divided into components:
+
+- clinic :: demographics (/via/ =Patient= model),  
+- material :: drugs, stents and related stuff
+- cathlab :: interventions, scheduling
+- Billing :: patients and third party (CNAS, CASNOS)..
+- correspondence :: stomatology, pre operative reports
+- biology :: lab sample's results
+             
+* dependencies
+- django 2.0.x
+- django-crispy-forms
+- Bootstrap (static files)
+- postgresql + psycopg2 (sqlite for development)
+- [[www.contextgarden.org][ConTeXT]] MARK IV for PDF creation
+
+* custom actions
+- automatic PDF reporting via special =views=
+- export to CSV via admin actions  
