@@ -5,7 +5,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-# from billing.models import Prestation
+from billing.models import Prestation
 # Create your models here.
 
 
@@ -108,20 +108,6 @@ class Patient(models.Model):
     def age(self):
         return int((datetime.now().date() - self.birth_date).days / 365.25)
 
- #   @property
- #   def slug(self):
- #       return slugify(self.name, self.birth)
-#    def get_absolute_url(self):
-#        return reverse('detail_patient', kwargs={'pk': self.pk})
-    # def _get_unique_slug(self):
-    #     slug = slugify(self.title, self.birth)
-    #     unique_slug = slug
-    #     num = 1
-    #     while Patient.objects.filter(slug=unique_slug).exists():
-    #         unique_slug = '{}-{}'.format(slug, num)
-    #         num += 1
-    #     return unique_slug
-
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name, self.birth)
@@ -218,18 +204,23 @@ class Consultation(models.Model):
     #    return reverse('detail_consultation', kwargs={'pk':self.pk})
 
 
-# class Reception(models.Model):
-#     patient = models.ForeignKey(Patient, related_name='rendez_vous',
-#                                 on_delete=models.CASCADE)
-#     date = models.DateField("Date du rendez-vous", blank=True, null=True)
-#     planned = models.NullBooleanField("patient programmé", default=True)
-#     confirmed = models.NullBooleanField("Confirmé", default=False)
-#     number = models.PositiveSmallIntegerField("numéro du patient",
-#                                               blank=True, null=True)
-#     prestation = models.ManyToManyField(Prestation, null=True, blank=True)
+class Reception(models.Model):
+    patient = models.ForeignKey(Patient, related_name='rendez_vous',
+                                on_delete=models.CASCADE)
+    date = models.DateField("Date du rendez-vous", blank=True, null=True)
+    planned = models.NullBooleanField("patient programmé", default=True)
+    confirmed = models.NullBooleanField("Confirmé", default=False)
+    number = models.PositiveSmallIntegerField("numéro du patient",
+                                              blank=True, null=True)
+    prestations = models.ManyToManyField(Prestation, null=True, blank=True)
 
-#     def __str__(self):
-#         return f'{self.patient} {self.number} RDV: {self.date}'
+    def display_prestations(self):
+        return '- '.join([ prestation.acte for prestation in self.prestations.all() ])
+    display_prestations.short_description = 'Prestations'
+    display_prestations.allow_tags = True
+
+    def __str__(self):
+        return f'{self.patient} {self.number} RDV: {self.date}'
 
 
 class Stress(models.Model):

@@ -42,4 +42,4 @@ class ConventionAdmin(admin.ModelAdmin):
 
 admin.site.register(Convention, ConventionAdmin)
 admin.site.register(Quotation)
-admin.site.register(Prestation)
+#admin.site.register(Prestation)

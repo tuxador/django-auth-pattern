@@ -4,7 +4,8 @@ from django.utils import timezone
 # from django.conf import settings
 from django.urls import reverse
 from django.utils.text import slugify
-from clinic.models import Patient
+# from clinic.models import Patient avoid circular import
+# between patient-prestation-quotation
 # Create your models here.
 
 class Quotation(models.Model):
@@ -17,8 +18,8 @@ class Quotation(models.Model):
 
 
 class Convention(models.Model):
-    patient = models.ForeignKey(Patient, related_name='conventions',
-                                on_delete=models.CASCADE)
+    patient = models.ForeignKey('clinic.Patient', related_name='conventions',
+                                on_delete=models.CASCADE) 
     code = models.CharField("Code du patient", max_length=100,
                             blank=True, null=True)
     date_depot = models.DateField("date du depôt du dossier",

@@ -58,13 +58,13 @@ class ConsultationAdmin(admin.ModelAdmin):
         actions = [export_to_csv]
 
 
-# class ReceptionAdmin(admin.ModelAdmin):
+class ReceptionAdmin(admin.ModelAdmin):
 
-#         list_display = ("patient", "date", "planned", "confirmed",
-#                         "number")
-#     # list_filter = ('consultation_date', 'emergency', 'medecin', 'patient',)
-#         date_hierarchy = 'date'
-#         actions = [export_to_csv]
+        list_display = ("patient", "date", "planned", "confirmed",
+                        "number", "display_prestations")
+    # list_filter = ('consultation_date', 'emergency', 'medecin', 'patient',)
+        date_hierarchy = 'date'
+        actions = [export_to_csv]
 
 
 class StressAdmin(admin.ModelAdmin):
@@ -76,12 +76,9 @@ class StressAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Patient, PatientAdmin)
-# admin.site.register(Coroscan, CoroscanAdmin)
-# admin.site.register(Convention, ConventionAdmin)
-# admin.site.register(Reception, ReceptionAdmin)
+admin.site.register(Reception, ReceptionAdmin)
 admin.site.register(Motif)
-#admin.site.register(Quotation)
-#admin.site.register(Prestation)
+admin.site.register(Prestation)
 admin.site.register(Wilaya)
 admin.site.register(Consultation, ConsultationAdmin)
 admin.site.register(Stress, StressAdmin)
