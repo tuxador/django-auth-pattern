@@ -5,7 +5,7 @@ from django.contrib import admin
 # Add this import
 from django.contrib.auth import views
 from log.forms import LoginForm
-
+# import clinic.urls
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('log.urls')),
@@ -14,6 +14,9 @@ urlpatterns = [
         name='login'),
     url(r'^logout/$', views.logout, {'next_page': '/login'}),  
 ]
+# User-uploaded files like profile pics need to be served in development
+#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 # urlpatterns = [
 #     path('index/', views.index, name='main-view'),

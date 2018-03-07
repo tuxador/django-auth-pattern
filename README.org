@@ -5,20 +5,38 @@ www.cliniquekardia.com]] , Algiers
 * components 
 the site is divided into components:
 
-- clinic :: demographics (/via/ =Patient= model),  
-- material :: drugs, stents and related stuff
-- cathlab :: interventions, scheduling
-- Billing :: patients and third party (CNAS, CASNOS)..
-- correspondence :: stomatology, pre operative reports
-- biology :: lab sample's results
+** clinic   
+demographics, rendez-vous, 
+*** Patient
+*** Reception
+*** Stress    
+*** Wilaya
+*** Motif
+*** Tag
+
+** stock  
+drugs, stents and related stuff
+** cathlab 
+interventions, scheduling
+**  Billing 
+patients and third party (CNAS, CASNOS)..
+*** Quotations
+*** Convention
+*** Prestation    
+** correspondence 
+stomatology, pre operative reports
+** biology 
+lab sample's results
              
 * dependencies
-- django 2.0.x
+- python >= 3.6 because *F-strings* rock !! 
+- django 2.0.x yeah the url path are cool.
 - django-crispy-forms
-- Bootstrap (static files)
+- Bootstrap , considering to switch to 4.0
 - postgresql + psycopg2 (sqlite for development)
 - [[www.contextgarden.org][ConTeXT]] MARK IV for PDF creation
 
 * custom actions
 - automatic PDF reporting via special =views=
-- export to CSV via admin actions  
+- export to CSV via =admin= actions  
+

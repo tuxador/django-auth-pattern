@@ -5,11 +5,13 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+# from billing.models import Prestation
 # Create your models here.
 
 
 class Wilaya(models.Model):
     wilaya = models.CharField(max_length=25)
+    code = models.PositiveSmallIntegerField(null=True)
 
     def __str__(self):
         return(self.wilaya)
@@ -33,12 +35,13 @@ class Tag(models.Model):
 class Patient(models.Model):
     name = models.CharField(verbose_name="Nom et prénoms",
                             max_length=50)
-    slug = models.SlugField(max_length=100, unique_for_date='birth')
+    slug = models.SlugField(max_length=100)
     birth = models.DateField(verbose_name="date de naissance")
 
     GENDER_CHOICES = (
                      ('M', 'Masculin'),
                      ('F', 'Féminin'),
+                     ('O', 'autre'),
                 )
     gender = models.CharField(verbose_name="sexe",
                               max_length=1, choices=GENDER_CHOICES)
@@ -105,8 +108,9 @@ class Patient(models.Model):
     def age(self):
         return int((datetime.now().date() - self.birth_date).days / 365.25)
 
-    def slug(self):
-        return slugify(self.name, self.birth)
+ #   @property
+ #   def slug(self):
+ #       return slugify(self.name, self.birth)
 #    def get_absolute_url(self):
 #        return reverse('detail_patient', kwargs={'pk': self.pk})
     # def _get_unique_slug(self):
@@ -118,10 +122,11 @@ class Patient(models.Model):
     #         num += 1
     #     return unique_slug
 
-    # def save(self, *args, **kwargs):
-    #     if not self.slug:
-    #         self.slug = self._get_unique_slug()
-    #     super().save()
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name, self.birth)
+        super().save()
+
     def __str__(self):
 
         return(self.slug)
@@ -211,4 +216,137 @@ class Consultation(models.Model):
         return '%s %s' % (self.patient, self.consultation_date)
     # def get_absolute_url(self):
     #    return reverse('detail_consultation', kwargs={'pk':self.pk})
+
+
+# class Reception(models.Model):
+#     patient = models.ForeignKey(Patient, related_name='rendez_vous',
+#                                 on_delete=models.CASCADE)
+#     date = models.DateField("Date du rendez-vous", blank=True, null=True)
+#     planned = models.NullBooleanField("patient programmé", default=True)
+#     confirmed = models.NullBooleanField("Confirmé", default=False)
+#     number = models.PositiveSmallIntegerField("numéro du patient",
+#                                               blank=True, null=True)
+#     prestation = models.ManyToManyField(Prestation, null=True, blank=True)
+
+#     def __str__(self):
+#         return f'{self.patient} {self.number} RDV: {self.date}'
+
+
+class Stress(models.Model):
+                # données générales et symptomatologie
+                #
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    stress_date = models.DateField("Date du stress-echo",
+                                   default=timezone.now)
+    referent = models.CharField("Médecin référent", max_length=50,
+                                blank=True)
+    medecin = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True,
+                                on_delete=models.CASCADE)
+    motif_stress = models.ManyToManyField(Motif)
+    medication = models.CharField("traitement habituel",
+                                  max_length=255, blank=True)
+    dobu_5 = models.NullBooleanField("Dobu 5 gammas")
+    dobu_10 = models.NullBooleanField("Dobu 10 gammas")
+    dobu_15 = models.NullBooleanField("Dobu 15 gammas")
+    dobu_20 = models.NullBooleanField("Dobu 20 gammas")
+    dobu_30 = models.NullBooleanField("Dobu 30 gammas")
+    dobu_40 = models.NullBooleanField("Dobu 40 gammas")
+    atropin_1 = models.NullBooleanField("Atropine 0.25 mg")
+    atropin_2 = models.NullBooleanField("Atropine 0.50 mg")
+    atropin_3 = models.NullBooleanField("Atropine 0.75 mg")
+    atropin_4 = models.NullBooleanField("Atropine 1.00 mg")
+    bb_peros = models.NullBooleanField("Beta bloqueur per os")
+    bb_iv = models.NullBooleanField("Beta bloqueur IV")
+    nitrin = models.NullBooleanField("Dérivés nitrés")
+    OBJECTIF_CHOICES = (
+        ('I', 'Ischémie'),
+        ('V', 'Viabilité'),
+        ('R', 'Réserve contractile'),
+        ('G', 'Gradient trans-aortique'),
+        ('M', 'Fuite mitrale')
+    )
+    objectif = models.CharField(max_length=1, choices=OBJECTIF_CHOICES)
+# examen de base
+    base_systolic_bp = models.PositiveSmallIntegerField("PAS base",
+                                                        blank=True,
+                                                        null=True)
+    base_diastolic_bp = models.PositiveSmallIntegerField("PAD base",
+                                                         blank=True,
+                                                         null=True)
+    base_heart_rate = models.PositiveSmallIntegerField("FC base",
+                                                       blank=True,
+                                                       null=True)
+    base_ecg = models.CharField("ECG base", max_length=255,
+                                blank=True, null=True)
+    base_echo = models.CharField("écho de base", max_length=255,
+                                 blank=True, null=True)
+# low dose
+    low_symptoma = models.CharField("Symptômes low dose",
+                                    max_length=255, blank=True,
+                                    null=True)
+    low_systolic_bp = models.PositiveSmallIntegerField("PAS low dose",
+                                                       blank=True,
+                                                       null=True)
+    low_diastolic_bp = models.PositiveSmallIntegerField("PAD low dose",
+                                                        blank=True,
+                                                        null=True)
+    low_heart_rate = models.PositiveSmallIntegerField("FC low dose",
+                                                      blank=True,
+                                                      null=True)
+    low_ecg = models.CharField("ECG low dose", max_length=255,
+                               blank=True, null=True)
+    low_echo = models.CharField("écho low dose", max_length=255,
+                                blank=True, null=True)
+# peak dose
+    peak_symptoma = models.CharField("Symptômes peak dose",
+                                     max_length=255, blank=True,
+                                     null=True)
+    peak_systolic_bp = models.PositiveSmallIntegerField("PAS peak dose",
+                                                        blank=True,
+                                                        null=True)
+    peak_diastolic_bp = models.PositiveSmallIntegerField("PAD peak dose",
+                                                         blank=True,
+                                                         null=True)
+    peak_heart_rate = models.PositiveSmallIntegerField("FC peak dose",
+                                                       blank=True,
+                                                       null=True)
+    peak_ecg = models.CharField("ECG peak dose", max_length=255,
+                                blank=True, null=True)
+    peak_echo = models.CharField("écho peak dose", max_length=255,
+                                 blank=True, null=True)
+# Récupération
+    recup_symptoma = models.CharField("Symptômes récupération",
+                                      max_length=255, blank=True,
+                                      null=True)
+    recup_systolic_bp = models.PositiveSmallIntegerField("PAS récupération",
+                                                         blank=True,
+                                                         null=True)
+    recup_diastolic_bp = models.PositiveSmallIntegerField("PAD récupération",
+                                                          blank=True,
+                                                          null=True)
+    recup_heart_rate = models.PositiveSmallIntegerField("FC récupération",
+                                                        blank=True,
+                                                        null=True)
+    recup_ecg = models.CharField("ECG récupération", max_length=255,
+                                 blank=True, null=True)
+    recup_echo = models.CharField("écho de récupération",
+                                  max_length=255, blank=True,
+                                  null=True)
+# evolution
+    maximale = models.BooleanField("épreuve maximale", default=True)
+    conclusion = models.TextField("Conclusion", blank=True)
+    DISPOSITION_CHOICES = (
+        ('M', 'Traitement médical'),
+        ('C', 'Coronarographie diagnostique'),
+        ('R', 'Coronarographie et éventuel geste de revascularisation'),
+        ('N', 'Non concluante'),
+    )
+    disposition = models.CharField("Dispositions complémentaires",
+                                   max_length=1,
+                                   choices=DISPOSITION_CHOICES,
+                                   default='M')
+
+    def __str__(self):
+
+        return '%s stress %s' % (self.patient, self.stress_date)
 
