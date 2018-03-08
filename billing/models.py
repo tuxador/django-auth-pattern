@@ -20,24 +20,24 @@ class Quotation(models.Model):
 class Convention(models.Model):
     patient = models.ForeignKey('clinic.Patient', related_name='conventions',
                                 on_delete=models.CASCADE) 
-    code = models.CharField("Code du patient", max_length=100,
+    code = models.CharField("Code patient", max_length=100,
                             blank=True, null=True)
-    date_depot = models.DateField("date du depôt du dossier",
+    date_depot = models.DateField("date depôt dossier",
                                   default=timezone.now())
-    date_maj = models.DateField("date de mise à jour du dossier",
+    date_maj = models.DateField("date MAJ  dossier",
                                 auto_now_add=True)
-    traitement = models.TextField("Traitement médical")
+    traitement = models.TextField("Traitement")
     quotation = models.ManyToManyField("quotation", blank=True, null=True)
     Remarque = models.CharField("Remarque", max_length=255,
                                 null=True, blank=True)
 # dossier administratif
-    attestation_droit = models.NullBooleanField("Attestation d'ouverture des droits")
-    debut_validite = models.DateField("Début de valditié de l'attestation",
+    attestation_droit = models.NullBooleanField("Attestation ouverture droits")
+    debut_validite = models.DateField("Début de validité attestation",
                                       blank=True, null=True)
-    fin_validite = models.DateField("Fin de valditié de l'attestation",
+    fin_validite = models.DateField("Fin  validité attestation",
                                     blank=True, null=True)
     photocopies = models.BooleanField("Photocopie", default=True)
-    extrait_naissance = models.BooleanField("extrait de naissance de l'enfant",
+    extrait_naissance = models.BooleanField("extrait de naissance enfant",
                                             default=False)
     kafala = models.BooleanField("Kafala", default=True)
     fiche_familiale = models.BooleanField("Fiche familiale", default=True)
@@ -77,7 +77,7 @@ class Convention(models.Model):
     hiv = models.DateField("Sérologie HIV", null=True, blank=True)
     hcv = models.DateField("Sérologie HCV", null=True, blank=True)
     hbv = models.DateField("Sérologie HBV", null=True, blank=True)
-    rejet = models.DateField("Rejeté le", null=True, blank=True)
+    rejet = models.DateField("Rejet le", null=True, blank=True)
 
     def __str__(self):
         return f'{self.patient} : {self.code} - deposé le {self.date_depot}'

@@ -159,7 +159,8 @@ class Consultation(models.Model):
         ('P', 'Pace Maker'),
         ('T', 'TV')
     )
-    rythm = models.CharField(max_length=1, choices=RYTHM_CHOICES)
+    rythm = models.CharField(max_length=1, choices=RYTHM_CHOICES,
+                             blank=True, null=True)
     freq = models.PositiveSmallIntegerField(default='70')
     BLOCK_CHOICES = (
         ('D', 'BBD'),
@@ -176,10 +177,14 @@ class Consultation(models.Model):
         ('L', 'Lateral'),
         ('P', 'Posterior'),
     )
-    necrosis = models.CharField(max_length=1, choices=TERRITORY)
-    ischaemia = models.CharField(max_length=1, choices=TERRITORY)
-    lesion = models.CharField(max_length=1, choices=TERRITORY)
-    t_inversion = models.CharField(max_length=1, choices=TERRITORY)
+    necrosis = models.CharField(max_length=1, choices=TERRITORY,
+                                blank=True, null=True)
+    ischaemia = models.CharField(max_length=1, choices=TERRITORY,
+                                 blank=True, null=True)
+    lesion = models.CharField(max_length=1, choices=TERRITORY,
+                              blank=True, null=True)
+    t_inversion = models.CharField(max_length=1, choices=TERRITORY,
+                                   blank=True, null=True)
     corrected_qt = models.IntegerField(default=400)
 # echocoeur
     echocoeur = models.TextField("échocardiographie", null=True,
@@ -210,9 +215,13 @@ class Reception(models.Model):
     date = models.DateField("Date du rendez-vous", blank=True, null=True)
     planned = models.NullBooleanField("patient programmé", default=True)
     confirmed = models.NullBooleanField("Confirmé", default=False)
-    number = models.PositiveSmallIntegerField("numéro du patient",
+    number = models.PositiveSmallIntegerField("n°",
                                               blank=True, null=True)
     prestations = models.ManyToManyField(Prestation, null=True, blank=True)
+    manque = models.PositiveSmallIntegerField("montant manquant",
+                                              blank=True, null=True)
+    paid = models.DateField("reglé le", null=True, blank=True)
+    reduction = models.NullBooleanField("réduction", default=False)
 
     def display_prestations(self):
         return '- '.join([ prestation.acte for prestation in self.prestations.all() ])
@@ -220,7 +229,7 @@ class Reception(models.Model):
     display_prestations.allow_tags = True
 
     def __str__(self):
-        return f'{self.patient} {self.number} RDV: {self.date}'
+        return f'{self.number}_{self.patient}  RDV: {self.date}'
 
 
 class Stress(models.Model):

@@ -60,8 +60,8 @@ class ConsultationAdmin(admin.ModelAdmin):
 
 class ReceptionAdmin(admin.ModelAdmin):
 
-        list_display = ("patient", "date", "planned", "confirmed",
-                        "number", "display_prestations")
+        list_display = ("number", "patient", "date",
+                        "planned", "confirmed", "display_prestations")
     # list_filter = ('consultation_date', 'emergency', 'medecin', 'patient',)
         date_hierarchy = 'date'
         actions = [export_to_csv]

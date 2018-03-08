@@ -7,12 +7,12 @@ the site is divided into components:
 
 ** clinic   
 demographics, rendez-vous, 
-*** Patient
-*** Reception
-*** Stress    
-*** Wilaya
-*** Motif
-*** Tag
+*** DONE Patient
+*** DONE Reception
+*** DONE Stress    
+*** DONE Wilaya
+*** DONE Motif
+*** DONE Tag
 
 ** stock  
 drugs, stents and related stuff
@@ -20,9 +20,10 @@ drugs, stents and related stuff
 interventions, scheduling
 **  Billing 
 patients and third party (CNAS, CASNOS)..
-*** Quotations
-*** Convention
-*** Prestation    
+*** DONE Quotations
+*** DONE Convention
+*** DONE Prestation    
+    le problème de *dépendance circulaire* ayant été reglé entre patient-prestation-reception en éliminant l'import de =Patient= dans le model Reception
 ** correspondence 
 stomatology, pre operative reports
 ** biology 
