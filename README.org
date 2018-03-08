@@ -1,4 +1,4 @@
-* Application kardia
+* Application [[http://localhost:7000/][kardia]]
 web application based on [[www.djangoproject.org][django]] to manage patients of the cardiology clinic of [[https://
 www.cliniquekardia.com]] , Algiers
 
@@ -38,6 +38,18 @@ lab sample's results
 - [[www.contextgarden.org][ConTeXT]] MARK IV for PDF creation
 
 * custom actions
-- automatic PDF reporting via special =views=
-- export to CSV via =admin= actions  
+** automatic PDF reporting 
+
+via special =views=
+
+** export to CSV  
+
+via =admin= actions
+
+** Search field 
+** Custom (list) views and dashboards:
+    + per day, week or month
+    + for inhospîtal patients
+    + for payments and billing
+   
 

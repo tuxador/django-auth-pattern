@@ -3,35 +3,91 @@ from django.utils import timezone
 from django.conf import settings
 from django.urls import reverse
 from django.utils.text import slugify
-from clinic import Patient
+# from clinic import Patient circular import
 # Create your models here.
 
 
-class   Complication(models.Model):
-                complication = models.CharField(max_length=25)
+class Complication(models.Model):
+    complication = models.CharField(max_length=25)
 
-                def __str__(self):
-                    return(self.complication)
+    def __str__(self):
+        return(self.complication)
 
-class   Indication(models.Model):
-                indication = models.CharField(max_length=25)
+class Indication(models.Model):
+    indication = models.CharField(max_length=25)
 
-                def __str__(self):
-                    return(self.indication)
+    def __str__(self):
+        return(self.indication)
 
 
-class   Lesion(models.Model):
-                lesion = models.CharField(max_length=25)
+class Lesion(models.Model):
+    lesion = models.CharField(max_length=25)
 
-                def __str__(self):
-                    return(self.lesion)
+    def __str__(self):
+        return(self.lesion)
 
+class Pace(models.Model):
+    pace = models.CharField(max_length=25)
+    serial = models.CharField("numéro de série",
+                              max_length=255, blank=True,
+                              null=True)
+
+    def __str__(self):
+        return(self.pace)
+
+
+class Sonde(models.Model):
+    sonde = models.CharField(max_length=25)
+
+    def __str__(self):
+        return(self.sonde)
+
+
+class Stent(models.Model):
+    marque = models.CharField("modèle de stent",
+                              max_length=25, blank=True, null=True)
+    vendor = models.CharField(max_length=25, blank=True, null=True)
+    serial = models.CharField("numéro de série", max_length=255,
+                              blank=True, null=True)
+
+    stent_actif = models.BooleanField("Stent actif", default=True)
+    calibre = models.DecimalField(max_digits=3, decimal_places=2, default=3.00)
+    longueur = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '%s %s %s' % (self.marque, self.calibre, self.longueur)
+
+
+class Guidwire(models.Model):
+    marque = models.CharField("marque du guide", max_length=25,
+                              blank=True, null=True)
+    vendor = models.CharField(max_length=25, blank=True, null=True)
+    hydrophile = models.BooleanField("hydrophile", default=False)
+    calibre = models.DecimalField(max_digits=4, decimal_places=3, default=0.035)
+
+    def __str__(self):
+        return '%s %s' % (self.marque, self.calibre)
+
+
+class Ballon(models.Model):
+    marque = models.CharField("modèle de ballon", max_length=25,
+                              blank=True, null=True)
+    vendor = models.CharField(max_length=25, blank=True, null=True)
+    serial = models.CharField("numéro de série", max_length=255,
+                              blank=True, null=True)
+
+    ballon_compliant = models.BooleanField("Compliant", default=True)
+    calibre = models.DecimalField(max_digits=3, decimal_places=2, default=3.00)
+    longueur = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '%s %s %s' % (self.marque, self.calibre, self.longueur)
 
 
 class Coroscan(models.Model):
 
     # données générales et symptomatologie
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey('clinic.Patient', on_delete=models.CASCADE)
     coroscan_date = models.DateField("Date du coroscanner",
                                      default=timezone.now)
     referent = models.CharField("Médecin référent", max_length=50,
@@ -67,7 +123,7 @@ class Coroscan(models.Model):
     longueur_champ = models.CharField("Longueur champ",
                                       max_length=10, default="16cm")
     ctdivol = models.PositiveSmallIntegerField("CTDIvol",
-                                               blank=True, null = True)
+                                               blank=True, null=True)
     dlp = models.PositiveSmallIntegerField("DLP mgy/cm", blank=True,
                                            null=True)
     tcg = models.CharField("TCG", max_length=255, blank=True,
@@ -120,87 +176,138 @@ class Coroscan(models.Model):
 
 
 
-class   Coronarographie(models.Model):
+class Coronarographie(models.Model):
 
-                patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-                intervention_date = models.DateField("date d'intervention")
-                operateur = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
-                aide = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='intervention_coronarographie_aide')
-                emergency = models.BooleanField("urgence", default=False)
-                indication = models.ManyToManyField(Indication, blank=True)
+    patient = models.ForeignKey('clinic.Patient', on_delete=models.CASCADE)
+    intervention_date = models.DateField("date d'intervention")
+    operateur = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  blank=True, null=True,
+                                  on_delete=models.CASCADE)
+    aide = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             blank=True, null=True,
+                             related_name='intervention_coronarographie_aide',
+                             on_delete=models.CASCADE)
+    emergency = models.BooleanField("urgence", default=False)
+    indication = models.ManyToManyField(Indication, blank=True)
 
-                ABORD = (
-                    ('R', 'Radial'),
-                    ('F', 'Femoral'),
-                    ('O', 'Autre'),
-                )
+    ABORD = (
+                ('R', 'Radial'),
+                ('F', 'Femoral'),
+                ('O', 'Autre'),
+    )
+
+    abord = models.CharField("abord artériel", max_length=1,
+                             choices=ABORD, default='R', null=True)
+    sonde = models.ManyToManyField(Sonde, blank=True)
+    guide = models.ManyToManyField(Guidwire, blank=True)
+    stent = models.ManyToManyField(Stent, blank=True)
+    iode = models.PositiveSmallIntegerField("Produit de contrast",
+                                            blank=True, null=True)
+    tcg = models.CharField(max_length=255, blank=True, null=True)
+    iva = models.CharField("IVA", max_length=255, blank=True, null=True)
+    iva_prox = models.ForeignKey(Lesion, blank=True,
+                                 null=True,
+                                 on_delete=models.CASCADE,
+                                 related_name='intervention_coronarographie_iva_prox')
+    iva_moy = models.ForeignKey(Lesion,
+                                blank=True, null=True,
+                                on_delete=models.CASCADE,
+                                related_name='intervention_coronarographie_iva_moy')
+    iva_dist = models.ForeignKey(Lesion,
+                                 blank=True, null=True,
+                                 on_delete=models.CASCADE,
+                                 related_name='intervention_coronarographie_iva_dist')
+    bissectrice = models.CharField("Bissectrice", max_length=255,
+                                   blank=True, null=True)
+    bissec = models.ForeignKey(Lesion,
+                               blank=True, null=True,
+                               on_delete=models.CASCADE,
+                               related_name='intervention_coronarographie_bissec')
+    circonflexe = models.CharField("Circonflexe", max_length=255,
+                                   blank=True, null=True)
+    cx_prox = models.ForeignKey(Lesion,
+                                blank=True, null=True,
+                                on_delete=models.CASCADE,
+                                related_name='intervention_coronarographie_cx_prox')
+    cx_moy = models.ForeignKey(Lesion,
+                               blank=True, null=True,
+                               on_delete=models.CASCADE,
+                               related_name='intervention_coronarographie_cx_moy')
+    cx_dist = models.ForeignKey(Lesion,
+                                blank=True, null=True,
+                                on_delete=models.CASCADE,
+                                related_name='intervention_coronarographie_cx_dist')
+    marginale = models.ForeignKey(Lesion,
+                                  blank=True, null=True,
+                                  on_delete=models.CASCADE,
+                                  related_name='intervention_coronarographie_marginale')
+    coronaire_dte = models.CharField("Coronaire droite", max_length=255,
+                                     blank=True, null=True)
+    cd1 = models.ForeignKey(Lesion,
+                            blank=True, null=True,
+                            on_delete=models.CASCADE,
+                            related_name='intervention_coronarographie_cd1')
+    cd2 = models.ForeignKey(Lesion,
+                            blank=True, null=True,
+                            on_delete=models.CASCADE,
+                            related_name='intervention_coronarographie_cd2')
+    cd3 = models.ForeignKey(Lesion,
+                            blank=True, null=True,
+                            on_delete=models.CASCADE,
+                            related_name='intervention_coronarographie_cd3')
+    ivp = models.ForeignKey(Lesion,
+                            blank=True, null=True,
+                            on_delete=models.CASCADE,
+                            related_name='intervention_coronarographie_ivp')
+    rvg = models.ForeignKey(Lesion,
+                            blank=True, null=True,
+                            on_delete=models.CASCADE,
+                            related_name='intervention_coronarographie_rvg')
+    dominance = models.NullBooleanField(default=True)
+    conclusion = models.TextField("Conclusion", blank=True, null=True)
+    decision = models.CharField("Décision thérapeutique",
+                                max_length=255, blank=True, null=True)
+    staff_date = models.DateField("Date du staff", default=timezone.now)
+    # partie dédiée à l'angioplastie
+    procedure = models.TextField("Angioplastie", blank=True, null=True)
+    success = models.BooleanField(default=True)
+    complications = models.ManyToManyField(Complication, blank=True)
+    dispositions = models.CharField("Dispositions complémentaires",
+                                    max_length=255, blank=True)
+
+    def __str__(self):
+        return '%s %s' % (self.patient, self.intervention_date)
+
+#       def get_absolute_url(self):
+#     return reverse('detail_coronarographie', kwargs={'pk': self.pk})
 
 
-                abord = models.CharField("abord artériel", max_length=1, choices=ABORD, default='R', null=True)
-                sonde = models.ManyToManyField(Sonde, blank=True)
-                guide = models.ManyToManyField(Guidwire, blank=True)
-                stent = models.ManyToManyField(Stent, blank = True)
-                iode = models.PositiveSmallIntegerField("Produit de contrast", blank=True, null=True)
-                tcg = models.CharField(max_length=255, blank=True, null=True)
-                iva = models.CharField("IVA", max_length=255, blank=True, null=True)
-                iva_prox = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_iva_prox')
-                iva_moy = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_iva_moy')
-                iva_dist = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_iva_dist')
-                bissectrice = models.CharField("Bissectrice", max_length=255, blank=True, null=True)
-                bissec = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_bissec')
-                circonflexe = models.CharField("Circonflexe", max_length=255, blank=True, null=True)
-                cx_prox = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_cx_prox')
-                cx_moy = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_cx_moy')
-                cx_dist = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_cx_dist')
-                marginale = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_marginale')
+class Stimulation(models.Model):
 
-                coronaire_dte = models.CharField("Coronaire droite", max_length=255, blank=True, null=True)
-                cd1 = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_cd1')
-                cd2 = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_cd2')
-                cd3 = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_cd3')
-                ivp = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_ivp')
-                rvg = models.ForeignKey(Lesion, blank=True, null=True, related_name='intervention_coronarographie_rvg')
-                dominance = models.NullBooleanField(default=True)
-                conclusion = models.TextField("Conclusion", blank=True, null=True)
-                decision = models.CharField("Décision thérapeutique", max_length=255, blank=True, null=True)
-                staff_date = models.DateField("Date du staff", default = timezone.now)
+    patient = models.ForeignKey('clinic.Patient', on_delete=models.CASCADE)
+    intervention_date = models.DateField("date d'intervention")
+    operateur = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  blank=True, null=True,
+                                  on_delete=models.CASCADE)
+    aide = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             blank=True, null=True,
+                             on_delete=models.CASCADE,
+                             related_name='intervention_stimulation_aide')
+    pacemaker = models.ForeignKey(Pace, on_delete=models.CASCADE,
+                                  null=True, blank=True)
+    emergency = models.BooleanField("urgence", default=False)
+    indication = models.ManyToManyField(Indication, blank=True)
+    epuisement = models.BooleanField("changement de boîtier", default=False)
+    type_stimulation = models.CharField("Type de stimulation", max_length=4, blank=True)
+    procedure = models.TextField("procédure")
+    duree = models.DurationField(null=True, blank=True)
+    complications = models.ManyToManyField(Complication, blank=True)
+    dispositions = models.CharField("Dispositions complémentaires",max_length=255,  blank=True)
 
-                # partie dédiée à l'angioplastie
-                procedure = models.TextField("Angioplastie", blank=True, null=True)
-                succes = models.BooleanField(default=True)
-                complications = models.ManyToManyField(Complication, blank=True)
-                dispositions = models.CharField("Dispositions complémentaires", max_length=255, blank=True)
+    def __str__(self):
+        return '%s %s' % (self.patient, self.intervention_date)
 
+#                def get_absolute_url(self):
 
-                def __str__(self):
-
-                    return '%s %s' % (self.patient, self.intervention_date)
-
-                def get_absolute_url(self):
-                    return reverse('detail_coronarographie', kwargs={'pk': self.pk})
-
-class   Stimulation(models.Model):
-
-                patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-                intervention_date = models.DateField("date d'intervention")
-                operateur = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
-                aide = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='intervention_stimulation_aide')
-                pacemaker = models.ForeignKey(Pace)
-                emergency = models.BooleanField("urgence", default=False)
-                indication = models.ManyToManyField(Indication, blank=True)
-                epuisement = models.BooleanField("changement de boîtier", default=False)
-                type_stimulation = models.CharField("Type de stimulation", max_length=4, blank=True)
-                procedure = models.TextField("procédure")
-                duree = models.DurationField(null=True, blank=True)
-                complications = models.ManyToManyField(Complication, blank=True)
-                dispositions = models.CharField("Dispositions complémentaires",max_length=255,  blank=True)
-
-
-                def __str__(self):
-
-                    return '%s %s' % (self.patient, self.intervention_date)
-
-                def get_absolute_url(self):
-
-                    return reverse('detail_stimulation', kwargs={'pk': self.pk})
+#                    return reverse('detail_stimulation', kwargs={'pk': self.pk})
                      # return reverse('list_stimulations')

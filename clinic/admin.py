@@ -28,7 +28,8 @@ def export_to_csv(modeladmin, request, queryset):
         writer.writerow(data_row)
     return response
 export_to_csv.short_description = 'Export to CSV'
-
+# for obj in queryset:
+#             row = [getattr(obj, field)() if callable(getattr(obj, field)) else getattr(obj, field) for field in field_names]
 
 class PatientAdmin(admin.ModelAdmin):
 

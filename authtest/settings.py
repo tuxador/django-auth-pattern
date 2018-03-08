@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'clinic',
     'billing',
+    'cathlab',
 ]
 
 # django 1.9 MIDDLEWARE_CLASSES = [
