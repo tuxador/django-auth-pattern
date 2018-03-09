@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'clinic',
     'billing',
     'cathlab',
+    'correspondence',
 ]
 
 # django 1.9 MIDDLEWARE_CLASSES = [

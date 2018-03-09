@@ -18,6 +18,18 @@ demographics, rendez-vous,
 drugs, stents and related stuff
 ** cathlab 
 interventions, scheduling
+*** DONE Lesions
+*** DONE Indication
+*** DONE Complication
+*** DONE Sondes
+*** DONE Guidewire
+*** DONE Balloon
+*** DONE Stent
+*** DONE Pace
+*** DONE Coroscan
+*** DONE Coronarographie
+*** DONE Stimulation
+
 **  Billing 
 patients and third party (CNAS, CASNOS)..
 *** DONE Quotations
