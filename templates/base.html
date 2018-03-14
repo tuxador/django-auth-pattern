@@ -1,67 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
 
-	{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Clinique Kardia</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'font/fontawesome/web-fonts-with-css/css/fontawesome.min.css' %}">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
 
-	<!DOCTYPE html>
-	<html>
+<body>
 
-	<head>
+    <!--Main Navigation-->
+    <header>
 
-	    <meta charset="utf-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark indigo">
 
-	    <title>Clinique Kardia</title>
+            <!-- Navbar brand -->
+            <a class="navbar-brand" href="#">Navbar</a>
 
-	    <!-- Core CSS - Include with every page -->
-	    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-	</head>
+            <!-- Collapse button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-	<body>
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="basicExampleNav">
 
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" href="#">Clinique Kardia</a>
-	    </div>
+                <!-- Links -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
 
-	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	      <ul class="nav navbar-nav navbar-right">
-	        
-	        <li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
-	          <ul class="dropdown-menu" role="menu">
-	            <li><a href="/">home</a></li>
-	            <li><a href="/admin/">Admin</a></li>
-	            <li><a href="#">Réception</a></li>
-	            <li class="divider"></li>
-		          <li><a href="#">Rapports</a></li>
-	            <li class="divider"></li>
-              <li><a href="#">Interventions</a></li>
-	            <li class="divider"></li>
-	            <li><a href="/logout">Logout</a></li>
-	          </ul>
-	        </li>
+                    <!-- Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
 
-	      </ul>
-	    </div>
-	  </div>
-	</nav>
+                </ul>
+                <!-- Links -->
 
-	            {% block content %}
-	            {% endblock %}
+                <form class="form-inline">
+                    <div class="md-form mt-0">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    </div>
+                </form>
+            </div>
+            <!-- Collapsible content -->
 
-	    <!-- Core Scripts - Include with every page -->
-	    <script src = "{% static 'js/jquery.min.js' %}"></script>
+        </nav>
+        <!--/.Navbar-->
 
-	    <script src = "{% static 'js/bootstrap.min.js' %}"></script>
-	    {% block javascript %}
-	    {% endblock %}
+    </header>
+    <!--Main Navigation-->
+    <main>
+        <h1>hello world</h1>
+</main>
 
-	</body>
+        <!--/.Footer Links-->
 
-	</html>
+        <!--Copyright-->
+        <div class="footer-copyright py-3 text-center">
+            © 2018 Copyright:
+            <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com </a>
+        </div>
+        <!--/.Copyright-->
+
+    </footer>
+    <!--/.Footer-->
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,261 @@
+{% load static %}
+\setuppagenumbering[alternative=singlesided,location={footer,inright}]
+\setuplayout[header=1cm,leftmargin=1.5cm,rightmargin=1.5cm,footer=1.5cm]
+\mainlanguage[fr]
+\definefontfeature[default][default][protrusion=quality,expansion=quality,script=latn]
+\definefontfamily[kad][serif][Minion Pro]
+\definefontfamily[kad][sans] [Gillius ADF]
+\definefontfamily[kad][mono] [TeX Gyre Cursor][features=none]
+\definefontfamily[kad][math] [TeX Gyre Pagella Math]
+
+
+
+\setupbodyfont[kad,11pt]
+
+\usesymbols[fontawesome]
+\definecolor[darkgray]  [s=0.5]
+\definecolor[lightgray] [s=0.95]
+\definecolor[darkred]   [r=0.5]
+\definecolor[darkgreen] [g=0.5]
+\definecolor[darkblue]  [b=0.5]
+\definecolor[cyan][r=0.02,g=0.49,b=0.52]
+
+\definecolor[lightred]   [0.95(red,white)]
+\definecolor[lightgreen] [0.95(green,white)]
+\definecolor[lightblue]  [0.95(blue,white)]
+\setuphead[subject][color=darkred,style=\ssa\bf] 
+\setuphead[subsubject][color=darkred, style=\bf]
+\setuphead[subsubsubject][color=cyan, style=\ss]
+
+\defineframedtext[leftbartext]
+  [ width=broad,
+    frame=off,
+    framecolor=darkgray,
+    leftframe=on,
+    rulethickness=2ex,
+    offset=0.25ex,
+    loffset=3ex, 
+    background=color,
+    backgroundcolor=lightgray,
+    ]
+ \defineframedtext
+  [exampletext]
+  [leftbartext]
+  [
+    framecolor=cyan,
+    backgroundcolor=lightgreen,
+  ]
+
+\defineframedtext
+  [alerttext]
+  [leftbartext]
+  [
+    framecolor=darkred,
+    backgroundcolor=lightred,
+  ]
+
+\defineframedtext
+  [blocktext]
+  [leftbartext]
+  [
+    framecolor=darkblue,
+    backgroundcolor=lightblue,
+  ]   
+\define\FA{\dosingleargument\doFA}
+\def\doFA[#1]{\inlinedbox
+    {\scale[height=1em]{\symbol[fontawesome][#1]}}}
+
+\definedescription
+   [description]
+   [headstyle=\ssx\bf, style=, location=hanging, width=broad, margin=2ex, alternative=hanging]
+\startsetups table:width
+  \setupTABLE[align={hyphenated,normal}]
+  \setupTABLE[column][1][width=0.3\textwidth]
+  \setupTABLE[column][2][width=0.4\textwidth]
+  \setupTABLE[column][3][width=0.3\textwidth]
+\stopsetups
+\startsetups table:style
+\setupTABLE[frame=off]
+\setupTABLE[r][1][style=\ss]
+\setupTABLE[r][2][style=\tfa\bf]
+\setupTABLE[r][3][style=\ss]
+\setupTABLE[c][3][align=left]
+\setupTABLE[c][2][align=center]
+\setupTABLE[r][4][style=\bf] % how to override the \tt in the second column?
+\stopsetups
+
+\starttext
+
+  \startalignment[middle]
+ \dontleavehmode
+\framed
+  [frame=on,
+    framecolor=darkred,
+    background=color,
+    backgroundcolor=,
+    corner=round,
+    offset=0.3cm,
+   ]
+  {\ssc \bf RAPPORT MEDICAL}
+\stopalignment
+
+\blank[2cm]
+
+%\subject[patient]{Patient}
+
+\startframed[frame=on,
+    framecolor=darkred,
+    background=color,
+    backgroundcolor=,
+    corner=round,
+    offset=0.3cm,
+   ]
+
+%\placetable[none]{}
+ {\bTABLE[setups={table:style, table:width}]
+   \bTR
+   \bTD nom \& prénoms \eTD
+   \bTD date de naissance \eTD
+   \bTD Adresse \eTD
+   \eTR
+   \bTR
+   \bTD {{ patient.name }} \eTD
+   \bTD {{ patient.birth }} \eTD
+   \bTD Alger \eTD
+   \eTR
+   \bTR
+   \bTD motif de consultation \eTD
+   \bTD médecin correspondant\eTD
+   \bTD assurance \eTD
+   \eTR
+\bTR
+   \bTD CMD \eTD
+   \bTD Dr Saadaoui\eTD
+   \bTD CNAS \eTD
+   \eTR
+\eTABLE} 
+\stopframed
+\subsubject[antécedents]{Antécedents}
+\subsubsubject[facteurs-de-risque-cv]{facteurs de risque CV}
+\startitemize[2,columns,two,packed]
+\startitem  Hypertension artérielle. \stopitem
+\startitem  Diabète type 2 bien équilibré sous traitement \stopitem
+\stopitemize
+
+\subsubsubject[médicaux]{médicaux}
+Sciatalgie droite (marche avec béquille).
+% \starttabulate[|l|c|(rB,width=0.75\textlength|]
+% \HL
+% \NC {\bf format} \NC {\bf meaning} \NC Mk \NC\NR
+% \HL
+% \NC c      \NC centered                               \NC \NC\NR
+% \NC l      \NC left aligned                           \NC \NC\NR
+% \NC r      \NC right aligned                          \NC \NC\NR
+% \NC w(1cm) \NC one line, fixed width                  \NC \NC\NR
+% \NC p(2cm) \NC paragraph, lines broken to fixed width \NC \NC\NR
+% \NC cg(.)  \NC align on a character \NC IV: cg{.} \NC\NR
+% \NC m      \NC math mode                          \NC IV only \NC\NR
+% \NC b      \NC before e.g. b{\star}                          \NC IV only \NC\NR
+% \NC a      \NC after, e.g. a{\percent}                        \NC IV only \NC\NR
+% \HL
+% \stoptabulate
+% \startitemize[2,columns,two,packed]
+%   \startitem goitre multinodulaire traité. \stopitem
+%     \stopitemize
+\subsubsubject[chirurgicaux]{chirurgicaux}
+% \startitemize[2,columns,two,packed]
+%   \startitem LV opérée en 2002. \stopitem
+%     \startitem appendicite opérée en 2007. \stopitem
+%     \stopitemize
+Aucun
+\subsubsubject[traitement-actuel]{traitement actuel}
+% \starttabulate[|(l,width=.4\textlength)|(c,width=0.4\textlength)|(rB,width=0.2\textlength|]
+% \NC {\bf format} \NC {\bf meaning} \NC Mk \NC\NR
+% \NC c      \NC centered                               \NC \NC\NR
+% \NC l      \NC left aligned                           \NC \NC\NR
+% \NC r      \NC right aligned                          \NC \NC\NR
+% \NC w(1cm) \NC one line, fixed width                  \NC \NC\NR
+% \NC p(2cm) \NC paragraph, lines broken to fixed width \NC \NC\NR
+% \NC cg(.)  \NC align on a character \NC IV: cg{.} \NC\NR
+% \NC m      \NC math mode                          \NC IV only \NC\NR
+% \NC b      \NC before e.g. b{\star}                          \NC IV only \NC\NR
+% \NC a      \NC after, e.g. a{\percent}                        \NC IV only \NC\NR
+% \stoptabulate
+\startitemize[2,columns,two,packed]
+  \startitem Glucophage 850mg. \stopitem
+    \startitem Sarcand 16mg. \stopitem
+    \startitem Bonacor 5mg 1/2cp. \stopitem
+    \startitem Aspégic 100mg. \stopitem
+    \startitem Aldactone 75mg. 1/2cp \stopitem
+    \startitem Inverter 02mg x3/j. \stopitem
+    \startitem Arovan 10mg. \stopitem
+    \stopitemize
+\hairline
+
+\subsubject[examen-clinique]{Examen clinique}
+
+patient en bon état général ,bien orientée dans l'espace et dans le
+temps, asymptomatique au repos.
+
+{\bf dyspnée stade III de la NYHA}
+
+\startdescription{Auscultation}
+  normale , rythme régulier à {\bf 70bpm}
+\stopdescription
+
+\startdescription{ECG}
+  rythme sinusal régulier à 70 bpm
+
+  \startitemize[2][packed]
+  \startitem
+    BBG complet
+  \stopitem
+ \startitem   troubles de la repolarisation secondaires\stopitem
+  \stopitemize
+\stopdescription
+
+\subsubject[echo-coeur]{Echo coeur}
+
+\startitemize[2][packed]
+\startitem
+  VG dilaté (63/48mm)peu hypertrophié hypokinésie globale et septum paradoxal FEVG diminuée à 
+  {\bf 44\%} \stopitem
+\startitem
+  Profil diastolique type I.\stopitem
+\startitem
+  IAo grade II. \stopitem
+  IM grade II fonctionnelle. \stopitem
+\startitem
+  PAPS normale. \stopitem
+\startitem
+  Péricarde sec. \stopitem
+\stopitemize
+
+\subsubject[biologie]{Biologie}
+
+\startitemize[2,columns,two,packed]
+\startitem
+  Glycmie = 1.26g/l \stopitem
+\startitem
+  Creatinie = {\bf 19mg/l}\stopitem
+\startitem
+  HB = 13g/l\stopitem
+\startitem
+  GB = 6000 elt/mm3\stopitem
+\stopitemize
+\hairline
+\subsubject[conclusion]{Conclusion}
+\startalerttext
+patiente de 68 ans hypertendue diabétique suivie pour CMD.
+\stopalerttext
+\subsubsubject[dispositions-complémentaires]{dispositions complémentaires}
+\startexampletext
+  Arrêt de l'aldactone, refaire bilan complet.
+
+  Vaccin anti grippal saisonnier.
+\stopexampletext
+\blank[2cm]
+\raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\
+  Alger le \currentdate \hspace[2em]
+  }
+\stoptext

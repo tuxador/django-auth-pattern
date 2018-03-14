@@ -53,7 +53,9 @@ lab sample's results
 ** automatic PDF reporting 
 
 via special =views=
-
+managed to export a pdf, but i have 2 issues so far:
+  + django throws an error message: file not found
+  + pdf is actually written in the root folder of my app 
 ** export to CSV  
 
 via =admin= actions
@@ -65,3 +67,4 @@ via =admin= actions
     + for payments and billing
    
 
+    
