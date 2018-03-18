@@ -10,7 +10,7 @@ import os
 import operator
 from django.db.models import Q
 from six.moves import reduce
-
+from django.core.files import File
 import uuid
 # Create your views here.
 
@@ -44,6 +44,26 @@ class PatientSearchListView(ListPatients):
         return result
 
 
+class DetailPatient(DetailView):
+    model = Patient
+    context_object_name = 'patient'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(DetailPatient, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+#        context['admissions'] = Admission.objects.filter(patient=self.object)
+        context['consultations'] = Consultation.objects.filter(patient=self.object)
+#        context['ordonnances'] = Ordonnance.objects.filter(patient=self.object)
+#        context['certificats'] = Certificat.objects.filter(patient=self.object)
+#        context['arrets'] = Arret.objects.filter(patient=self.object)
+#        context['biologies'] = Biology.objects.filter(patient=self.object)
+#        context['coronarographies'] = Coronarographie.objects.filter(patient=self.object)
+ #       context['stimulations'] = Stimulation.objects.filter(patient=self.object)
+        return context
+
+
+
 def consultation_pdf(request, slug, pk):
     entry = Consultation.objects.get(pk=pk)
     source = Patient.objects.get(slug=slug)
@@ -64,9 +84,6 @@ def consultation_pdf(request, slug, pk):
 #...     myfile = File(f)
 #...     myfile.write('Hello World')
 #####################################################
-        # Create subprocess, supress output with PIPE and
-        # run latex twice to generate the TOC properly.
-        # Finally read the generated pdf.
         process = Popen(
                 ['context', filename, tempdir],
                 stdin=PIPE,

@@ -3,8 +3,9 @@
 
 {% endblock header %}
 {% block content %}
-{% for patient in patients %}
-{{ patient.name }} - {{ patient.birth }} </br>
 
+{% for patient in patients %}
+<a href="{% url 'clinic:patient_detail' patient.slug  %}">{{ patient.name }} - {{ patient.birth }}</a> </br>
 {% endfor %}
+
 {% endblock %}

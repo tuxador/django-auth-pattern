@@ -55,7 +55,8 @@ lab sample's results
 via special =views=
 managed to export a pdf, but i have 2 issues so far:
   + django throws an error message: file not found
-  + pdf is actually written in the root folder of my app 
+  + pdf is actually written inhe current directory,
+ 
 ** export to CSV  
 
 via =admin= actions
@@ -68,3 +69,15 @@ via =admin= actions
    
 
     
+* ConTeXT related
+** image directory
+By default, ConTeXt searches an image in the current directory,
+ the parent directory, and the grand-parent directory.
+To search for images in other directories, for example
+ a =./images= subdirectory and =/home/user/images=, use:
+
+#+BEGIN_SRC latex
+\setupexternalfigures[location=global]
+\setupexternalfigures[directory={images, /home/user/images}]
+#+END_SRC
+

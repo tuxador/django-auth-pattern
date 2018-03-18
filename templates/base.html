@@ -21,12 +21,13 @@
 
     <!--Main Navigation-->
     <header>
+        {% block header%}
 
         <!--Navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark indigo">
 
             <!-- Navbar brand -->
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#">Kardia</a>
 
             <!-- Collapse button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
@@ -48,16 +49,16 @@
                         <a class="nav-link" href="/admin">Admin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
+                        <a class="nav-link" href="#">Réception</a>
                     </li>
 
                     <!-- Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Consult</a>
                         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" href="#">consultations</a>
+                            <a class="dropdown-item" href="#">Stress-echo</a>
+                            <a class="dropdown-item" href="#">Doppler</a>
                         </div>
                     </li>
 
@@ -66,7 +67,7 @@
 
                 <form class="form-inline">
                     <div class="md-form mt-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                        <input class="form-control mr-sm-2" type="text" placeholder="recherche" aria-label="Search">
                     </div>
                 </form>
             </div>
@@ -74,11 +75,13 @@
 
         </nav>
         <!--/.Navbar-->
-
+    {% endblock header %}
     </header>
     <!--Main Navigation-->
     <main>
+    	{% block content %}
         <h1>hello world</h1>
+        {% endblock %}
 </main>
 
         <!--/.Footer Links-->
@@ -86,7 +89,7 @@
         <!--Copyright-->
         <div class="footer-copyright py-3 text-center">
             © 2018 Copyright:
-            <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com </a>
+            <a href="https://tuxador.github.io"> Dr Yahyaoui .M .K </a>
         </div>
         <!--/.Copyright-->
 
