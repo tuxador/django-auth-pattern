@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
-{% block header%}
 
-{% endblock header %}
 {% block content %}
 
 {% for patient in patients %}
+<div class="container">
+<div class="row">
+<div class="card-body">
+                    <!--Title-->
+                    <h4 class="card-title">Card title</h4>
+                    <!--Text-->
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card&apos;s content.</p>
+                    <a href="#!" class="btn btn-indigo">Button</a> 
+                  </div>
 <a href="{% url 'clinic:patient_detail' patient.slug  %}">{{ patient.name }} - {{ patient.birth }}</a> </br>
+</div>
+</div>
 {% endfor %}
 
 {% endblock %}

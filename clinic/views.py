@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import Patient, Consultation, Stress
+from correspondence.models import (Ordonnance, Courrier, Certificat,
+                                   Arret, Stomato)
 from django.views.generic import (ListView, DetailView, TemplateView,
                                   CreateView, UpdateView)
 from django.http import HttpResponse
@@ -54,9 +56,10 @@ class DetailPatient(DetailView):
         # Add in a QuerySet of all the books
 #        context['admissions'] = Admission.objects.filter(patient=self.object)
         context['consultations'] = Consultation.objects.filter(patient=self.object)
-#        context['ordonnances'] = Ordonnance.objects.filter(patient=self.object)
-#        context['certificats'] = Certificat.objects.filter(patient=self.object)
-#        context['arrets'] = Arret.objects.filter(patient=self.object)
+        context['ordonnances'] = Ordonnance.objects.filter(patient=self.object)
+        context['ordonnances'] = Courrier.objects.filter(patient=self.object)
+        context['certificats'] = Certificat.objects.filter(patient=self.object)
+        context['arrets'] = Arret.objects.filter(patient=self.object)
 #        context['biologies'] = Biology.objects.filter(patient=self.object)
 #        context['coronarographies'] = Coronarographie.objects.filter(patient=self.object)
  #       context['stimulations'] = Stimulation.objects.filter(patient=self.object)
@@ -67,7 +70,7 @@ class DetailPatient(DetailView):
 def consultation_pdf(request, slug, pk):
     entry = Consultation.objects.get(pk=pk)
     source = Patient.objects.get(slug=slug)
-    #    context = Context({ 'consultation': entry, 'patient': source })
+#    context = Context({ 'consultation': entry, 'patient': source })
     context = dict({'consultation': entry, 'patient': source})
     template = get_template('clinic/consultation.tex')
     rendered_tpl = template.render(context, request).encode('utf-8')
