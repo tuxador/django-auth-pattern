@@ -127,6 +127,8 @@ class Consultation(models.Model):
                                 blank=True, on_delete=models.CASCADE)
     emergency = models.BooleanField("urgence", default=False)
     motif_consultation = models.ManyToManyField(Motif)
+    med_ref = models.CharField("Médecin réfferent", max_length=100,
+                               blank=True, null=True)
     fever = models.BooleanField("fièvre", default=False)
     dyspnea_nyha = models.PositiveSmallIntegerField("stade NYHA",
                                                     default='1')
@@ -143,7 +145,7 @@ class Consultation(models.Model):
                                                     null=True)
     heart_rate = models.PositiveSmallIntegerField(blank=True,
                                                   null=True)
-    auscultation = models.CharField(max_length=50, blank=True,
+    auscultation = models.CharField(max_length=100, blank=True,
                                     null=True)
     ivg = models.BooleanField(default=False)
     ivd = models.BooleanField(default=False)

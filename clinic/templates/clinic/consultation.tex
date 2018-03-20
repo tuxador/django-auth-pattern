@@ -121,7 +121,7 @@
    \bTR
    \bTD {{ patient.name }} \eTD
    \bTD {{ patient.birth }} \eTD
-   \bTD Alger \eTD
+   \bTD {{ patient.adresse}} \eTD
    \eTR
    \bTR
    \bTD motif de consultation \eTD
@@ -129,21 +129,33 @@
    \bTD assurance \eTD
    \eTR
 \bTR
-   \bTD CMD \eTD
-   \bTD Dr Saadaoui\eTD
-   \bTD CNAS \eTD
+   \bTD {% for motif in consultation.motif_consultation.all %}{{ motif }} - {% endfor %}
+   \eTD
+   \bTD {% if consultation.med_ref %}{{ consultation.med_ref }}{% else %}-- {% endif %}
+   \eTD
+   \bTD {% if patient.assurance == 'N' %}CNAS
+        {% elif patient.assurance == 'S' %}CASNOS
+        {% elif patient.assurance == 'A' %}autre
+        {% elif patient.assurance == 'S' %}non assuré
+        {% endif %}
+\eTD
    \eTR
 \eTABLE} 
 \stopframed
 \subsubject[antécedents]{Antécedents}
 \subsubsubject[facteurs-de-risque-cv]{facteurs de risque CV}
 \startitemize[2,columns,two,packed]
-\startitem  Hypertension artérielle. \stopitem
-\startitem  Diabète type 2 bien équilibré sous traitement \stopitem
+{% if patient.hta == True %}\startitem  Hypertension artérielle. \stopitem {% endif %}
+ {% if patient.diabete == True %}\startitem  Diabète \stopitem{% endif %}
+ {% if patient.dyslipidemia == True %}\startitem  Dyslipidémie \stopitem{% endif %}
+ {% if patient.smoker == True %}\startitem  tabagique \stopitem{% endif %}
+ {% if patient.obesity == True %}\startitem  Obésité \stopitem{% endif %}
+ {% if patient.sedentarity == True %}\startitem  Sédentarité \stopitem{% endif %}
+ {% if patient.heredity == True %}\startitem  Hérédité coronarienne \stopitem{% endif %}
 \stopitemize
 
 \subsubsubject[médicaux]{médicaux}
-Sciatalgie droite (marche avec béquille).
+{% if patient.history %}{{ patient.history }}{% else %}pas d'antécédents particuliers{% endif %}
 % \starttabulate[|l|c|(rB,width=0.75\textlength|]
 % \HL
 % \NC {\bf format} \NC {\bf meaning} \NC Mk \NC\NR
@@ -162,42 +174,15 @@ Sciatalgie droite (marche avec béquille).
 % \startitemize[2,columns,two,packed]
 %   \startitem goitre multinodulaire traité. \stopitem
 %     \stopitemize
-\subsubsubject[chirurgicaux]{chirurgicaux}
+%\subsubsubject[chirurgicaux]{chirurgicaux}
 % \startitemize[2,columns,two,packed]
 %   \startitem LV opérée en 2002. \stopitem
 %     \startitem appendicite opérée en 2007. \stopitem
 %     \stopitemize
-Aucun
-\subsubsubject[traitement-actuel]{traitement actuel}
-% \starttabulate[|(l,width=.4\textlength)|(c,width=0.4\textlength)|(rB,width=0.2\textlength|]
-% \NC {\bf format} \NC {\bf meaning} \NC Mk \NC\NR
-% \NC c      \NC centered                               \NC \NC\NR
-% \NC l      \NC left aligned                           \NC \NC\NR
-% \NC r      \NC right aligned                          \NC \NC\NR
-% \NC w(1cm) \NC one line, fixed width                  \NC \NC\NR
-% \NC p(2cm) \NC paragraph, lines broken to fixed width \NC \NC\NR
-% \NC cg(.)  \NC align on a character \NC IV: cg{.} \NC\NR
-% \NC m      \NC math mode                          \NC IV only \NC\NR
-% \NC b      \NC before e.g. b{\star}                          \NC IV only \NC\NR
-% \NC a      \NC after, e.g. a{\percent}                        \NC IV only \NC\NR
-% \stoptabulate
-\startitemize[2,columns,two,packed]
-  \startitem Glucophage 850mg. \stopitem
-    \startitem Sarcand 16mg. \stopitem
-    \startitem Bonacor 5mg 1/2cp. \stopitem
-    \startitem Aspégic 100mg. \stopitem
-    \startitem Aldactone 75mg. 1/2cp \stopitem
-    \startitem Inverter 02mg x3/j. \stopitem
-    \startitem Arovan 10mg. \stopitem
-    \stopitemize
-\hairline
-
+%Aucun
 \subsubject[examen-clinique]{Examen clinique}
-
-patient en bon état général ,bien orientée dans l'espace et dans le
-temps, asymptomatique au repos.
-
-{\bf dyspnée stade III de la NYHA}
+{% if consultation.dyspnea_nyha == '1' %}eupnéique{% else %}
+{\bf dyspnée stade {{ consultation.dyspnea_nyha }} de la NYHA}{% endif %}
 
 \startdescription{Auscultation}
   normale , rythme régulier à {\bf 70bpm}
@@ -248,6 +233,31 @@ temps, asymptomatique au repos.
 \startalerttext
 patiente de 68 ans hypertendue diabétique suivie pour CMD.
 \stopalerttext
+\subsubsubject[traitement-actuel]{traitement actuel}
+% \starttabulate[|(l,width=.4\textlength)|(c,width=0.4\textlength)|(rB,width=0.2\textlength|]
+% \NC {\bf format} \NC {\bf meaning} \NC Mk \NC\NR
+% \NC c      \NC centered                               \NC \NC\NR
+% \NC l      \NC left aligned                           \NC \NC\NR
+% \NC r      \NC right aligned                          \NC \NC\NR
+% \NC w(1cm) \NC one line, fixed width                  \NC \NC\NR
+% \NC p(2cm) \NC paragraph, lines broken to fixed width \NC \NC\NR
+% \NC cg(.)  \NC align on a character \NC IV: cg{.} \NC\NR
+% \NC m      \NC math mode                          \NC IV only \NC\NR
+% \NC b      \NC before e.g. b{\star}                          \NC IV only \NC\NR
+% \NC a      \NC after, e.g. a{\percent}                        \NC IV only \NC\NR
+% \stoptabulate
+\startitemize[2,columns,two,packed]
+  \startitem Glucophage 850mg. \stopitem
+    \startitem Sarcand 16mg. \stopitem
+    \startitem Bonacor 5mg 1/2cp. \stopitem
+    \startitem Aspégic 100mg. \stopitem
+    \startitem Aldactone 75mg. 1/2cp \stopitem
+    \startitem Inverter 02mg x3/j. \stopitem
+    \startitem Arovan 10mg. \stopitem
+    \stopitemize
+\hairline
+
+
 \subsubsubject[dispositions-complémentaires]{dispositions complémentaires}
 \startexampletext
   Arrêt de l'aldactone, refaire bilan complet.
