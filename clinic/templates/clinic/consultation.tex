@@ -10,6 +10,31 @@
 \definefontfamily[kad][math] [TeX Gyre Pagella Math]
 
 
+\definelayer[logo]	% name of the layer
+    [x=0mm, y=0mm,	% from upper left corner of paper
+      width=\paperwidth, height=\paperheight, % let the layer cover the full paper
+      state=start,
+    ]
+\definelayer[sidelogo]	% name of the layer
+    [x=0mm, y=0mm,	% from upper left corner of paper
+     width=\paperwidth, height=\paperheight, % let the layer cover the full paper
+     state=continue,
+     ]
+\setupexternalfigures[directory={ {% static '/img' %}, /home/kaddour/Documents}]
+\setupbackgrounds[page][background={logo,sidelogo}]
+%\setupbackgrounds[page][background={sidelogo}, state=continue]
+    \setlayer[logo]
+    [state=start,hoffset=6.5cm,voffset=1cm]{\externalfigure[kardia.jpg]}
+ \setlayer[sidelogo]
+    [state=continue,hoffset=1cm,voffset=1cm]{\externalfigure[kardia.jpg][width=4cm]}
+\setupfootertexts[\setups{footertext}]
+
+\startsetups footertext
+  \framed[frame=off, align=normal, style={\ssx}]
+      {Clinique {\sc Kardia}, Cité Sonelgaz  lot n°75/76 Gué de Constantine ,Alger\\ Tél/Fax: 021 83 80 13/021 83 20 36 - Email: contact(at)cliniquekardia.com}
+\stopsetups
+
+
 
 \setupbodyfont[kad,11pt]
 

@@ -11,7 +11,9 @@
 
 {% block content %}
 <hr>
-     <h2>{{ patient.name }}</h2>
+<h2>{{ patient.name }}</h2>
+<p><i class="fa fa-home mr-3"></i> {{ patient.adresse }} -  
+    <i class="fa fa-phone mr-3"></i> {{ patient.phone }} </p>
      <p>
          {% if patient.gender == 'M' %}Monsieur{% elif  patient.gender == 'F' %}Madame{% else %}Patient{% endif %} {{ patient.name }} né(e) le {{ patient.birth }} est suivi chez nous depuis le {{ patient.first_consultation }}.
 
@@ -64,31 +66,33 @@
                 <!--First column-->
                 <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
                     <h6 class="text-uppercase font-weight-bold">
-                        <strong>Company name</strong>
+                        <strong>Courrier</strong>
                     </h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p>Here you can use rows and columns here to organize your footer content. Lorem ipsum dolor sit
-                        amet, consectetur adipisicing elit.</p>
+                    <p>Courrier1</p>
+                     <p>   Courrier2</p>
+                     <p>   Certificat1</p>
+                     <p>   Certificat2</p>
                 </div>
                 <!--/.First column-->
 
                 <!--Second column-->
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                     <h6 class="text-uppercase font-weight-bold">
-                        <strong>Products</strong>
+                        <strong>Interventions</strong>
                     </h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                     <p>
-                        <a href="#!">MDBootstrap</a>
+                       coro1
                     </p>
                     <p>
-                        <a href="#!">MDWordPress</a>
+                        coro2
                     </p>
                     <p>
-                        <a href="#!">BrandFlow</a>
+                        ATC1
                     </p>
                     <p>
-                        <a href="#!">Bootstrap Angular</a>
+                        CABG
                     </p>
                 </div>
                 <!--/.Second column-->
@@ -96,20 +100,20 @@
                 <!--Third column-->
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <h6 class="text-uppercase font-weight-bold">
-                        <strong>Useful links</strong>
+                        <strong>Examens</strong>
                     </h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                     <p>
-                        <a href="#!">Your Account</a>
+                        stress-echo1
                     </p>
                     <p>
-                        <a href="#!">Become an Affiliate</a>
+                        coroscan2
                     </p>
                     <p>
-                        <a href="#!">Shipping Rates</a>
+                        ETO
                     </p>
                     <p>
-                        <a href="#!">Help</a>
+                        Doppler TSAo
                     </p>
                 </div>
                 <!--/.Third column-->
@@ -133,41 +137,5 @@
 
             </div>
         </div>
-    <h3>Document médicaux</h3>
-
-    <table class="table table-compact table-striped table-hover">
-        <tr>
-            <th>Courriers</th>
-            <th>Ordonnances</th>
-            <th>Stress echo</th>
-            <th>coroscan</th>
-       </tr>
-       <tr>
-           <th>
-               <ul>
-courrier
-  
-
-  </li>
-
-
-         
- <li>
-        
-         hohohoh
  
-
-                   <li>     </li>
-                   <li>     </li>
-
-               </ul>
-
-           </th>
-        <tr>
-         
-    </table>
-    <hr>
-
-
-
 {% endblock content %}
