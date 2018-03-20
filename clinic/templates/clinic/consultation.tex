@@ -156,113 +156,60 @@
 
 \subsubsubject[médicaux]{médicaux}
 {% if patient.history %}{{ patient.history }}{% else %}pas d'antécédents particuliers{% endif %}
-% \starttabulate[|l|c|(rB,width=0.75\textlength|]
-% \HL
-% \NC {\bf format} \NC {\bf meaning} \NC Mk \NC\NR
-% \HL
-% \NC c      \NC centered                               \NC \NC\NR
-% \NC l      \NC left aligned                           \NC \NC\NR
-% \NC r      \NC right aligned                          \NC \NC\NR
-% \NC w(1cm) \NC one line, fixed width                  \NC \NC\NR
-% \NC p(2cm) \NC paragraph, lines broken to fixed width \NC \NC\NR
-% \NC cg(.)  \NC align on a character \NC IV: cg{.} \NC\NR
-% \NC m      \NC math mode                          \NC IV only \NC\NR
-% \NC b      \NC before e.g. b{\star}                          \NC IV only \NC\NR
-% \NC a      \NC after, e.g. a{\percent}                        \NC IV only \NC\NR
-% \HL
-% \stoptabulate
-% \startitemize[2,columns,two,packed]
-%   \startitem goitre multinodulaire traité. \stopitem
-%     \stopitemize
-%\subsubsubject[chirurgicaux]{chirurgicaux}
-% \startitemize[2,columns,two,packed]
-%   \startitem LV opérée en 2002. \stopitem
-%     \startitem appendicite opérée en 2007. \stopitem
-%     \stopitemize
-%Aucun
 \subsubject[examen-clinique]{Examen clinique}
-{% if consultation.dyspnea_nyha == '1' %}eupnéique{% else %}
-{\bf dyspnée stade {{ consultation.dyspnea_nyha }} de la NYHA}{% endif %}
-
-\startdescription{Auscultation}
-  normale , rythme régulier à {\bf 70bpm}
-\stopdescription
-
-\startdescription{ECG}
-  rythme sinusal régulier à 70 bpm
-
-  \startitemize[2][packed]
-  \startitem
-    BBG complet
-  \stopitem
- \startitem   troubles de la repolarisation secondaires\stopitem
-  \stopitemize
-\stopdescription
-
-\subsubject[echo-coeur]{Echo coeur}
-
-\startitemize[2][packed]
-\startitem
-  VG dilaté (63/48mm)peu hypertrophié hypokinésie globale et septum paradoxal FEVG diminuée à 
-  {\bf 44\%} \stopitem
-\startitem
-  Profil diastolique type I.\stopitem
-\startitem
-  IAo grade II. \stopitem
-  IM grade II fonctionnelle. \stopitem
-\startitem
-  PAPS normale. \stopitem
-\startitem
-  Péricarde sec. \stopitem
-\stopitemize
-
-\subsubject[biologie]{Biologie}
 
 \startitemize[2,columns,two,packed]
-\startitem
-  Glycmie = 1.26g/l \stopitem
-\startitem
-  Creatinie = {\bf 19mg/l}\stopitem
-\startitem
-  HB = 13g/l\stopitem
-\startitem
-  GB = 6000 elt/mm3\stopitem
+  \startitem
+   {% if consultation.dyspnea_nyha == 1 %}eupnéique{% else %}{\bf dyspnée stade {{ consultation.dyspnea_nyha }} de la NYHA}{% endif %}
+          \stopitem
+  {% if consultation.fever == True %}\startitem fièvre.\stopitem{% endif %}
+  \startitem   {% if consultation.angina_scc == 1 %}Absence d'angor.{% else %}Angor au stade {{ consultation.angina_scc }} de la {\it SCC}.{% endif %}
+  \stopitem
+  {% if consultation.syncope == True %} \startitem Syncope.\stopitem{% endif %}
 \stopitemize
+\startdescription{Auscultation}
+  L'examen clinique retrouve à l'auscultation: {{ consultation.auscultation }} avec une fréquence cardiaque à = {{ consultation.heart_rate}} Bpm.
+\stopdescription
+\startdescription{En périphérie}
+  les pouls sont {{ consultation.pulse }} avec une PA = {{ consultation.systolic_bp }}/{{ consultation.diastolic_bp }}mmHg.
+\stopdescription
+\startdescription{ECG}
+Le rythme est en {% if consultation.rythm == 'S' %}sinusal{% elif consultation.rythm == 'F' %}fibrillation atriale{% elif consultation.rythm == 'R'%}flutter auriculaire{% elif consultation.rythm == 'T' %}tacchycardie ventriculaire{% elif consultation.rythm == 'P' %}électro stimulé{% endif %}
+          à fréquence cardiaque de {{ consultation.freq }} puls/min.
+
+          {% if consultation.bundle_block == 'G' %}Il existe un bloc de branche gauche.
+          {% elif consultation.bundle_block == 'D' %}Il existe un bloc de branche droit.
+          {% endif %}
+          {% if consultation.hypertrophy == True %}On note aussi une hypertrophie ventriculaire gauche électrique.{% endif %}
+          
+      Sur le plan ischémique: {% if consultation.lesion == 'S' %} une lésion en septal{% elif consultation.lesion == 'A' %} une lésion en antérieur{% elif consultation.lesion == 'L' %} une lésion en latéral{% elif consultation.lesion == 'P' %} une lésion en postérieur{% else %}absence de lésions électriques{% endif %},
+              {% if consultation.ischaemia == 'S' %} une ischémie en septal{% elif consultation.ischaemia == 'A' %} une ischémie en antérieur{% elif consultation.ischaemia == 'L' %} une ischémie en latéral{% elif consultation.ischaemia == 'P' %} une ischémie postérieur{% else %}absence d'ischémie électrique{% endif %},
+                      {% if consultation.t_inversion == 'S' %} onde T inversée en septal{% elif consultation.t_inversion == 'A' %} onde T inversée en antérieur{% elif consultation.t_inversion == 'L' %} onde T inversée en en latéral{% elif consultation.t_inversion == 'P' %} onde T inversée en postérieur{% endif %}. \\
+            Le QT corrigé est estimé à {{ consultation.corrected_qt }} msec. \\
+            
+            {% if consultation.telethorax %}
+              \subsubject[téléthorax]{Téléthorax}
+              Le téléthorax retrouve: {{ consultation.telethorax }} \\
+              
+              {% endif %}
+
+  
+\subsubject[echo-coeur]{Echo coeur}
+Faite le {{ consultation.date_echo }}: {{ consultation.echocoeur }} 
+{% if eto %} {\bf l'ETO} retrouve: {{consultation.eto }}{% endif %}
+\subsubject[biologie]{Biologie}
+voir bilans
+
 \hairline
 \subsubject[conclusion]{Conclusion}
 \startalerttext
-patiente de 68 ans hypertendue diabétique suivie pour CMD.
+ {{ consultation.resume }}
 \stopalerttext
-\subsubsubject[traitement-actuel]{traitement actuel}
-% \starttabulate[|(l,width=.4\textlength)|(c,width=0.4\textlength)|(rB,width=0.2\textlength|]
-% \NC {\bf format} \NC {\bf meaning} \NC Mk \NC\NR
-% \NC c      \NC centered                               \NC \NC\NR
-% \NC l      \NC left aligned                           \NC \NC\NR
-% \NC r      \NC right aligned                          \NC \NC\NR
-% \NC w(1cm) \NC one line, fixed width                  \NC \NC\NR
-% \NC p(2cm) \NC paragraph, lines broken to fixed width \NC \NC\NR
-% \NC cg(.)  \NC align on a character \NC IV: cg{.} \NC\NR
-% \NC m      \NC math mode                          \NC IV only \NC\NR
-% \NC b      \NC before e.g. b{\star}                          \NC IV only \NC\NR
-% \NC a      \NC after, e.g. a{\percent}                        \NC IV only \NC\NR
-% \stoptabulate
-\startitemize[2,columns,two,packed]
-  \startitem Glucophage 850mg. \stopitem
-    \startitem Sarcand 16mg. \stopitem
-    \startitem Bonacor 5mg 1/2cp. \stopitem
-    \startitem Aspégic 100mg. \stopitem
-    \startitem Aldactone 75mg. 1/2cp \stopitem
-    \startitem Inverter 02mg x3/j. \stopitem
-    \startitem Arovan 10mg. \stopitem
-    \stopitemize
-\hairline
-
-
+\subsubsubject[traitement]{traitement}
+{{ consultation.traitement }}
 \subsubsubject[dispositions-complémentaires]{dispositions complémentaires}
 \startexampletext
-  Arrêt de l'aldactone, refaire bilan complet.
-
-  Vaccin anti grippal saisonnier.
+{{ consultation.dispositions }}
 \stopexampletext
 \blank[2cm]
 \raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\
