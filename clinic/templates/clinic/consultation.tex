@@ -121,7 +121,7 @@
    \bTR
    \bTD {{ patient.name }} \eTD
    \bTD {{ patient.birth }} \eTD
-   \bTD Alger \eTD
+   \bTD {{ patient.adresse}} \eTD
    \eTR
    \bTR
    \bTD motif de consultation \eTD
@@ -129,9 +129,17 @@
    \bTD assurance \eTD
    \eTR
 \bTR
-   \bTD CMD \eTD
-   \bTD Dr Saadaoui\eTD
-   \bTD CNAS \eTD
+   \bTD {% for motif in consultation.motif_consultation.all %}{{ motif }} - {% endfor %}
+   \eTD
+   \bTD {% if consultation.med_ref %}{{ consultation.med_ref }}
+        {% else %}-- {% endif %}
+   \eTD
+   \bTD {% if patient.assurance == 'N' %}CNAS
+        {% elif patient.assurance == 'S' %}CASNOS
+        {% elif patient.assurance == 'A' %}autre
+        {% elif patient.assurance == 'S' %}non assuré
+        {% endif %}
+\eTD
    \eTR
 \eTABLE} 
 \stopframed
