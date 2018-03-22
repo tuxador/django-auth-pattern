@@ -200,6 +200,8 @@
 \stopdescription
 \startdescription{En périphérie}
   les pouls sont {{ consultation.pulse }} avec une PA = {{ consultation.systolic_bp }}/{{ consultation.diastolic_bp }}mmHg.
+  {% if consultation.ivg %}Il existe des signes d'insuffisance cardiaque gauche.{% else %}Absence de signes d'insuffisance cardiaque gauche{% endif %}
+ {% if consultation.ivd %} On note aussi des signes d'insuffisance cardiaque droite.{% else %}Absence de signes d'insuffisance cardiaque droite.{% endif %}
 \stopdescription
 \subsubsubject[ECG]{ECG}
 Le rythme est en {% if consultation.rythm == 'S' %}sinusal{% elif consultation.rythm == 'F' %}fibrillation atriale{% elif consultation.rythm == 'R'%}flutter auriculaire{% elif consultation.rythm == 'T' %}tacchycardie ventriculaire{% elif consultation.rythm == 'P' %}électro stimulé{% endif %}

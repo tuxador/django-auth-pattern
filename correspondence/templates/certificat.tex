@@ -1,0 +1,133 @@
+   \usemodule[letter]
+   
+   \setuplanguage [fr] [date={year, –, mm, –, dd}] % ISO 8601 date
+   \definefontfeature[default][default][protrusion=quality,
+                                        expansion=quality,script=latn]
+\definefontfamily[kad][serif][Linux Libertine O]
+\definefontfamily[kad][sans] [Titillium ]
+\definefontfamily[kad][mono] [TeX Gyre Cursor][features=none]
+\definefontfamily[kad][math] [TeX Gyre Pagella Math]
+\mainlanguage[fr]
+\setupbodyfont    [kad, 11pt]
+\setupinterlinespace[3.0ex] % default: 2.8ex
+\setbreakpoints[compound] % break at / and -
+   
+\setupletteroptions[language=netherlands,
+      bodyfont={kad,11pt},
+      whitespace=1.5ex,
+      ]
+   
+   \setuptabulate[distance=0pt]
+   
+   \setupletter[
+       % Sender address in envelope window
+       backaddress={Clinique {\sc Kardia} · Cité {\sc sonelgaz} lot n°75/76 · Gué-de-Constantine · Alger}
+   ]
+   
+   % Define logo for the first page
+ \defineletterelement[layer][head][example]%
+       {\framed[background=logohead,height=35mm,frame=off,align=right]%
+           {\externalfigure[kardia]}}
+   
+   % Other logo for subsequent (right) pages
+   \defineletterelement[layer][nexthead][example]%
+       {\externalfigure[kardia][height=2cm,width=6cm]}
+   
+   % We put our logo in the head
+   \setupletterlayer[head,nexthead]
+       [x=128mm,
+        y=15mm,
+        alternative=example]
+   
+   \setupletterlayer[nexthead][state=right]
+   
+   \setupletter[
+       name={Dr {\sc Yahyaoui Mohamed \\ Kaddour}},
+       location={Cardiologie},
+       phone={+213 (0)21 83 80 13},
+       mobile={+213 (0)21 83 80 36},
+       email={contact@cliniquekardia.com},
+       web={www.cliniquekardia.com},
+         ]
+   
+   % center around the :
+   \defineletterelement[layer][location][example]%
+       {\setuptabulate[bodyfont=small]
+       \starttabulate[|Irw(5em)|Ip|]
+       \NC person     \NC\correspondenceparameter{name} \NC\NR
+       \NC location   \NC\correspondenceparameter{location}\\\correspondenceparameter{city}\NC\NR
+       \NC phone      \NC\correspondenceparameter{phone}\\\correspondenceparameter{mobile} \NC\NR
+       \NC internet    \NC\correspondenceparameter{email}\\\correspondenceparameter{web} \NC\NR
+   \stoptabulate}
+   
+   \setupletterlayer[location]
+       [alternative=example,
+       x=152mm,
+       y=30mm
+       ]
+   
+   
+   % Our own recipient setup without too much space before the address
+   \defineletterelement[layer][address][example]%
+       {\correspondenceparameter{toname}\\
+       \correspondenceparameter{toaddress}
+       \par}
+       
+   \setupletterlayer[address][alternative=example]
+   
+   % Subject and date on the same line, date below logo
+   \defineletterelement[section][subject][example]%
+       {\bTABLE[frame=off]
+       \bTR
+           \bTD[width=\dimexpr169mm-\backspace\relax]\correspondenceparameter{subject}\eTD
+           \bTD{\tf\correspondenceparameter{date}}\eTD
+           %\bTD{\tf 2012-12-12}\eTD
+       \eTR
+   \eTABLE}
+   
+   \setuplettersection[subject][alternative=example]
+   
+   % account information at the foot, below the logo
+ \defineletterelement[layer][foot][example]%
+     {\setuptabulate[style={\ssxx}]
+     \starttabulate[|p|]
+           \NC Adresse: Cité {\sc Sonelgaz}, lot n°75/76 Gué de Constantine, Alger\NC\NR
+           \NC Tél/Fax: 021 83 80 13/021 83 20 36 - Email: \correspondenceparameter{email} \NC\NR
+     \stoptabulate}
+   
+   \setupletterlayer[foot][
+       preset=bottom,
+       x=60mm,
+       y=270mm,
+       alternative=example]
+   
+   % switch off reference line
+   \setupletterlayer[reference][state=stop]
+   
+   % Move the text a bit up
+   \setupletterlayout[firstpage][topspace=10cm]
+   
+   % Adjust text start on subsequent pages
+   \setupletterlayout[secondpage][topspace=3cm]
+   
+   % Move marks to the paper rim (won't print on most printers)
+   \setupletterlayer[topmark,botmark,cutmark][x=-2mm]
+   
+   \startletter[
+       toname={LOGHRAB Said},
+       toaddress={42ans},
+       subject={Certficat médical}]
+   
+   Je sous-signé {\sc Dr Yahyaoui}, cardiologue, certifie avoir examiné ce jour le patient {\sc Loghrab Said} âgé de 42 ans, et déclare qu'il présente une affection cardiovasculaire chronique à type de  {\bf cardiopathie hypertensive + HTA sévère}, nécessitant un suivi spécialisé et un traitement au long cours.
+
+
+   
+   \blank[2*big]
+   Dont certificat,
+   \blank[big]
+   
+   %\externalfigure[signature]%
+   Dr Yahyaoui .M .K\\
+   {\it Alger le \currentdate}
+   
+   \stopletter
