@@ -57,7 +57,7 @@ class DetailPatient(DetailView):
 #        context['admissions'] = Admission.objects.filter(patient=self.object)
         context['consultations'] = Consultation.objects.filter(patient=self.object)
         context['ordonnances'] = Ordonnance.objects.filter(patient=self.object)
-        context['ordonnances'] = Courrier.objects.filter(patient=self.object)
+        context['courriers'] = Courrier.objects.filter(patient=self.object)
         context['certificats'] = Certificat.objects.filter(patient=self.object)
         context['arrets'] = Arret.objects.filter(patient=self.object)
 #        context['biologies'] = Biology.objects.filter(patient=self.object)

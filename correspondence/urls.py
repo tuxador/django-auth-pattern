@@ -1,10 +1,11 @@
 from django.urls import path
-
+from . import views
 #from . import views
 
-#urlpatterns = [
-#    path('articles/2003/', views.special_case_2003),
+app_name = 'correspondence'
+urlpatterns = [
+    path('<slug:slug>_courrier<int:pk>',
+         views.courrier_pdf, name='courrier_pdf'),
+    ]
 #    path('articles/<int:year>/', views.year_archive),
 #    path('articles/<int:year>/<int:month>/', views.month_archive),
-#    path('articles/<int:year>/<int:month>/<slug:slug>/', views.article_detail),
-#] 

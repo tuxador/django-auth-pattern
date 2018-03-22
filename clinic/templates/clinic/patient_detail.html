@@ -69,7 +69,9 @@
                         <strong>Courrier</strong>
                     </h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p>Courrier1</p>
+                   {% for courrier in courriers  %}
+                    <p><a href="{% url 'correspondence:courrier_pdf' slug=patient.slug pk=courrier.pk %}"><span class ="fa fa-print" aria-hidden="true"></span>{{ courrier.patient }}_courrier{{ courrier.courrier_date }}</a></p>
+                    {% endfor %}
                      <p>   Courrier2</p>
                      <p>   Certificat1</p>
                      <p>   Certificat2</p>

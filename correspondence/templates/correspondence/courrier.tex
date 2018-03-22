@@ -3,7 +3,8 @@
 
 \usemodule[letter]
    
-   \setuplanguage [fr] [date={year, –, mm, –, dd}] % ISO 8601 date
+\setupexternalfigures[directory={ {% static '/img' %}, /home/kaddour/Documents}]
+   \setuplanguage [fr] [date={ {{ courrier.courrier_date }} }] % ISO 8601 date
    \definefontfeature[default][default][protrusion=quality,
                                         expansion=quality,script=latn]
 \definefontfamily[kad][serif][Minion Pro]
@@ -45,7 +46,7 @@
    \setupletterlayer[nexthead][state=right]
    
    \setupletter[
-       name={Dr {\sc Yahyaoui Mohamed  Kaddour}},
+       name={Dr {\sc Yahyaoui Mohamed\\  Kaddour} },
        location={Cardiologie},
        phone={+213 (0)21 83 80 13},
        mobile={+213 (0)21 83 80 36},
@@ -119,27 +120,27 @@
    \startletter[
        toname={Au  {{ courrier.correspondant }} },
        toaddress={ {{ courrier.correspondant_adress }} },
-       subject={patient{% if patient.gender == 'F' %}e{% endif %}: {{ patiet.name }}]
+       subject={patient{% if patient.gender == 'F' %}e{% endif %}: {{ patient.name }} }]
    
    {% if courrier.salutation == 'S' %}Chère consoeur,
    {% elif courrier.salutation == 'A' %}Cher ami,
    {% elif courrier.salutation == 'C' %}Cher confrère,
    {% elif courrier.salutation == 'M' %}Cher maître,
    {% else %}Cher confrère, chère consoeur,{% endif %}
-{% if patient.reponse == True %}
-   le bilan cardiovasculaire  {% if patient.gender == 'F' %}de la patiente{% else %}du patient{% endif %} {\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %} adressé pour  {{ courrier.diagnostic }}, est revenu  {{ courrier.declaration }}.
+{% if courrier.reponse == True %}
+   le bilan cardiovasculaire  {% if patient.gender == 'F' %}de la patiente{% else %}du patient{% endif %}  {\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %} adressé pour  {{ courrier.diagnostic }}, est revenu  {{ courrier.declaration }}.
 {% else %}
-je vous confie  {% if patient.gender == 'F' %} la patiente{% else %}le patient {% endif %}{\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %}, et aux antécédents de {{ patient.history }} pour {{ courrier.diagnostic }}
+je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} confie  {% if patient.gender == 'F' %} la patiente {% else %} le patient {% endif %} {\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %}, et aux antécédents de {{ patient.history }} pour {{ courrier.diagnostic }}
 
 L'examen retrouve   {{ courrier.declaration }}.
     
-  {% endif %} % boucle reponse = true 
+  {% endif %} % boucle "reponse = true" 
    {{ courrier.conclusion }}
 
 {% if courrier.reponse == True %}
-Je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} remercie pour {% if courrier.salutation == 'A' %}ta{% else %}votre{% endif %} confiance, et me mets à {% if courrier.salutation == 'A' %}ta{% else %}votre{% endif %}disposition si d'autres informations {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} semblent utiles.
+Je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} remercie pour {% if courrier.salutation == 'A' %}ta{% else %}votre{% endif %} confiance, et me mets à {% if courrier.salutation == 'A' %} ta{% else %} votre{% endif %} disposition si d'autres informations {% if courrier.salutation == 'A' %} te{% else %} vous{% endif %} semblent utiles.
 {% else %}
-Je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} remercie d'avance pour ce que {% if courrier.salutation == 'A' %}tu vas{% else %}vous allez{% endif %} lui apporter, et me mets à {% if courrier.salutation == 'A' %}ta{% else %}votre{% endif %}disposition si d'autres informations {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} semblent utiles.
+Je {% if courrier.salutation == 'A' %} te{% else %} vous{% endif %} remercie d'avance pour ce que {% if courrier.salutation == 'A' %}tu vas{% else %} vous allez{% endif %} lui apporter, et me mets à {% if courrier.salutation == 'A' %} ta{% else %} votre{% endif %} disposition si d'autres informations {% if courrier.salutation == 'A' %} te{% else %} vous{% endif %} semblent utiles.
 {% endif %}
 
    
@@ -149,7 +150,7 @@ Je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} remercie d'ava
    
    %\externalfigure[signature]%
    Dr Yahyaoui .M .K\\
-   {\it Alger le \currentdate}
+   {\it Alger le {{ courrier.courrier_date }} }
    
    \stopletter
    {% endautoescape %}
