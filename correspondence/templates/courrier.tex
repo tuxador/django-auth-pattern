@@ -125,21 +125,26 @@
    {% elif courrier.salutation == 'A' %}Cher ami,
    {% elif courrier.salutation == 'C' %}Cher confrère,
    {% elif courrier.salutation == 'M' %}Cher maître,
-   {% else %}Cher confrère, chère consoeur,
+   {% else %}Cher confrère, chère consoeur,{% endif %}
+{% if patient.reponse == True %}
+   le bilan cardiovasculaire  {% if patient.gender == 'F' %}de la patiente{% else %}du patient{% endif %} {\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %} adressé pour  {{ courrier.diagnostic }}, est revenu  {{ courrier.declaration }}.
+{% else %}
+je vous confie  {% if patient.gender == 'F' %} la patiente{% else %}le patient {% endif %}{\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %}, et aux antécédents de {{ patient.history }} pour {{ courrier.diagnostic }}
 
-   le bilan cardiovasculaire {% if patient.gender == 'F' %}de la patiente{% else %}du patient {\sc {{ patient.name }} } âgée de 67 ans, hypertendue, candidate à une chirurgie de goitre est revenu  {\bf satisfaisant}, hormis des chiffres tensionnels diastoliques limite.
-   L'ECG et l'échocoeur sont en faveur d'une cardiopathie hypertensive stable sous traitement.
+L'examen retrouve   {{ courrier.declaration }}.
+    
+  {% endif %} % boucle reponse = true 
+   {{ courrier.conclusion }}
 
-J'ai décidé de switcher son traitement anti HTA par du Lopressor 200mg.
-
-Il n'y a donc pas contre-indications d'ordre cardiologiques à son intervention.
-
-Je vous remercie pour votre confiance, et me mets à votre disposition si d'autres informations vous semblent utiles.
-
+{% if courrier.reponse == True %}
+Je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} remercie pour {% if courrier.salutation == 'A' %}ta{% else %}votre{% endif %} confiance, et me mets à {% if courrier.salutation == 'A' %}ta{% else %}votre{% endif %}disposition si d'autres informations {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} semblent utiles.
+{% else %}
+Je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} remercie d'avance pour ce que {% if courrier.salutation == 'A' %}tu vas{% else %}vous allez{% endif %} lui apporter, et me mets à {% if courrier.salutation == 'A' %}ta{% else %}votre{% endif %}disposition si d'autres informations {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} semblent utiles.
+{% endif %}
 
    
    \blank[2*big]
-   Cordialement,
+ {% if courrier.closing %}{{ courrier.closing }}{% else %}Cordialement {% endif %},
    \blank[big]
    
    %\externalfigure[signature]%
