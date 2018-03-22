@@ -62,9 +62,8 @@ class DetailPatient(DetailView):
         context['arrets'] = Arret.objects.filter(patient=self.object)
 #        context['biologies'] = Biology.objects.filter(patient=self.object)
 #        context['coronarographies'] = Coronarographie.objects.filter(patient=self.object)
- #       context['stimulations'] = Stimulation.objects.filter(patient=self.object)
+#       context['stimulations'] = Stimulation.objects.filter(patient=self.object)
         return context
-
 
 
 def consultation_pdf(request, slug, pk):
@@ -75,7 +74,7 @@ def consultation_pdf(request, slug, pk):
     template = get_template('clinic/consultation.tex')
     rendered_tpl = template.render(context, request).encode('utf-8')
     # save the file to disk
-    filename = uuid.uuid4()
+    filename = f'{entry.patient}_consultation{entry.consultation_date}'
     # Python3 only. For python2 check out the docs!
     with tempfile.TemporaryDirectory() as tempdir:
         filename = os.path.join(tempdir, str(filename))
