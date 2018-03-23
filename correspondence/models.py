@@ -117,6 +117,20 @@ class Stomato(models.Model):
     stomato_date = models.DateField("Date", default=timezone.now())
     diagnostic = models.CharField("Diagnostic", max_length=100,
                                   blank=True, null=True)
+    dentist = models.CharField("Dentiste", max_length=100,
+                               blank=True, null=True)
+    dentist_adress = models.CharField("Adresse du dentiste", max_length=100,
+                                      blank=True, null=True)
+    SALUTATION_CHOICES = (
+                     ('C', 'Cher confrère'),
+                     ('A', 'Cher ami'),
+                     ('S', 'Chère consoeur'),
+                     ('B', 'Cher confrère, chère consoeur'),
+                     ('M', 'Cher maître'),
+                )
+    salutation = models.CharField("Salutation", max_length=1,
+                                  choices=SALUTATION_CHOICES, default='C')
+
     RISK_CHOICES = (
                      ('F', 'faible'),
                      ('M', 'modéré'),
@@ -133,6 +147,7 @@ class Stomato(models.Model):
                                      default='F')
     inr_cible = models.DecimalField(verbose_name="INR Cible", max_digits=3,
                                     decimal_places=2, default=1.00)
+    lovenox = models.PositiveSmallIntegerField(default=6000)
     avk_interruption = models.NullBooleanField()
     atb = models.NullBooleanField(verbose_name="antibioprophylaxie",
                                   default=False)

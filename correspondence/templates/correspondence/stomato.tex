@@ -1,6 +1,10 @@
-   \usemodule[letter]
+{% autoescape off %}
+{% load static %}
+
+\usemodule[letter]
    
-   \setuplanguage [fr] [date={year, –, mm, –, dd}] % ISO 8601 date
+\setupexternalfigures[directory={ {% static '/img' %}, /home/kaddour/Documents}]
+   \setuplanguage [fr] [date={ {{ stomato.stomato_date }} }] % ISO 8601 date
    \definefontfeature[default][default][protrusion=quality,
                                         expansion=quality,script=latn]
 \definefontfamily[kad][serif][Minion Pro]
@@ -42,7 +46,7 @@
    \setupletterlayer[nexthead][state=right]
    
    \setupletter[
-       name={Dr {\sc Yahyaoui Mohamed \\ Kaddour}},
+       name={Dr {\sc Yahyaoui Mohamed\\  Kaddour} },
        location={Cardiologie},
        phone={+213 (0)21 83 80 13},
        mobile={+213 (0)21 83 80 36},
@@ -114,27 +118,45 @@
    \setupletterlayer[topmark,botmark,cutmark][x=-2mm]
    
    \startletter[
-       toname={Au chirurgien dentiste},
-       toaddress={ },
-       subject={Aoufi Nadji}]
+       toname={Au  {{ stomato.dentist }} },
+       toaddress={ {{ stomato.dentist_adress }} },
+       subject={patient{% if patient.gender == 'F' %}e{% endif %} : {{ patient.name }} }]
    
-   Cher confrère, je vous confie pour soins dentaire le patient {\sc Aoufi Nadji} âgé de 77 ans, diabétique, suivi chez nous pour coronaropathie chroniue, cadidat à une chirurgie à coeur ouvert (pontage).
+   {% if stomato.salutation == 'S' %}Chère consoeur,
+   {% elif stomato.salutation == 'A' %}Cher ami,
+   {% elif stomato.salutation == 'C' %}Cher confrère,
+   {% elif stomato.salutation == 'M' %}Cher maître,
+   {% else %}Cher confrère, chère consoeur,{% endif %}
 
-{\bf Risque hémorragique:} faible sous Aspégic, pas d'arrêt possible.
+je {% if stomato.salutation == 'A' %}te{% else %}vous{% endif %} confie  {% if patient.gender == 'F' %} la patiente {% else %} le patient {% endif %} {\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %}, et aux antécédents de {{ patient.history }} pour soins dentaires.
 
-{\bf Risque infectieux:} faible, pas d'antibioprophyllaxie systématique.
+{% if patient.gender == 'F' %}La patiente{% else %} Le patient {%  endif %} présente {{ stomato.diagnostic }}.
 
-{\bf Risque syncopal:} faible.
+{\bf Risque hémorragique:} {% if stomato.thrombotic_risk == 'I' %}important, patient sous anticoagulants. INR cible à {{ stomato.inr_cible }}. Relais par Lovenox {{ stomato.lovenox }} mg X2/j en sous-cutané.  
+{% elif stomato.thrombotic_risk == 'M' %}modéré, patient sous anticoagulants. Possibilité de maintenir ou diminuer la dose de Sintrom pour atteindre une INR cible à {{ stomato.inr_cible }}. Relais par Lovenox pas nécessaire.
+{% else %} faible.{% endif %}
 
+
+{\bf Risque infectieux:} {% if stomato.infectious_risk == 'I' %} important, antibioprphyllaxie {\bf obligatoire} par {{ stomato.atb_therapie }} 60 à 30 minutes avant toute procédure dentaire.
+{% elif stomato.infectious_risk == 'M' %}modéré, antibioprophyllaxie {% if stomato.atb == True %}{\bf recommandée}{% else %} {\bf facultative}{% endif %} par {{ stomato.atb_therapie }} 60 à 30 minutes avant toute procédure dentaire.
+{% else %} faible, pas d'antibioprophyllaxie systématique.{% endif %}
+
+{\bf Risque syncopal:} {% if stomato.syncopal_risk == 'I' %}important{% elif stomato.syncopa_risk == 'M' %} modéré {% else %} faible{% endif %}.
+
+
+
+
+Je {% if stomato.salutation == 'A' %} te{% else %} vous{% endif %} remercie d'avance pour ce que {% if stomato.salutation == 'A' %}tu vas{% else %} vous allez{% endif %} lui apporter, et me mets à {% if stomato.salutation == 'A' %} ta{% else %} votre{% endif %} disposition si d'autres informations {% if stomato.salutation == 'A' %} te{% else %} vous{% endif %} semblent utiles.
 
 
    
    \blank[2*big]
-   Bien à vous,
+ Cordialement, 
    \blank[big]
    
    %\externalfigure[signature]%
    Dr Yahyaoui .M .K\\
-   {\it Alger le \currentdate}
+   {\it Alger le {{ stomato.stomato_date }} }
    
    \stopletter
+   {% endautoescape %}
