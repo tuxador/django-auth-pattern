@@ -135,7 +135,7 @@ je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} confie  {% if 
 L'examen retrouve   {{ courrier.declaration }}.
     
   {% endif %} % boucle "reponse = true" 
-   {{ courrier.conclusion }}
+{% if courrier.conclusion %}   {{ courrier.conclusion }}{% endif %}
 
 {% if courrier.reponse == True %}
 Je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} remercie pour {% if courrier.salutation == 'A' %}ta{% else %}votre{% endif %} confiance, et me mets à {% if courrier.salutation == 'A' %} ta{% else %} votre{% endif %} disposition si d'autres informations {% if courrier.salutation == 'A' %} te{% else %} vous{% endif %} semblent utiles.

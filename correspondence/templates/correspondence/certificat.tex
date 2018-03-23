@@ -122,7 +122,7 @@
        toaddress={ {{ patient.name }} },
        subject={Certificat médical }]
    
-   Je sous-signé {\sc Dr Yahyaoui}, cardiologue, certifie avoir examiné ce jour le {{ certificat.certificat_date }}   {% if patient.gender == 'F' %} Madame {% else %}Monsieur {% endif %}  {\sc {{ certificat.patient }}  } , né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, et déclare  {% if patient.gender == 'F' %}qu'elle{% else %}qu'il{% endif %}  présente {{ certificat.declaration }} .
+   Je sous-signé {\sc Dr Yahyaoui}, cardiologue, certifie avoir examiné ce jour le {{ certificat.certificat_date }}   {% if patient.gender == 'F' %} Madame {% else %}Monsieur {% endif %}  {\sc {{ patient.name }} }, né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, et déclare  {% if patient.gender == 'F' %}qu'elle{% else %}qu'il{% endif %}  présente {{ certificat.declaration }} .
 
    
    \blank[2*big]
