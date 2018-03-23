@@ -10,14 +10,20 @@
 
 
 {% block content %}
+
 <hr>
+<div class="row">
+<div class="jumbotron">
+
 <h2>{{ patient.name }}</h2>
-<p><i class="fa fa-home mr-3"></i> {{ patient.adresse }} -  
-    <i class="fa fa-phone mr-3"></i> {{ patient.phone }} </p>
+<p><small><i class="fa fa-home mr-3"></i> {{ patient.adresse }}  
+    <i class="fa fa-phone mr-3"></i> {{ patient.phone }}</small> </p>
      <p>
          {% if patient.gender == 'M' %}Monsieur{% elif  patient.gender == 'F' %}Madame{% else %}Patient{% endif %} {{ patient.name }} né(e) le {{ patient.birth }} est suivi chez nous depuis le {{ patient.first_consultation }}.
 
      </p>
+</div>
+</div>
      <div class="column">
          <h3>Antécédents</h3>
          <p> {{ patient.history }}
@@ -70,11 +76,18 @@
                     </h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                    {% for courrier in courriers  %}
-                    <p><a href="{% url 'correspondence:courrier_pdf' slug=patient.slug pk=courrier.pk %}"><span class ="fa fa-print" aria-hidden="true"></span>{{ courrier.patient }}_courrier{{ courrier.courrier_date }}</a></p>
+                    <p><a href="{% url 'correspondence:courrier_pdf' slug=patient.slug pk=courrier.pk %}"><span class ="fa fa-print" aria-hidden="true"></span> courrier{{ courrier.courrier_date }}</a></p>
                     {% endfor %}
-                     <p>   Courrier2</p>
-                     <p>   Certificat1</p>
-                     <p>   Certificat2</p>
+                    {% for certificat in certificats  %}
+                    <p><a href="{% url 'correspondence:certificat_pdf' slug=patient.slug pk=certificat.pk %}"><span class ="fa fa-print" aria-hidden="true"></span> certificat_{{ certificat.certificat_date }}</a></p>
+                    {% endfor %}
+                    {% for stomato in stomatos  %}
+                    <p><a href="{% url 'correspondence:stomato_pdf' slug=patient.slug pk=stomato.pk %}"><span class ="fa fa-print" aria-hidden="true"></span> stomato_{{ stomato.stomato_date }}</a></p>
+                    {% endfor %}
+                    {% for arret in arrets  %}
+                    <p><a href="{% url 'correspondence:arret_pdf' slug=patient.slug pk=arret.pk %}"><span class ="fa fa-print" aria-hidden="true"></span> {{ arret.redaction_date }}_{{ arret.type_arret }}</a></p>
+                    {% endfor %}
+
                 </div>
                 <!--/.First column-->
 
