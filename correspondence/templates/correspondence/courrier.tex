@@ -132,10 +132,10 @@
 {% else %}
 je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} confie  {% if patient.gender == 'F' %} la patiente {% else %} le patient {% endif %} {\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %}, et aux antécédents de {{ patient.history }} pour {{ courrier.diagnostic }}
 
-L'examen retrouve   {{ courrier.declaration }}.
+L'examen retrouve:   {{ courrier.declaration }}.
     
   {% endif %} % boucle "reponse = true" 
-{% if courrier.conclusion %}   {{ courrier.conclusion }}{% endif %}
+{% if courrier.conclusion %} {% if courrier.reponse == False %}{\bf objectif:}{% endif %}  {{ courrier.conclusion }} {% endif %}
 
 {% if courrier.reponse == True %}
 Je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} remercie pour {% if courrier.salutation == 'A' %}ta{% else %}votre{% endif %} confiance, et me mets à {% if courrier.salutation == 'A' %} ta{% else %} votre{% endif %} disposition si d'autres informations {% if courrier.salutation == 'A' %} te{% else %} vous{% endif %} semblent utiles.
