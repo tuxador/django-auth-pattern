@@ -36,7 +36,7 @@ patients and third party (CNAS, CASNOS)..
 *** DONE Convention
 *** DONE Prestation    
     le problème de *dépendance circulaire* ayant été reglé entre patient-prestation-reception en éliminant l'import de =Patient= dans le model Reception
-** correspondence 
+** DONE correspondence 
 stomatology, pre operative reports
 ** biology 
 lab sample's results
@@ -56,10 +56,15 @@ via special =views=
 managed to export a pdf, but i have 2 issues so far:
   + django throws an error message: file not found
   + pdf is actually written inhe current directory,
+  + the solution is to write directly the generated pdf into the *medias* directory,
+ then to delete the compilation files: =*.tuc= and logfiles. 
  
 ** export to CSV  
 
-via =admin= actions
+via =admin= actions: so far only non callable fields are exported, h
+ave to fg
+ure out h
+ow to do for M2M fields and FK.
 
 ** Search field 
 ** Custom (list) views and dashboards:
@@ -70,7 +75,7 @@ via =admin= actions
 
     
 * ConTeXT related
-** image directory
+** DONE image directory
 By default, ConTeXt searches an image in the current directory,
  the parent directory, and the grand-parent directory.
 To search for images in other directories, for example

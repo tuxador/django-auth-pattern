@@ -25,14 +25,21 @@
 </div>
 </div>
      <div class="column">
-         <h3>Antécédents</h3>
+         <h4>Antécédents</h4>
          <p> {{ patient.history }}
          </p>
          <p> Allergies connues: {{ patient.allergy }}  </p>
      </div>
          <div class="column">
-             <h3>facteurs de risque</h3>
-
+             <h4>facteurs de risque</h4>
+             <ol>
+                 {% if patient.diabete == True %}<li>diabète</li>{% endif %} 
+                 {% if patient.hypertension == True %}<li>HTA</li>{% endif %} 
+                 {% if patient.dysipidemia == True %}<li>dyslipidémie</li>{% endif %} 
+                 {% if patient.smoker == True %}<li>tabagisme</li>{% endif %} 
+                 {% if patient.obesity == True %}<li>obesité</li>{% endif %} 
+                 {% if patient.sedentarity == True %}<li>sédentarité</li>{% endif %} 
+             </ol>
          </div>
 
 
