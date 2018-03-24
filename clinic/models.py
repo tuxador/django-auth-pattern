@@ -352,3 +352,120 @@ class Stress(models.Model):
 
         return '%s stress %s' % (self.patient, self.stress_date)
 
+
+class Admission(models.Model):
+    #   données générales et symptomatologie
+    patient = models.ForeignKey(Patient, related_name='admissions',
+                                on_delete=models.CASCADE)
+    admission_date = models.DateField("date de l'admission")
+    medecin = models.ForeignKey(User,
+                                blank=True, on_delete=models.CASCADE)
+    emergency = models.BooleanField("urgence", default=False)
+    motif_admission = models.ManyToManyField(Motif)
+    med_ref = models.CharField("Médecin reférent", max_length=100,
+                               blank=True, null=True)
+    UNITY_CHOICES = (
+        ('1', 'salles 1er'),
+        ('2', 'salles 2ème'),
+        ('3', 'USIC'),
+        ('4', 'réanimation'),
+    )
+    unity = models.CharField("unité d'hospitalisation",
+                             max_length=1,
+                             choices=UNITY_CHOICES,
+                             default='1')
+
+    chambre = models.CharField("Chambre", max_length=5, blank=True)
+    fever = models.BooleanField("fièvre", default=False)
+    dyspnea_nyha = models.PositiveSmallIntegerField("stade NYHA",
+                                                    default='1')
+    angina_scc = models.PositiveSmallIntegerField("stade d'angor",
+                                                  default='1')
+    syncope = models.BooleanField("Syncope", default=False)
+    histoire = models.CharField("Histoire de la maladie",
+                                max_length=255, null=True, blank=True)
+#
+# examen clinique
+    etat_general = models.CharField("état à l'admision",
+                                    max_length=255, blank=True)
+    systolic_bp = models.PositiveSmallIntegerField(blank=True,
+                                                   null=True)
+    diastolic_bp = models.PositiveSmallIntegerField(blank=True,
+                                                    null=True)
+    heart_rate = models.PositiveSmallIntegerField(blank=True,
+                                                  null=True)
+    auscultation = models.CharField(max_length=100, blank=True,
+                                    null=True)
+    ivg = models.BooleanField("signes d'IVG", default=False)
+    ivd = models.BooleanField("signes d'IVD", default=False)
+    tsj = models.BooleanField("Turguscence des jugulaires", default=False)
+    rhj = models.BooleanField("reflux hpato-jugulaire", default=False)
+    omi = models.BooleanField("oedèmes des MI", default=False)
+    pulse = models.CharField(max_length=50, blank=True)
+    telethorax = models.CharField(max_length=50, blank=True, null=True)
+#
+#    # ECG
+
+    RYTHM_CHOICES = (
+        ('S', 'Sinusal'),
+        ('F', 'Atrial Fibrillation'),
+        ('R', 'Atrial Flutter'),
+        ('P', 'Pace Maker'),
+        ('T', 'TV')
+    )
+    rythm = models.CharField("rythme", max_length=1, choices=RYTHM_CHOICES,
+                             blank=True, null=True)
+    freq = models.PositiveSmallIntegerField("fréquence cardiaque", default='70')
+    BLOCK_CHOICES = (
+        ('D', 'BBD'),
+        ('G', 'BBG')
+        )
+    bundle_block = models.CharField("Bloc de branche", max_length=1,
+                                    choices=BLOCK_CHOICES, blank=True)
+    HYPERTROPHY_CHOICES = (
+        ('G', 'HVG'),
+        ('D', 'HVD')
+        )
+    hypertrophy = models.CharField("Hypertrophie ventriculaire", max_length=1,
+                                   choices=HYPERTROPHY_CHOICES, blank=True)
+    TERRITORY = (
+        ('N', 'absence'),
+        ('S', 'septal'),
+        ('A', 'antérieur'),
+        ('L', 'latéral'),
+        ('P', 'posterieur'),
+    )
+    necrosis = models.CharField(max_length=1, choices=TERRITORY,
+                                blank=True, null=True)
+    ischaemia = models.CharField(max_length=1, choices=TERRITORY,
+                                 blank=True, null=True)
+    lesion = models.CharField(max_length=1, choices=TERRITORY,
+                              blank=True, null=True)
+    t_inversion = models.CharField(max_length=1, choices=TERRITORY,
+                                   blank=True, null=True)
+    corrected_qt = models.IntegerField(default=400)
+# echocoeur
+    echocoeur = models.TextField("échocardiographie", null=True,
+                                 blank=True)
+    date_echo = models.DateField("Date de l'écho",
+                                 default=timezone.now)
+    eto = models.TextField("échocardiographie trans-oesophagienne",
+                           null=True, blank=True)
+    fevg = models.PositiveSmallIntegerField("FeVG", blank=True,
+                                            null=True)
+# evolution
+    resume = models.TextField("Résumé clinique", blank=True)
+    evolution = models.TextField("Evolution", blank=True)
+# ordonnance de sortie
+    sortant = models.NullBooleanField("Sortant")
+    sortie_date = models.DateField("Date de sortie", null=True)
+    dispositions = models.CharField("dispositions complémentaires",
+                                    max_length=255, blank=True)
+    ordonnance = models.TextField("Ordonnance", blank=True, null=True)
+
+    def __str__(self):
+
+        return '%s %s' % (self.patient, self.admission_date)
+    # def get_absolute_url(self):
+    #    return reverse('detail_consultation', kwargs={'pk':self.pk})
+

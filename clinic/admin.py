@@ -59,6 +59,15 @@ class ConsultationAdmin(admin.ModelAdmin):
         actions = [export_to_csv]
 
 
+class AdmissionAdmin(admin.ModelAdmin):
+
+        list_display = ("patient", "medecin", "admission_date",
+                        "emergency", "resume", "dispositions")
+    #   list_filter = ('consultation_date', 'emergency', 'medecin', 'patient',)
+        date_hierarchy = 'admission_date'
+        actions = [export_to_csv]
+
+
 class ReceptionAdmin(admin.ModelAdmin):
 
         list_display = ("number", "patient", "date",
@@ -82,5 +91,6 @@ admin.site.register(Motif)
 admin.site.register(Prestation)
 admin.site.register(Wilaya)
 admin.site.register(Consultation, ConsultationAdmin)
+admin.site.register(Admission, AdmissionAdmin)
 admin.site.register(Stress, StressAdmin)
 admin.site.register(Tag)
