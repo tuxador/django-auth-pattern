@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Patient, Consultation, Stress
+from .models import Patient, Consultation, Stress, Admission
 from correspondence.models import (Ordonnance, Courrier, Certificat,
                                    Arret, Stomato)
 from django.views.generic import (ListView, DetailView, TemplateView,
@@ -54,7 +54,7 @@ class DetailPatient(DetailView):
         # Call the base implementation first to get a context
         context = super(DetailPatient, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-#        context['admissions'] = Admission.objects.filter(patient=self.object)
+        context['admissions'] = Admission.objects.filter(patient=self.object)
         context['consultations'] = Consultation.objects.filter(patient=self.object)
         context['ordonnances'] = Ordonnance.objects.filter(patient=self.object)
         context['courriers'] = Courrier.objects.filter(patient=self.object)
@@ -76,6 +76,38 @@ def consultation_pdf(request, slug, pk):
     rendered_tpl = template.render(context, request).encode('utf-8')
     # save the file to disk
     filename = f'{entry.patient}_consultation{entry.consultation_date}'
+    # Python3 only. For python2 check out the docs!
+    with tempfile.TemporaryDirectory() as tempdir:
+        filename = os.path.join(tempdir, str(filename))
+        with open(filename, 'wb') as infile:
+            infile.write(rendered_tpl)
+###########################################################
+# from django.core.files import File
+#      with open('/tmp/hello.world', 'w') as f:
+#...     myfile = File(f)
+#...     myfile.write('Hello World')
+#####################################################
+        process = Popen(
+                ['context', filename, tempdir],
+                stdin=PIPE,
+                stdout=PIPE,)
+        process.communicate(rendered_tpl)
+        with open(os.path.join(tempdir, f'{filename}.pdf'), 'rb') as f:
+            pdf = f.read()
+            r = HttpResponse(content_type='application/pdf')
+            r.write(pdf)
+            return r
+
+
+def admission_pdf(request, slug, pk):
+    entry = Admission.objects.get(pk=pk)
+    source = Patient.objects.get(slug=slug)
+#    context = Context({ 'consultation': entry, 'patient': source })
+    context = dict({'admission': entry, 'patient': source})
+    template = get_template('clinic/admission.tex')
+    rendered_tpl = template.render(context, request).encode('utf-8')
+    # save the file to disk
+    filename = f'{entry.patient}_admission{entry.admission_date}'
     # Python3 only. For python2 check out the docs!
     with tempfile.TemporaryDirectory() as tempdir:
         filename = os.path.join(tempdir, str(filename))

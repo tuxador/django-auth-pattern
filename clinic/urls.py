@@ -9,6 +9,8 @@ urlpatterns = [
          name='patient_detail'),
     path('patients/<slug:slug>_consultation<int:pk>.pdf',
          views.consultation_pdf, name='consultation_pdf'),
+    path('patients/<slug:slug>_admission<int:pk>.pdf',
+         views.admission_pdf, name='admission_pdf'),
 #    path('articles/<int:year>/<int:month>/', views.month_archive),
 #    path('articles/<int:year>/<int:month>/<slug:slug>/', views.article_detail),
-] 
+              ] 

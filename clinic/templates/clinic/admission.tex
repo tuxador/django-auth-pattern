@@ -150,14 +150,14 @@
    \bTD {{ patient.adresse}} \eTD
    \eTR
    \bTR
-   \bTD motif de consultation \eTD
+   \bTD motif d'admission \eTD
    \bTD médecin correspondant\eTD
    \bTD assurance \eTD
    \eTR
 \bTR
-   \bTD {% for motif in consultation.motif_consultation.all %}{{ motif }} - {% endfor %}
+   \bTD {% for motif in admission.motif_admission.all %}{{ motif }} - {% endfor %}
    \eTD
-   \bTD {% if consultation.med_ref %}{{ consultation.med_ref }}{% else %}-- {% endif %}
+   \bTD {% if admission.med_ref %}{{ admission.med_ref }}{% else %}-- {% endif %}
    \eTD
    \bTD {% if patient.assurance == 'N' %}CNAS
         {% elif patient.assurance == 'S' %}CASNOS
@@ -168,6 +168,8 @@
    \eTR
 \eTABLE} 
 \stopframed
+\blank[1cm]
+{% if patient.gender == 'F' %}Madame{% else %}Monsieur{% endif %} {{ patient.name }} né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }} a séjourné à notre niveau du {{ admission.admission_date }} au {% if admission.sortie %}{{ admission.sortie }}{% else %}\currentdate{% endif %} pour {% for motif in admission.motif_admission.all %}{{ motif }} - {% endfor %}.
 \subsubject[antécedents]{Antécedents}
 \subsubsubject[facteurs-de-risque-cv]{facteurs de risque CV}
 \startitemize[2,columns,two,packed]
@@ -181,65 +183,67 @@
 \stopitemize
 
 \subsubsubject[médicaux]{médicaux}
-{% if patient.history %}{{ patient.history }}{% else %}pas d'antécédents particuliers{% endif %}
+{% if patient.history %}{{ patient.history }}{% else %}pas d'antécédents particuliers{% endif %} .
 \subsubject[histoire-maladie]{Histoire de la maladie}
-{{ consultation.histoire }}
+{{ admission.histoire }}
 \subsubject[examen-clinique]{Examen clinique}
 
 \startitemize[2,columns,two,packed]
   \startitem
-   {% if consultation.dyspnea_nyha == 1 %}eupnéique{% else %}{\bf dyspnée stade {{ consultation.dyspnea_nyha }} de la NYHA}{% endif %}
+   {% if admission.dyspnea_nyha == 1 %}eupnéique{% else %}{\bf dyspnée stade {{ admission.dyspnea_nyha }} de la NYHA}{% endif %}
           \stopitem
-  {% if consultation.fever == True %}\startitem fièvre.\stopitem{% endif %}
-  \startitem   {% if consultation.angina_scc == 1 %}Absence d'angor.{% else %}Angor au stade {{ consultation.angina_scc }} de la {\it SCC}.{% endif %}
+  {% if admission.fever == True %}\startitem fièvre.\stopitem{% endif %}
+  \startitem   {% if admission.angina_scc == 1 %}Absence d'angor.{% else %}Angor au stade {{ admission.angina_scc }} de la {\it SCC}.{% endif %}
   \stopitem
-  {% if consultation.syncope == True %} \startitem Syncope.\stopitem{% endif %}
+  {% if admission.syncope == True %} \startitem Syncope.\stopitem{% endif %}
 \stopitemize
 \startdescription{Auscultation}
-  L'examen clinique retrouve à l'auscultation: {{ consultation.auscultation }} avec une fréquence cardiaque à = {{ consultation.heart_rate}} Bpm.
+  L'examen clinique retrouve à l'auscultation: {{ admission.auscultation }} avec une fréquence cardiaque à = {{ admission.heart_rate}} Bpm.
 \stopdescription
 \startdescription{En périphérie}
-  les pouls sont {{ consultation.pulse }} avec une PA = {{ consultation.systolic_bp }}/{{ consultation.diastolic_bp }}mmHg.
-  {% if consultation.ivg %}Il existe des signes d'insuffisance cardiaque gauche.{% else %}Absence de signes d'insuffisance cardiaque gauche{% endif %}
- {% if consultation.ivd %} On note aussi des signes d'insuffisance cardiaque droite.{% else %}Absence de signes d'insuffisance cardiaque droite.{% endif %}
+  les pouls sont {{ admission.pulse }} avec une PA = {{ admission.systolic_bp }}/{{ admission.diastolic_bp }}mmHg.
+  {% if admission.ivg %}Il existe des signes d'insuffisance cardiaque gauche.{% else %}Absence de signes d'insuffisance cardiaque gauche{% endif %}
+ {% if admission.ivd %} On note aussi des signes d'insuffisance cardiaque droite {% if admission.tsj %}turgescence spontanée des jugulaires{% endif %}{% if admission.rhj %} reflux hépato jugulaire{% endif %}{% if admission.omi %} oedèmes des membres inférieurs {% endif %}.{% else %}Absence de signes d'insuffisance cardiaque droite.{% endif %}
 \stopdescription
 \subsubsubject[ECG]{ECG}
-Le rythme est en {% if consultation.rythm == 'S' %}sinusal{% elif consultation.rythm == 'F' %}fibrillation atriale{% elif consultation.rythm == 'R'%}flutter auriculaire{% elif consultation.rythm == 'T' %}tacchycardie ventriculaire{% elif consultation.rythm == 'P' %}électro stimulé{% endif %}
-          à fréquence cardiaque de {{ consultation.freq }} puls/min.
+Le rythme est en {% if admission.rythm == 'S' %}sinusal{% elif admission.rythm == 'F' %}fibrillation atriale{% elif admission.rythm == 'R'%}flutter auriculaire{% elif admission.rythm == 'T' %}tacchycardie ventriculaire{% elif admission.rythm == 'P' %}électro stimulé{% endif %}
+          à fréquence cardiaque de {{ admission.freq }} puls/min.
 
-          {% if consultation.bundle_block == 'G' %}Il existe un bloc de branche gauche.
-          {% elif consultation.bundle_block == 'D' %}Il existe un bloc de branche droit.
+          {% if admission.bundle_block == 'G' %}Il existe un bloc de branche gauche.
+          {% elif admission.bundle_block == 'D' %}Il existe un bloc de branche droit.
           {% endif %}
-          {% if consultation.hypertrophy == True %}On note aussi une hypertrophie ventriculaire gauche électrique.{% endif %}
+          {% if admission.hypertrophy == 'G' %}On note aussi une hypertrophie ventriculaire gauche électrique.{% elif admission.hypertrophy == 'D' %}On note aussi une hypertrophie ventriculaire droite électrique.{% endif %}
           
-      Sur le plan ischémique: {% if consultation.lesion == 'S' %} une lésion en septal{% elif consultation.lesion == 'A' %} une lésion en antérieur{% elif consultation.lesion == 'L' %} une lésion en latéral{% elif consultation.lesion == 'P' %} une lésion en postérieur{% else %}absence de lésions électriques{% endif %},
-              {% if consultation.ischaemia == 'S' %} une ischémie en septal{% elif consultation.ischaemia == 'A' %} une ischémie en antérieur{% elif consultation.ischaemia == 'L' %} une ischémie en latéral{% elif consultation.ischaemia == 'P' %} une ischémie postérieur{% else %}absence d'ischémie électrique{% endif %},
-                      {% if consultation.t_inversion == 'S' %} onde T inversée en septal{% elif consultation.t_inversion == 'A' %} onde T inversée en antérieur{% elif consultation.t_inversion == 'L' %} onde T inversée en en latéral{% elif consultation.t_inversion == 'P' %} onde T inversée en postérieur{% endif %}. \\
-            Le QT corrigé est estimé à {{ consultation.corrected_qt }} msec. \\
+      Sur le plan ischémique: {% if admission.lesion == 'S' %} une lésion en septal{% elif admission.lesion == 'A' %} une lésion en antérieur{% elif admission.lesion == 'L' %} une lésion en latéral{% elif admission.lesion == 'P' %} une lésion en postérieur{% else %}absence de lésions électriques{% endif %},
+              {% if admission.ischaemia == 'S' %} une ischémie en septal{% elif admission.ischaemia == 'A' %} une ischémie en antérieur{% elif admission.ischaemia == 'L' %} une ischémie en latéral{% elif admission.ischaemia == 'P' %} une ischémie postérieur{% else %}absence d'ischémie électrique{% endif %},
+                      {% if admission.t_inversion == 'S' %} onde T inversée en septal{% elif admission.t_inversion == 'A' %} onde T inversée en antérieur{% elif admission.t_inversion == 'L' %} onde T inversée en en latéral{% elif admission.t_inversion == 'P' %} onde T inversée en postérieur{% endif %}. \\
+            Le QT corrigé est estimé à {{ admission.corrected_qt }} msec. \\
             
-            {% if consultation.telethorax %}
+            {% if admission.telethorax %}
               \subsubject[téléthorax]{Téléthorax}
-              Le téléthorax retrouve: {{ consultation.telethorax }} \\
+              Le téléthorax retrouve: {{ admission.telethorax }} \\
               
               {% endif %}
 
   
 \subsubject[echo-coeur]{Echo coeur}
-Faite le {{ consultation.date_echo }}: {{ consultation.echocoeur }} 
-{% if eto %} {\bf l'ETO} retrouve: {{consultation.eto }}{% endif %}
+Faite le {{ admission.date_echo }}: {{ admission.echocoeur }} 
+{% if admission.eto %} {\bf l'ETO} retrouve: {{admission.eto }}{% endif %}
 \subsubject[biologie]{Biologie}
 voir bilans
 
 \hairline
-\subsubject[conclusion]{Conclusion}
+\subsubject[total]{Au total}
 \startalerttext
- {{ consultation.resume }}
+ {{ admission.resume }}
 \stopalerttext
-\subsubsubject[traitement]{traitement}
-{{ consultation.ordonnance }}
+\subsubsubject[evolution]{Evolution}
+{{ admission.evolution }}
+\subsubsubject[traitement]{Traitement de sortie}
+{{ admission.ordonnance }}
 \subsubsubject[dispositions-complémentaires]{dispositions complémentaires}
 \startexampletext
-{{ consultation.dispositions }}
+{{ admission.dispositions }}
 \stopexampletext
 \blank[2cm]
 \raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\
