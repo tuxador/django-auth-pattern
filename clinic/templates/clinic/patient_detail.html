@@ -17,7 +17,7 @@
 
         <section class="card wow fadeIn">
 <h2>{{ patient.name }}</h2>
-<p><small><i class="fa fa-home mr-3"></i> {{ patient.adresse }}  
+<p><small><i class="fa fa-address-book-o mr-3"></i> {{ patient.adresse }}  
     <i class="fa fa-phone mr-3"></i> {{ patient.phone }}</small> </p>
      <p>
          {% if patient.gender == 'M' %}Monsieur{% elif  patient.gender == 'F' %}Madame{% else %}Patient{% endif %} {{ patient.name }} né(e) le {{ patient.birth }} est suivi chez nous depuis le {{ patient.first_consultation }}.
