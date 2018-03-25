@@ -107,6 +107,38 @@
     </table>
     <hr>
 
+    <table class="table table-compact table-striped table-hover">
+    <tr>
+        <th>Admission</th>
+        <th>Motifs </th>
+        <th>Urgence?</th>
+        <th>Resumé clinique</th>
+        <th>dispositions complémentaires</th>
+        <th>Éditer</th>
+        <th>tags</th>
+
+        </tr>
+
+
+
+    {% for admission in admissions %}
+        <tr>
+        <td><a href="{% url 'clinic:admission_pdf' slug=patient.slug pk=admission.pk %}"><span class ="fa fa-print" aria-hidden="true"></span> <strong>{{ admission.admission_date }}</strong></a></td>
+
+
+        <td>{% for motif in admission.motif_admission.all %} {{ motif }} {% endfor %}</td>
+        <td>{% if admission.emergency == True %} oui {% else %} non {% endif %}</td>
+        <td>{{ admission.resume }}</td>
+        <td>{{ admission.dispositions }}</td>
+
+        <td><a href="#"><span class ="fa fa-pencil" aria-hidden="true"></span></a></td>
+        <td>{% for tag in patient.tags.all %} <span class="label label-warning">{{ tag }}</span> {% endfor %}
+            </tr>
+            {% endfor %}
+            </table>
+            <hr>
+
+
  <div class="container mt-5 mb-4 text-center text-md-left">
             <div class="row mt-3">
 
