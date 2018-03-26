@@ -44,13 +44,23 @@
                             <!--Card content-->
                             <div class="card-body">
                                 <!--Title-->
-                                <h4 class="card-title">Push notifications</h4>
+                                <h4 class="card-title">Antécedents</h4>
                                 <!--Text-->
-                                <p class="card-text">Push messaging provides a simple and effective way to re-engage with your users and in this
-                                    tutorial you'll learn how to add push notifications to your web app</p>
-                                <a href="https://mdbootstrap.com/web-push-start/" target="_blank" class="btn btn-primary btn-md">Start tutorial
-                                    <i class="fa fa-play ml-2"></i>
-                                </a>
+                                <p class="card-text">
+                                    {{ patient.history }}
+                                </p>
+                                <h4 class="card-title" >Allergies connues</h4>
+                                <p class="card-text"> {{ patient.allergy }}  </p>
+                                <h4 class="card-title" >facteurs de risque</h4>
+                                
+                                <p class="card-text"> <ol>   {% if patient.diabete == True %}<li>diabète</li>{% endif %} 
+                                    {% if patient.hypertension == True %}<li>HTA</li>{% endif %} 
+                                    {% if patient.dysipidemia == True %}<li>dyslipidémie</li>{% endif %} 
+                                    {% if patient.smoker == True %}<li>tabagisme</li>{% endif %} 
+                                    {% if patient.obesity == True %}<li>obesité</li>{% endif %} 
+                                    {% if patient.sedentarity == True %}<li>sédentarité</li>{% endif %} 
+                                    </ol>
+                                </p>
                             </div>
 
                         </div>
