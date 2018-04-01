@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %}{{ block.super }}Results{% endblock %}
+
+
+{% block container %}
+
+
+
+
+Vous avez cherché "{{ query }}" et les résultats sont listés plus bas:
+
+<ul>
+{% for object in objects %}
+    <li> {{ object }}</li>
+    {% endfor %}
+    </ul>
+
+    {% endblock container %}

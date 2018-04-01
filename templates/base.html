@@ -64,10 +64,16 @@
 
                 </ul>
                 <!-- Links -->
+              <!--   <form id="searchform" value="{# query#}" action="{#% url 'search' %#}" method="get" accept-charset="utf-8">
+                    <button class="searchbutton" type="submit">
+                        <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                        <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
+                        </form> -->
 
                 <form class="form-inline">
                     <div class="md-form mt-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="recherche" aria-label="Search">
+                        <input class="form-control mr-sm-2" type="text" placeholder="recherche" action="{% url 'clinic:search' %}" method="get" accept-charset="utf-8" aria-label="Search" value="{{ query }}" name="q">
                     </div>
                 </form>
             </div>

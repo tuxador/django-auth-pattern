@@ -11,6 +11,7 @@ urlpatterns = [
          views.consultation_pdf, name='consultation_pdf'),
     path('patients/<slug:slug>_admission<int:pk>.pdf',
          views.admission_pdf, name='admission_pdf'),
+    path('results/', views.PatientSearchListView.as_view(), name='search'),
 #    path('articles/<int:year>/<int:month>/', views.month_archive),
 #    path('articles/<int:year>/<int:month>/<slug:slug>/', views.article_detail),
               ] 
