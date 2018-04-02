@@ -71,9 +71,9 @@
                         <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
                         </form> -->
 
-                <form class="form-inline">
+                <form class="form-inline" action="{% url 'clinic:search' %}" method="get" accept-charset="utf-8" value="{{ query }}">
                     <div class="md-form mt-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="recherche" action="{% url 'clinic:search' %}" method="get" accept-charset="utf-8" aria-label="Search" value="{{ query }}" name="q">
+                        <input class="form-control mr-sm-2" type="text" placeholder="recherche"  aria-label="Search"  name="q">
                     </div>
                 </form>
             </div>
