@@ -192,18 +192,18 @@
  {% if patient.sedentarity == True %}\startitem  Sédentarité \stopitem{% endif %}
  {% if patient.heredity == True %}\startitem  Hérédité coronarienne \stopitem{% endif %}
 \stopitemize
-\subsubject{Traitement habituel}
+\subsubsubject{Traitement habituel}
 {{ stress.medication }}
 \subsubject{Protocole}
-\startdescription[Objectifs]
-{% if stress.objectif == 'M' %}évaluation de fuite mitrale  {% elif %}
-{% if stress.objectif == 'G' %}évaluation de gradient trans-aortique  {% elif %}
-{% if stress.objectif == 'R' %}évaluation de la reserve contractile  {% elif %}
-{% if stress.objectif == 'V' %}recherche de viabilité myocardique  {% elif %}
-{% else %}recherche d'ischémie myocardique  {% endif %}.
+\startdescription{Objectifs}
+{% if stress.objectif == 'M' %}évaluation de fuite mitrale  
+{% elif stress.objectif == 'G' %}évaluation de gradient trans-aortique
+{% elif stress.objectif == 'R' %}évaluation de la reserve contractile 
+  {% elif stress.objectif == 'V' %}recherche de viabilité myocardique
+    {% else %}recherche d'ischémie myocardique  {% endif %}.
 \stopdescription
-\subsubject{Drogues utilisées}
-\startdescription[Dobutamine]
+\subsubsubject{Drogues utilisées}
+\startdescription{Dobutamine}
 {% if stress.dobu_5 == True %}5\gamma {% endif %}
 {% if stress.dobu_10 == True %}10\gamma {% endif %}
 {% if stress.dobu_15 == True %}15\gamma {% endif %}
@@ -211,44 +211,34 @@
 {% if stress.dobu_30 == True %}30\gamma {% endif %}
 {% if stress.dobu_40 == True %}40\gamma {% endif %}
 \stopdescription
-\startdescription[Atropine]
+\startdescription{Atropine}
 {% if stress.atropine_1 == True %}0.25mg {% endif %}
 {% if stress.atropine_2 == True %}0.50mg {% endif %}
 {% if stress.atropine_3 == True %}0.75mg {% endif %}
 {% if stress.atropine_4 == True %}1.0mg {% endif %}
 \stopdescription
 
-\startdescription[anti ischémiques]
-{% if stress.bb_peros == True %}\beta bloqueur {\it per os} {% endif %}
-{% if stress.bb_iv == True %}\beta bloqueur IV {% endif %}
+\startdescription{anti ischémiques}
+{% if stress.bb_peros == True %}\beta bloqueur {\it per os} {% endif %} %
+{% if stress.bb_iv == True %}\beta bloqueur IV {% endif %} %
 {% if stress.nitrin == True %}Risordan {% endif %}.
 \stopdescription
 
-
 \bTABLE[setups={table:protocole}]
-
-\bTR
-\bTD \eTD \bTD Symptômes \eTD \bTD PA \eTD \bTD ECG \eTD \bTD echo \eTD
+\bTR \bTD \eTD \bTD Symptômes \eTD \bTD PA \eTD \bTD ECG \eTD \bTD echo \eTD
 \eTR
-\bTR
-\bTD Base \eTD \bTD - \eTD \bTD {{stress.base_systolic_bp  }}/{{ stress.base_diastolic_bp }} \eTD \bTD {{ stress.base_ecg }} \eTD \bTD {{ stress.base_echo }}\eTD
-\eTR
-\bTR
-\bTD Low-dose \eTD \bTD {{ stress.low_symptoma }} \eTD \bTD {{stress.low_systolic_bp  }}/{{ stress.low_diastolic_bp }} \eTD \bTD {{ stress.low_ecg }} \eTD \bTD {{ stress.low_echo }}\eTD
-\eTR
-\bTR
-\bTD Peak-dose \eTD \bTD -{{ stress.peak_symptoma }} \eTD \bTD {{stress.peak_systolic_bp  }}/{{ stress.peak_diastolic_bp }} \eTD \bTD {{ stress.peak_ecg }} \eTD \bTD {{ stress.peak_echo }}\eTD
-\eTR
-\bTR
-\bTD Récup. \eTD \bTD - {{ stress.recup_symptoma }}\eTD \bTD {{stress.recup_systolic_bp  }}/{{ stress.recup_diastolic_bp }} \eTD \bTD {{ stress.recup_ecg }} \eTD \bTD {{ stress.recup_echo }}\eTD
-\eTR
+\bTR \bTD Base \eTD \bTD - \eTD \bTD {{stress.base_systolic_bp  }}/{{ stress.base_diastolic_bp }} \eTD \bTD {{ stress.base_ecg }} \eTD \bTD {{ stress.base_echo }}\eTD \eTR
+\bTR \bTD Low-dose \eTD \bTD {{ stress.low_symptoma }} \eTD \bTD {{stress.low_systolic_bp  }}/{{ stress.low_diastolic_bp }} \eTD \bTD {{ stress.low_ecg }} \eTD \bTD {{ stress.low_echo }}\eTD\eTR
+\bTR \bTD Peak-dose \eTD \bTD -{{ stress.peak_symptoma }} \eTD \bTD {{stress.peak_systolic_bp  }}/{{ stress.peak_diastolic_bp }} \eTD \bTD {{ stress.peak_ecg }} \eTD \bTD {{ stress.peak_echo }}\eTD \eTR
+\bTR \bTD Récup. \eTD \bTD - {{ stress.recup_symptoma }}\eTD \bTD {{stress.recup_systolic_bp  }}/{{ stress.recup_diastolic_bp }} \eTD \bTD {{ stress.recup_ecg }} \eTD \bTD {{ stress.recup_echo }}\eTD \eTR
+\eTABLE
 \subsubject[conclusion]{Conclusion}
 \startalerttext
  {{ stress.conclusion }}
 \stopalerttext
 \subsubsubject[dispositions-complémentaires]{dispositions complémentaires}
 \startexampletext
-{% if stress.disposition == 'M' %}Traitement médical optimal{% elif stress.disposition == 'N' %} écho de stress non concluante{% elif stress.disposition == 'C' %}Coronarographie et eventuel geste de revascularisation{% else %}Coronarographie diagnostique{% endif %}.
+{% if stress.disposition == 'M' %}Traitement médical optimal{% elif stress.disposition == 'N' %} écho de stress non concluante{% elif stress.disposition == 'C' %}Coronarographie et eventuel geste de revascularisation{% elif stress.disposition == 'O' %}indication opératoire{% else %}Coronarographie diagnostique{% endif %}.
 \stopexampletext
 \blank[2cm]
 \raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\

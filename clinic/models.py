@@ -54,6 +54,7 @@ class Patient(models.Model):
                      ('F', 'fonctionnaire'),
                      ('E', 'employé'),
                      ('C', 'commerçant'),
+                     ('R', 'retraité'),
                      ('Y', 'femme au foyer'),
                      ('T', 'étudiant'),
                      ('D', 'cadre'),
@@ -342,6 +343,7 @@ class Stress(models.Model):
         ('C', 'Coronarographie diagnostique'),
         ('R', 'Coronarographie et éventuel geste de revascularisation'),
         ('N', 'Non concluante'),
+        ('O', 'indication opératoire'),
     )
     disposition = models.CharField("Dispositions complémentaires",
                                    max_length=1,
