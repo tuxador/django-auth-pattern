@@ -56,6 +56,7 @@ class DetailPatient(DetailView):
         # Add in a QuerySet of all the books
         context['admissions'] = Admission.objects.filter(patient=self.object)
         context['consultations'] = Consultation.objects.filter(patient=self.object)
+        context['stresss'] = Stress.objects.filter(patient=self.object)
         context['ordonnances'] = Ordonnance.objects.filter(patient=self.object)
         context['courriers'] = Courrier.objects.filter(patient=self.object)
         context['certificats'] = Certificat.objects.filter(patient=self.object)
@@ -108,6 +109,38 @@ def admission_pdf(request, slug, pk):
     rendered_tpl = template.render(context, request).encode('utf-8')
     # save the file to disk
     filename = f'{entry.patient}_admission{entry.admission_date}'
+    # Python3 only. For python2 check out the docs!
+    with tempfile.TemporaryDirectory() as tempdir:
+        filename = os.path.join(tempdir, str(filename))
+        with open(filename, 'wb') as infile:
+            infile.write(rendered_tpl)
+###########################################################
+# from django.core.files import File
+#      with open('/tmp/hello.world', 'w') as f:
+#...     myfile = File(f)
+#...     myfile.write('Hello World')
+#####################################################
+        process = Popen(
+                ['context', filename, tempdir],
+                stdin=PIPE,
+                stdout=PIPE,)
+        process.communicate(rendered_tpl)
+        with open(os.path.join(tempdir, f'{filename}.pdf'), 'rb') as f:
+            pdf = f.read()
+            r = HttpResponse(content_type='application/pdf')
+            r.write(pdf)
+            return r
+
+
+def stress_pdf(request, slug, pk):
+    entry = Stress.objects.get(pk=pk)
+    source = Patient.objects.get(slug=slug)
+#    context = Context({ 'consultation': entry, 'patient': source })
+    context = dict({'stress': entry, 'patient': source})
+    template = get_template('clinic/stress.tex')
+    rendered_tpl = template.render(context, request).encode('utf-8')
+    # save the file to disk
+    filename = f'{entry.patient}_stress{entry.stress_date}'
     # Python3 only. For python2 check out the docs!
     with tempfile.TemporaryDirectory() as tempdir:
         filename = os.path.join(tempdir, str(filename))
