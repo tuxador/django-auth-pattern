@@ -28,7 +28,7 @@
     \setlayer[logo]
     [state=start,hoffset=6.5cm,voffset=1cm]{\externalfigure[kardia]}
  \setlayer[sidelogo]
-    [state=continue,hoffset=1cm,voffset=1cm]{\externalfigure[kardia][width=2cm]}
+    [state=continue,hoffset=1cm,voffset=1cm]{\externalfigure[kardia][width=4cm]}
 \setupfootertexts[\setups{footertext}]
 
 \startsetups footertext
@@ -126,117 +126,6 @@
       \setupTABLE[column][3][align=center]
 
 \stopsetups
-
-\setuppagenumbering[alternative=singlesided,location={footer,inright}]
-\setuplayout[header=1cm,leftmargin=1.5cm,rightmargin=1.5cm,footer=1.5cm]
-\mainlanguage[fr]
-\definefontfeature[default][default][protrusion=quality,expansion=quality,script=latn]
-\definefontfamily[kad][serif][Minion Pro]
-\definefontfamily[kad][sans] [Gillius ADF]
-\definefontfamily[kad][mono] [TeX Gyre Cursor][features=none]
-\definefontfamily[kad][math] [TeX Gyre Pagella Math]
-
-
-\definelayer[logo]	% name of the layer
-    [x=0mm, y=0mm,	% from upper left corner of paper
-      width=\paperwidth, height=\paperheight, % let the layer cover the full paper
-      state=start,
-    ]
-\definelayer[sidelogo]	% name of the layer
-    [x=0mm, y=0mm,	% from upper left corner of paper
-     width=\paperwidth, height=\paperheight, % let the layer cover the full paper
-     state=continue,
-     ]
-\setupexternalfigures[directory={ {% static '/img' %}, /home/kaddour/Documents}]
-\setupbackgrounds[page][background={logo,sidelogo}]
-%\setupbackgrounds[page][background={sidelogo}, state=continue]
-    \setlayer[logo]
-    [state=start,hoffset=6.5cm,voffset=1cm]{\externalfigure[kardia.jpg]}
- \setlayer[sidelogo]
-    [state=continue,hoffset=1cm,voffset=1cm]{\externalfigure[kardia.jpg][width=4cm]}
-\setupfootertexts[\setups{footertext}]
-
-\startsetups footertext
-  \framed[frame=off, align=normal, style={\ssx}]
-      {Clinique {\sc Kardia}, Cité Sonelgaz  lot n°75/76 Gué de Constantine ,Alger\\ Tél/Fax: 021 83 80 13/021 83 20 36 - Email: contact(at)cliniquekardia.com}
-\stopsetups
-
-
-
-\setupbodyfont[kad,11pt]
-
-\usesymbols[fontawesome]
-\definecolor[darkgray]  [s=0.5]
-\definecolor[lightgray] [s=0.95]
-\definecolor[darkred]   [r=0.5]
-\definecolor[darkgreen] [g=0.5]
-\definecolor[darkblue]  [b=0.5]
-\definecolor[cyan][r=0.02,g=0.49,b=0.52]
-
-\definecolor[lightred]   [0.95(red,white)]
-\definecolor[lightgreen] [0.95(green,white)]
-\definecolor[lightblue]  [0.95(blue,white)]
-\setuphead[subject][color=darkred,style=\ssa\bf] 
-\setuphead[subsubject][color=darkred, style=\bf]
-\setuphead[subsubsubject][color=cyan, style=\ss]
-
-\defineframedtext[leftbartext]
-  [ width=broad,
-    frame=off,
-    framecolor=darkgray,
-    leftframe=on,
-    rulethickness=2ex,
-    offset=0.25ex,
-    loffset=3ex, 
-    background=color,
-    backgroundcolor=lightgray,
-    ]
- \defineframedtext
-  [exampletext]
-  [leftbartext]
-  [
-    framecolor=cyan,
-    backgroundcolor=lightgreen,
-  ]
-
-\defineframedtext
-  [alerttext]
-  [leftbartext]
-  [
-    framecolor=darkred,
-    backgroundcolor=lightred,
-  ]
-
-\defineframedtext
-  [blocktext]
-  [leftbartext]
-  [
-    framecolor=darkblue,
-    backgroundcolor=lightblue,
-  ]   
-\define\FA{\dosingleargument\doFA}
-\def\doFA[#1]{\inlinedbox
-    {\scale[height=1em]{\symbol[fontawesome][#1]}}}
-
-\definedescription
-   [description]
-   [headstyle=\ssx\bf, style=, location=hanging, width=broad, margin=2ex, alternative=hanging]
-\startsetups table:width
-  \setupTABLE[align={hyphenated,normal}]
-  \setupTABLE[column][1][width=0.3\textwidth]
-  \setupTABLE[column][2][width=0.4\textwidth]
-  \setupTABLE[column][3][width=0.3\textwidth]
-\stopsetups
-\startsetups table:style
-\setupTABLE[frame=off]
-\setupTABLE[r][1][style=\ss]
-\setupTABLE[r][2][style=\tfa\bf]
-\setupTABLE[r][3][style=\ss]
-\setupTABLE[c][3][align=left]
-\setupTABLE[c][2][align=center]
-\setupTABLE[r][4][style=\bf] % how to override the \tt in the second column?
-\stopsetups
-
 \starttext
 
   \startalignment[middle]

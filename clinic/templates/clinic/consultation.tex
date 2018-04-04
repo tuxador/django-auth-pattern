@@ -28,7 +28,7 @@
     \setlayer[logo]
     [state=start,hoffset=6.5cm,voffset=1cm]{\externalfigure[kardia]}
  \setlayer[sidelogo]
-    [state=continue,hoffset=1cm,voffset=1cm]{\externalfigure[kardia][width=2cm]}
+    [state=continue,hoffset=1cm,voffset=1cm]{\externalfigure[kardia][width=4cm]}
 \setupfootertexts[\setups{footertext}]
 
 \startsetups footertext
@@ -172,9 +172,9 @@
    \bTD assurance \eTD
    \eTR
 \bTR
-   \bTD {% for motif in consultation.motif_consultation.all %}{{ motif }} - {% endfor %}
+   \bTD {% for motif in consultation.motif_consultation.all %}{{ motif }}, {% endfor %}
    \eTD
-   \bTD {% if consultation.med_ref %}{{ consultation.med_ref }}{% else %}-- {% endif %}
+   \bTD {% if consultation.med_ref %}{{ consultation.med_ref }}{% else %}--{% endif %}
    \eTD
    \bTD {% if patient.assurance == 'N' %}CNAS
         {% elif patient.assurance == 'S' %}CASNOS
@@ -210,7 +210,7 @@
   {% if consultation.fever == True %}\startitem fièvre.\stopitem{% endif %}
   \startitem   {% if consultation.angina_scc == 1 %}Absence d'angor.{% else %}Angor au stade {{ consultation.angina_scc }} de la {\it SCC}.{% endif %}
   \stopitem
-  {% if consultation.syncope == True %} \startitem Syncope.\stopitem{% endif %}
+  {% if consultation.syncope == True %} \startitem {\bf Syncope}.\stopitem{% endif %}
 \stopitemize
 \startdescription{Auscultation}
   L'examen clinique retrouve à l'auscultation: {{ consultation.auscultation }} avec une fréquence cardiaque à = {{ consultation.heart_rate}} Bpm.
