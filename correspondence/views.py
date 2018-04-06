@@ -140,3 +140,24 @@ def arret_pdf(request, slug, pk):
             r = HttpResponse(content_type='application/pdf')
             r.write(pdf)
             return r
+
+
+class CreateCourrier(CreateView):
+    model = Courrier
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
+class CreateCertificat(CreateView):
+    model = Certificat
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
+class CreateArret(CreateView):
+    model = Arret
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
+class CreateStomato(CreateView):
+    model = Stomato
+    fields = "__all__"
+    success_url = 'clinique/patients'

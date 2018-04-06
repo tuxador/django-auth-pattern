@@ -54,11 +54,12 @@
 
                     <!-- Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">consult</a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ajouter</a>
                         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{% url 'clinic:patients' %}">patients</a>
-                            <a class="dropdown-item" href="#">Stress-echo</a>
-                            <a class="dropdown-item" href="#">Doppler</a>
+                            <a class="dropdown-item" href="{% url 'correspondence:courrier_new' %}">courrier</a>
+                            <a class="dropdown-item" href="{% url 'correspondence:arret_new' %}">arrêt de travail</a>
+                            <a class="dropdown-item" href="{% url 'correspondence:certificat_new' %}">certificat</a>
+                            <a class="dropdown-item" href="{% url 'correspondence:stomato_new' %}">soins dentaires</a>
                         </div>
                     </li>
 
