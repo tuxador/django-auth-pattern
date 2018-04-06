@@ -2,6 +2,56 @@
 web application based on [[www.djangoproject.org][django]] to manage patients of the cardiology clinic of [[https://
 www.cliniquekardia.com]] , Algiers
 
+The idae is to combine the simplicity and conciseness of *python/django* and the beauty and modernity of *ConTeXT*
+
+In my previous app (for Benzerdjeb Hospital) i had LaTeX as reporting tool and it worked quiet well,
+ but there is a significant difference with LaTeX and ConTeXT which make the switch tricky:
+
+1- LaTeX reads the source file *once*, well actually twice with an iteration loop, while ConTeXT runs the source file as many times as 9!
+2- ConTeXT needs the PDF to be written (read "saved") in the filesystem to be processed before the final result,.
+This make it difficult to work with =tempfiles= and  =PIPE=.
+
+I somehow managed to render the PDF but the later is generated /in the root/ of my app, thus:
+    + it cannot be rendered directly in the web browser,
+    + and we cannot access the file directly from a remote computer or tablet.
+      
+#+BEGIN_SRC python
+
+def consultation_pdf(request, slug, pk):
+    entry = Consultation.objects.get(pk=pk)
+    source = Patient.objects.get(slug=slug)
+#    context = Context({ 'consultation': entry, 'patient': source })
+    context = dict({'consultation': entry, 'patient': source})
+    template = get_template('clinic/consultation.tex')
+    rendered_tpl = template.render(context, request).encode('utf-8')
+    # save the file to disk
+    filename = f'{entry.patient}_consultation{entry.consultation_date}'
+    # Python3 only. For python2 check out the docs!
+    with tempfile.TemporaryDirectory() as tempdir:
+        filename = os.path.join(tempdir, str(filename))
+        with open(filename, 'wb') as infile:
+            infile.write(rendered_tpl)
+###########################################################
+# from django.core.files import File
+#      with open('/tmp/hello.world', 'w') as f:
+#...     myfile = File(f)
+#...     myfile.write('Hello World')
+#####################################################
+        process = Popen(
+                ['context', filename, tempdir],
+                stdin=PIPE,
+                stdout=PIPE,)
+        process.communicate(rendered_tpl)
+        with open(os.path.join(tempdir, f'{filename}.pdf'), 'rb') as f:
+            pdf = f.read()
+            r = HttpResponse(content_type='application/pdf')
+            r.write(pdf)
+            return r
+
+
+#+END_SRC
+
+the =with= assertion is in my opinion the root of my problem.
 * components 
 the site is divided into components:
 
@@ -45,7 +95,7 @@ lab sample's results
 - python >= 3.6 because *F-strings* rock !! 
 - django 2.0.x yeah the url path are cool.
 - django-crispy-forms
-- Bootstrap , considering to switch to 4.0
+- Bootstrap V4.0 , +considering to switch to 4.0+
 - postgresql + psycopg2 (sqlite for development)
 - [[www.contextgarden.org][ConTeXT]] MARK IV for PDF creation
 
@@ -61,12 +111,10 @@ managed to export a pdf, but i have 2 issues so far:
  
 ** export to CSV  
 
-via =admin= actions: so far only non callable fields are exported, h
-ave to fg
-ure out h
-ow to do for M2M fields and FK.
+via =admin= actions: so far only non callable fields are exported,
+have to figure out how to do for M2M fields and FK.
 
-** Search field 
+** DONE Search field 
 ** Custom (list) views and dashboards:
     + per day, week or month
     + for inhospîtal patients

@@ -9,6 +9,7 @@ from django.template.loader import get_template  # render_to_string
 from subprocess import Popen, PIPE
 import tempfile
 import os
+from authtest.settings import BASE_DIR
 import operator
 from django.db.models import Q
 from six.moves import reduce
@@ -89,11 +90,11 @@ def consultation_pdf(request, slug, pk):
 #...     myfile.write('Hello World')
 #####################################################
         process = Popen(
-                ['context', filename, tempdir],
+                ['context', filename, '--purgeall'],
                 stdin=PIPE,
                 stdout=PIPE,)
         process.communicate(rendered_tpl)
-        with open(os.path.join(tempdir, f'{filename}.pdf'), 'rb') as f:
+        with open(os.path.join(BASE_DIR, f'{filename}.pdf'), 'rb') as f:
             pdf = f.read()
             r = HttpResponse(content_type='application/pdf')
             r.write(pdf)

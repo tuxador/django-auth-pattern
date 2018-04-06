@@ -22,7 +22,7 @@ def courrier_pdf(request, slug, pk):
     template = get_template('correspondence/courrier.tex')
     rendered_tpl = template.render(context, request).encode('utf-8')
     # save the file to disk
-    filename = f'{entry.patient}_courrier{entry.courrier_date}'
+    filename = f'{entry.patient}_courrier{entry.courrier_date}_{entry.pk}'
     # Python3 only. For python2 check out the docs!
     with tempfile.TemporaryDirectory() as tempdir:
         filename = os.path.join(tempdir, str(filename))
@@ -39,7 +39,7 @@ def courrier_pdf(request, slug, pk):
                 stdin=PIPE,
                 stdout=PIPE,)
         process.communicate(rendered_tpl)
-        with open(f'{entry.patient}_courrier{entry.courrier_date}.pdf', 'rb') as f:
+        with open(f'{entry.patient}_courrier{entry.courrier_date}_{entry.pk}.pdf', 'rb') as f:
             pdf = f.read()
             r = HttpResponse(content_type='application/pdf')
           #  r.write(pdf)
@@ -67,7 +67,7 @@ def certificat_pdf(request, slug, pk):
 #...     myfile.write('Hello World')
 #####################################################
         process = Popen(
-                ['context', filename, tempdir],
+                ['context', filename, '--purgeall'],
                 stdin=PIPE,
                 stdout=PIPE,)
         process.communicate(rendered_tpl)
@@ -99,7 +99,7 @@ def stomato_pdf(request, slug, pk):
 # ..     myfile.write('Hello World')
 #####################################################
         process = Popen(
-                ['context', filename, tempdir],
+                ['context', filename, '--purgeall'],
                 stdin=PIPE,
                 stdout=PIPE,)
         process.communicate(rendered_tpl)
@@ -131,7 +131,7 @@ def arret_pdf(request, slug, pk):
 #...     myfile.write('Hello World')
 #####################################################
         process = Popen(
-                ['context', filename, tempdir],
+                ['context', filename, '--purgeall'],
                 stdin=PIPE,
                 stdout=PIPE,)
         process.communicate(rendered_tpl)
