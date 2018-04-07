@@ -88,11 +88,14 @@ class Patient(models.Model):
     lenght = models.DecimalField(verbose_name="taille", max_digits=3,
                                  decimal_places=2, default=1.70)
 # bmi = weight/lenght*lenght
+    body_area = models.DecimalField(verbose_name="surface corporelle",
+                                    max_digits=3, decimal_places=2, default=1.70)
     obesity = models.BooleanField("obèse", default=True)
     sedentarity = models.BooleanField("sédentarité", default=True)
     heredity = models.BooleanField("hérédité coronarienne",
                                    default=False)
     history = models.TextField("antécedents")
+    surgery_history = models.TextField("antécédents de chirurgie cardique ou de geste interventionne", blank=True)
     allergy = models.CharField("allergie connue", max_length=50,
                                blank=True)
     tags = models.ManyToManyField(Tag, default="cardio")
@@ -151,7 +154,7 @@ class Consultation(models.Model):
     ivg = models.BooleanField(default=False)
     ivd = models.BooleanField(default=False)
     pulse = models.CharField(max_length=50, blank=True)
-    telethorax = models.CharField(max_length=50, blank=True, null=True)
+    telethorax = models.CharField(max_length=150, blank=True, null=True)
 #
 #    # ECG
 
@@ -227,7 +230,7 @@ class Reception(models.Model):
     reduction = models.NullBooleanField("réduction", default=False)
 
     def display_prestations(self):
-        return '- '.join([ prestation.acte for prestation in self.prestations.all() ])
+        return '- '.join([prestation.acte for prestation in self.prestations.all()])
     display_prestations.short_description = 'Prestations'
     display_prestations.allow_tags = True
 
@@ -471,3 +474,56 @@ class Admission(models.Model):
     # def get_absolute_url(self):
     #    return reverse('detail_consultation', kwargs={'pk':self.pk})
 
+
+class FicheTechnique(models.Model):
+    patient = models.ForeignKey(Patient, related_name='fiches_techniques',
+                                on_delete=models.CASCADE)
+    date_fiche = models.DateField("Date de la fiche", default=timezone.now)
+    diagnostic = models.CharField("Diagnostic exact", max_length=255, blank=True)
+    pathologies_assoc = models.CharField("Pathologies associées",
+                                         max_length=255, blank=True)
+    nyha = models.PositiveSmallIntegerField("Stade NYHA", default=1)
+    telethorax = models.CharField("Téléthorax", max_length=255, blank=True)
+    ecg = models.CharField("ECG", max_length=255, blank=True)
+    echocoeur = models.TextField("Echocoeur (conclusion)", blank=True)
+    telethorax = models.CharField("Téléthorax", max_length=255, blank=True)
+    fevg = models.PositiveSmallIntegerField("FEVG", null=True, blank=True)
+    valvulopathy = models.CharField("Atteinte valvulaire (grade)",
+                                    max_length=255, blank=True)
+    aorte = models.CharField("État de l'aorte", max_length=255, blank=True)
+    TEST = (
+            ('E', 'ECG d\'effort'),
+            ('S', 'stress-echo'),
+            ('M', 'scintigraphie myocardique'),
+            ('C', 'Coroscan'),
+            ('R', 'IRM cardiaque'),
+           )
+    test_ischemie = models.CharField("Test d'ischémie", max_length=1,
+                                     choices=TEST, blank=True)
+    result_test_ischemie = models.CharField("Résultats du test d'ischémie",
+                                            max_length=255, blank=True)
+    coro = models.CharField("état des coronaires (coronarographie)",
+                            max_length=255, blank=True)
+    syntax = models.PositiveSmallIntegerField("SYNTAX score",
+                                              blank=True, null=True)
+    coroscan = models.CharField("état des coronaires (coroscanner)",
+                                max_length=255, blank=True)
+    periph = models.TextField("état des artères périphériques (doppler ou angio)",
+                              blank=True)
+    clearance_cr = models.PositiveSmallIntegerField("Fonction rénale (clearance)",
+                                                    null=True, blank=True)
+    dfg = models.PositiveSmallIntegerField("Fonction rénale (Débit de filtration glomérulaire)",
+                                           null=True, blank=True)
+    respir = models.CharField("fonction respiratoire",
+                              max_length=255, blank=True)
+    dentaire = models.CharField("État dentaire",
+                                max_length=255, blank=True)
+    biology = models.TextField("Biologie: principales anomalies",
+                               blank=True)
+    traitement = models.TextField("Traitement médical",
+                                  blank=True)
+    risk = models.TextField("Évaluation du risque opératoire",
+                            blank=True)
+    def __str__(self):
+
+        return '%s_fiche_%s' % (self.patient, self.date_fiche)

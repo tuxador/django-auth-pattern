@@ -134,3 +134,57 @@ To search for images in other directories, for example
 \setupexternalfigures[directory={images, /home/user/images}]
 #+END_SRC
 
+* Fiche technique
+nom - prénom - date et lieu de naissance
+age - medecin traitant
+poids - taille - sc
+
+Diagnostic exact:
+
+
+Pathologies associées
+
+Antécedets de chirurgie cardiaque ou de geste interventionnel:
+
+FDR:
+
+Stade fonctionnel NYHA
+
+Telethorax (ict)
+
+ECG
+
+echocoeur (conclusion)
+FEVG PAPS Taile et vacuité de l'OG
+Fonction VD
+Atteinte valvulaire (grade)
+Etat de l'aorte
+
+Test d'ischémie
+
+Résultat du test d'ischémie
+
+Etat des coronaires (coronarographie)
+
+
+Syntax score:
+
+Etat des coronaires (coroscanner)
+
+Etat des artères périph au doppler ou à l'angio:
+
+Fonction reale (clearance)
+
+Fonction respiratoire (EFR):
+
+Etat dentaire
+
+Biologie principales anomalies:
+
+Allergies:
+
+Traitement médical:
+
+evaluation du risque opératoire:
+
+signature (medecin traitant de la clinique)

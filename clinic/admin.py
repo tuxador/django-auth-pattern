@@ -85,6 +85,16 @@ class StressAdmin(admin.ModelAdmin):
         actions = [export_to_csv]
 
 
+class FicheTechniqueAdmin(admin.ModelAdmin):
+
+        list_display = ("patient", "date_fiche", "diagnostic",
+                        "pathologies_assoc", "risk")
+    # list_filter = ('consultation_date', 'emergency', 'medecin', 'patient',)
+        date_hierarchy = 'date_fiche'
+        actions = [export_to_csv]
+
+
+
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Reception, ReceptionAdmin)
 admin.site.register(Motif)
@@ -93,4 +103,5 @@ admin.site.register(Wilaya)
 admin.site.register(Consultation, ConsultationAdmin)
 admin.site.register(Admission, AdmissionAdmin)
 admin.site.register(Stress, StressAdmin)
+admin.site.register(FicheTechnique, FicheTechniqueAdmin)
 admin.site.register(Tag)
