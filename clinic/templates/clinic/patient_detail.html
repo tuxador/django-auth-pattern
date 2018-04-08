@@ -230,6 +230,10 @@
                         <i class="fa fa-hospital mr-3"></i> Angioscanner</p>
                     <p>
                         <i class="fa fa-print mr-3"></i> + 01 234 567 89</p>
+                    {% for fiche in fiches  %}
+                    <p><a href="{% url 'clinic:fiche_pdf' slug=patient.slug pk=fiche.pk %}"><span class ="fa fa-file-pdf" aria-hidden="true"></span> Fiche technique {{ fiche.date_fiche }}</a></p>
+                    {% endfor %}
+
                 </div>
                 <!--/.Fourth column-->
 

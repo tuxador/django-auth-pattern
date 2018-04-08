@@ -37,7 +37,11 @@ class Patient(models.Model):
                             max_length=50)
     slug = models.SlugField(max_length=100)
     birth = models.DateField(verbose_name="date de naissance")
-
+    birth_place = models.ForeignKey(Wilaya,
+                                    verbose_name="lieu de naisssance",
+                                    on_delete=models.CASCADE,
+                                    related_name='originaires',
+                                    blank=True, null=True)
     GENDER_CHOICES = (
                      ('M', 'Masculin'),
                      ('F', 'Féminin'),
@@ -45,8 +49,8 @@ class Patient(models.Model):
                 )
     gender = models.CharField(verbose_name="sexe",
                               max_length=1, choices=GENDER_CHOICES)
-    adresse = models.ForeignKey(Wilaya,
-                                on_delete=models.CASCADE, blank=True,
+    adresse = models.ForeignKey(Wilaya, on_delete=models.CASCADE,
+                                related_name='demeurants', blank=True,
                                 null=True)
     phone = models.CharField("Téléphone", max_length=10,
                              default='0550123456')
@@ -57,13 +61,15 @@ class Patient(models.Model):
                      ('R', 'retraité'),
                      ('Y', 'femme au foyer'),
                      ('T', 'étudiant'),
+                     ('S', 'scolarisé'),
                      ('D', 'cadre'),
                      ('L', 'profession libérale'),
                      ('O', 'au chômage'),
                 )
     profession = models.CharField(verbose_name="Profession",
                                   max_length=1,
-                                  choices=PROFESSION_CHOICES)
+                                  choices=PROFESSION_CHOICES,
+                                  blank=True)
 
     ASSURANCE_CHOICES = (
                      ('N', 'CNAS'),
@@ -73,7 +79,8 @@ class Patient(models.Model):
                 )
     assurance = models.CharField(verbose_name="Assurance sociale",
                                  max_length=1,
-                                 choices=ASSURANCE_CHOICES)
+                                 choices=ASSURANCE_CHOICES,
+                                 default='N')
     correspondant = models.CharField("Médecin correspondant",
                                      max_length=255, blank=True)
     first_consultation = models.DateField("première consultation",
@@ -487,6 +494,8 @@ class FicheTechnique(models.Model):
     ecg = models.CharField("ECG", max_length=255, blank=True)
     echocoeur = models.TextField("Echocoeur (conclusion)", blank=True)
     telethorax = models.CharField("Téléthorax", max_length=255, blank=True)
+    taille_og = models.CharField("Taille et vacuité de l'OG", max_length=255, blank=True)
+    vd = models.CharField("Fonction VD", max_length=255, blank=True)
     fevg = models.PositiveSmallIntegerField("FEVG", null=True, blank=True)
     valvulopathy = models.CharField("Atteinte valvulaire (grade)",
                                     max_length=255, blank=True)

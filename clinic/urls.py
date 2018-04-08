@@ -13,5 +13,7 @@ urlpatterns = [
          views.admission_pdf, name='admission_pdf'),
     path('patients/<slug:slug>_stress<int:pk>.pdf',
          views.stress_pdf, name='stress_pdf'),
+    path('patients/<slug:slug>_fiche<int:pk>.pdf',
+         views.fiche_pdf, name='fiche_pdf'),
     path('results/', views.PatientSearchListView.as_view(), name='search'),
               ]

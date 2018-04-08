@@ -1,0 +1,263 @@
+{% autoescape off %}
+{% load static %}
+\mainlanguage[fr]
+\setuppagenumbering[alternative=singlesided,location={footer,inright},
+                    right={ de \totalnumberofpages},
+                    ]
+\setuplayout[header=1cm,leftmargin=1.5cm,rightmargin=1.5cm,footer=1.5cm]
+\definefontfeature[default][default][protrusion=quality,expansion=quality,script=latn]
+\definefontfamily[kad][serif][Linux Libertine O]
+\definefontfamily[kad][sans] [Gillius ADF]
+\definefontfamily[kad][mono] [TeX Gyre Cursor][features=none]
+\definefontfamily[kad][math] [TeX Gyre Pagella Math]
+
+
+\definelayer[logo]	% name of the layer
+    [x=0mm, y=0mm,	% from upper left corner of paper
+      width=\paperwidth, height=\paperheight, % let the layer cover the full paper
+      state=start,
+    ]
+\definelayer[sidelogo]	% name of the layer
+    [x=0mm, y=0mm,	% from upper left corner of paper
+     width=\paperwidth, height=\paperheight, % let the layer cover the full paper
+     state=continue,
+     ]
+
+\setupbackgrounds[page][background={logo,sidelogo}]
+%\setupbackgrounds[page][background={sidelogo}, state=continue]
+    \setlayer[logo]
+    [state=start,hoffset=6.5cm,voffset=1cm]{\externalfigure[kardia]}
+ \setlayer[sidelogo]
+    [state=continue,hoffset=1cm,voffset=1cm]{\externalfigure[kardia][width=4cm]}
+\setupfootertexts[\setups{footertext}]
+
+\startsetups footertext
+  \framed[frame=off, align=normal, style={\ssx}]
+      {Clinique {\sc Kardia}, Cité Sonelgaz  lot n°75/76 Gué de Constantine, Alger\\ Tél/Fax: 021 83 80 13/021 83 20 36 - Email: \from[kardia-email] }
+\stopsetups
+
+\setupbodyfont[kad,11pt]
+
+\usesymbols[fontawesome]
+
+\define\FA{\dosingleargument\doFA}
+\def\doFA[#1]{\inlinedbox
+    {\scale[height=1em]{\symbol[fontawesome][#1]}}} %to scale fontawesome with mainfont
+
+\definecolor[darkgray]  [s=0.5]
+\definecolor[lightgray] [s=0.95]
+\definecolor[darkred]   [r=0.6]
+\definecolor[darkgreen] [g=0.6]
+\definecolor[darkblue]  [b=0.6]
+\definecolor[cyan][r=0.02,g=0.49,b=0.52]
+
+\definecolor[lightred]   [0.95(red,white)]
+\definecolor[lightgreen] [0.95(green,white)]
+\definecolor[lightblue]  [0.95(blue,white)]
+\setuphead[subject][color=darkred,style=\ssa\bf] 
+\setuphead[subsubject][color=darkred, style=\ss\bf]
+\setuphead[subsubsubject][color=cyan, style=\ss]
+
+\defineframedtext[leftbartext]
+  [ width=broad,
+    frame=off,
+    framecolor=darkgray,
+    leftframe=on,
+    rulethickness=2ex,
+    offset=0.25ex,
+    loffset=3ex, 
+    background=color,
+    backgroundcolor=lightgray,
+    ]
+ \defineframedtext
+  [exampletext]
+  [leftbartext]
+  [
+    framecolor=cyan,
+    backgroundcolor=lightgreen,
+  ]
+
+\defineframedtext
+  [alerttext]
+  [leftbartext]
+  [
+    framecolor=darkred,
+    backgroundcolor=lightred,
+  ]
+
+\defineframedtext
+  [blocktext]
+  [leftbartext]
+  [
+    framecolor=darkblue,
+    backgroundcolor=lightblue,
+  ]   
+\define\FA{\dosingleargument\doFA}
+\def\doFA[#1]{\inlinedbox
+    {\scale[height=1em]{\symbol[fontawesome][#1]}}}
+\useURL[kardia-email][mailto:contact@cliniquekardia.com][][contact@cliniquekardia.com]
+\definedescription
+   [description]
+   [headstyle=\ssx\bf, headcolor=cyan, style=, location=hanging, width=broad, margin=2ex, alternative=hanging]
+\startsetups table:width
+  \setupTABLE[align={hyphenated,normal}]
+  \setupTABLE[column][1][width=0.3\textwidth]
+  \setupTABLE[column][2][width=0.4\textwidth]
+  \setupTABLE[column][3][width=0.3\textwidth]
+\stopsetups
+% table des patients
+\startsetups table:style
+\setupTABLE[frame=off]
+\setupTABLE[r][1][style=\ss]
+\setupTABLE[r][2][style=\tfa\bf]
+\setupTABLE[r][3][style=\ss]
+\setupTABLE[c][3][align=left]
+\setupTABLE[c][2][align=center]
+\setupTABLE[r][4][style=\bf] % how to override the \tt in the second column?
+\stopsetups
+%protocole du stress
+\startsetups table:protocole
+\setupTABLE[frame=off,option=stretch]
+      \setupTABLE[row][odd][background=color, backgroundcolor=lightgreen]
+      \setupTABLE[row][1][style={\ss\bf}, background=color,
+                             backgroundcolor=cyan, foregroundcolor=white]
+      \setupTABLE[column][1][style={\ssx\bf}]
+      \setupTABLE[column][5][align=right]
+      \setupTABLE[column][3][align=center]
+
+\stopsetups
+
+\starttext
+
+  \startalignment[middle]
+ \dontleavehmode
+\framed
+  [frame=on,
+    framecolor=darkred,
+    background=color,
+    backgroundcolor=,
+    corner=round,
+    offset=0.3cm,
+   ]
+  {\ssc \bf Fiche technique}
+\stopalignment
+
+\blank[2cm]
+
+%\subject[patient]{Patient}
+
+\startframed[frame=on,
+    framecolor=darkred,
+    background=color,
+    backgroundcolor=,
+    corner=round,
+    offset=0.3cm,
+   ]
+
+%\placetable[none]{}
+ {\bTABLE[setups={table:style, table:width}]
+   \bTR
+   \bTD nom \& prénoms \eTD
+   \bTD date \& lieu de naissance \eTD
+   \bTD Adresse \eTD
+   \eTR
+   \bTR
+   \bTD {{ patient.name }} \eTD
+   \bTD {{ patient.birth }} à {{patient.birth_place}}\eTD
+   \bTD {{ patient.adresse}} \eTD
+   \eTR
+   \bTR
+   \bTD médecin correspondant\eTD
+   \bTD age \eTD
+   \eTR
+\bTR
+   
+   \bTD {% if patient.correspondant %}{{ patient.correspondant }}{% else %}--{% endif %}
+   \eTD
+   \bTD AGE
+\eTD
+   \eTR
+\eTABLE} 
+\stopframed
+
+{\bf poids:} {{ patient.weight }} kg \hfill {\bf taille:} {{ patient.length }} m \hfill {\bf SC} {{ patient.body_area }} m2.
+
+{\bf Diagnostic exact:} {{ fiche.diagnostic }}
+
+{\bf Pathologies associées:} {{ fiche.pthologies_assoc }}
+
+{\bf Antécedents de chirurgie cardiaque ou de geste interventionnel:} {{ fiche.surgery_history }}
+
+
+{\bf FDR:}
+\startitemize[n,columns, two, packed]
+{% if patient.hta == true %}\startitem HTA \stopitem {% endif %}
+{% if patient.diabete == true %}\startitem Diabète \stopitem {% endif %}
+{% if patient.smoker == true %}\startitem Tabagique \stopitem {% endif %}
+{% if patient.obesity == true %}\startitem Obèse \stopitem {% endif %}
+{% if patient.dyslipidemia == true %}\startitem Dyslipidémie \stopitem {% endif %}
+{% if patient.sedentarity == true %}\startitem Sédentarité \stopitem {% endif %}
+{% if patient.heredity == true %}\startitem Héredité coronarienne\stopitem {% endif %}
+\stopitemize
+
+{\bf Stade fonctionnel NYHA:} {{ fiche.nyha }}
+
+{\bf Téléthorax (avec ICT):} {{ fiche.telethorax }}
+
+{\bf ECG:} {{ fiche.ecg }}
+
+{\bf Échocoeur (conclusion) :} {{ fiche.echocoeur }}
+
+{\bf FEVG:} {{ fiche.fevg }} \% \hfill{\bf PAPS:} {{ fiche.paps }} mmHg \hfill{\bf Taill et vacuité de l'OG:} {{ fiche.taille_og }} \hfill{\bf Fonction VD:} {{ fiche.vd }}
+
+
+{\bf Atteinte valvulaire (grade):} {{ fiche.valvulopathie }}
+
+{\bf Etat de l'aorte:} {{ fiche.aorte }}
+
+{\bf Test d'ischémie:} {% if fiche.test_ischemie == 'R' %}IRM cardiaque
+                       {% elif fiche.test_ischemie == 'C' %} coroscan
+                       {% elif fiche.test_ischemie == 'M' %} scintigraphie myocardique
+                       {% elif fiche.test_ischemie == 'S' %} stress echo
+                       {% elif fiche.test_ischemie == 'E' %} épreuve d'effort{% endif %}
+
+{\bf Résultat du test d'ischémie:} {{ fiche.result_test_ischemie }}
+
+{\bf Etat des coronaires (coronarographie):} {{ fiche.coro }}
+
+{\bf Syntax score:} {{ fiche.syntax }}
+
+{\bf Etat des coronaires (coroscanner):} {{ fiche.coroscan }}
+
+{\bf Etat des artères périph au doppler ou à l'angio:} {{ fiche.periph }}
+
+{\bf Fonction reale (clearance):} {{ fiche.clearance_cr }} ml/min \hfill {\bf (débit de filration glomérulaire:} {{ fiche.dfg }} ml/min/m2
+
+
+{\bf Fonction respiratoire (EFR):} {{ fiche.respir }}
+
+
+{\bf Etat dentaire :} {{ fiche.dentaire }}
+
+
+{\bf Biologie principales anomalies:} {{ fiche.biology }}
+
+
+{\bf Allergies:} {{ patient.allergy }}
+
+
+{\bf Traitement médical:} {{ fiche.traitement }}
+
+
+{\bf Évaluation du risque opératoire:} {{ fiche.risk }}
+
+
+
+signature (medecin traitant de la clinique)
+
+\blank[2cm]
+\raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\
+  Alger le {{ fiche.date_fiche }} \hspace[2em]
+  }
+\stoptext
+                {% endautoescape %}
