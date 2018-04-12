@@ -13,7 +13,7 @@ class Quotation(models.Model):
     code = models.CharField("Code", max_length=15)
 
     def __str__(self):
-        return(self.acte)
+        return(self.code)
 
 
 

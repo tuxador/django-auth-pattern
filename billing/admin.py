@@ -40,6 +40,9 @@ class ConventionAdmin(admin.ModelAdmin):
         actions = [export_to_csv]
 
 
+class QuotationAdmin(admin.ModelAdmin):
+    list_display = ("code","acte")
+    actions= [export_to_csv]
 admin.site.register(Convention, ConventionAdmin)
-admin.site.register(Quotation)
+admin.site.register(Quotation, QuotationAdmin)
 #admin.site.register(Prestation)

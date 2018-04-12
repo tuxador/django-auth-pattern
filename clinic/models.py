@@ -519,20 +519,59 @@ class FicheTechnique(models.Model):
                                 max_length=255, blank=True)
     periph = models.TextField("état des artères périphériques (doppler ou angio)",
                               blank=True)
-    clearance_cr = models.PositiveSmallIntegerField("Fonction rénale (clearance)",
-                                                    null=True, blank=True)
-    dfg = models.PositiveSmallIntegerField("Fonction rénale (Débit de filtration glomérulaire)",
-                                           null=True, blank=True)
     respir = models.CharField("fonction respiratoire",
                               max_length=255, blank=True)
     dentaire = models.CharField("État dentaire",
                                 max_length=255, blank=True)
     biology = models.TextField("Biologie: principales anomalies",
                                blank=True)
+
+    glycemia = models.DecimalField(max_digits=4, decimal_places=2,
+                                   blank=True, null=True)
+    creatinin = models.DecimalField("créatininémie", max_digits=5,
+                                    decimal_places=2, blank=True, null=True)
+    clearance_cr = models.PositiveSmallIntegerField("Fonction rénale (clearance)",
+                                                    null=True, blank=True)
+    dfg = models.PositiveSmallIntegerField("Fonction rénale (DFG)",
+                                           null=True, blank=True)
+    uremia = models.DecimalField("urémie", max_digits=3,
+                                 decimal_places=2, blank=True, null=True)
+    hemoglobin = models.DecimalField("héoglobinémie", max_digits=3,
+                                     decimal_places=1, blank=True, null=True)
+    platlets = models.PositiveSmallIntegerField("plaquettes",
+                                                blank=True, null=True)
+    wbc = models.PositiveSmallIntegerField("globules blancs",
+                                           blank=True, null=True)
+    tp = models.PositiveSmallIntegerField("TP",
+                                          blank=True, null=True)
+
+    fibrinogen = models.DecimalField("fibrinogénémie", max_digits=3,
+                                     decimal_places=2, blank=True, null=True)
+    ferretin = models.PositiveSmallIntegerField("ferritinémie",
+                                                blank=True, null=True)
+    calcemia = models.PositiveSmallIntegerField("calcémie",
+                                                blank=True, null=True)
+    hba1c = models.DecimalField("HBA1c", max_digits=3,
+                                decimal_places=1, blank=True, null=True)
+
+    cholesterol = models.DecimalField(max_digits=3, decimal_places=2,
+                                      blank=True, null=True)
+    triglyceride = models.DecimalField(max_digits=3, decimal_places=2,
+                                       blank=True, null=True)
+    hdl = models.DecimalField(max_digits=3, decimal_places=2,
+                              blank=True, null=True)
+    ldl = models.DecimalField(max_digits=3, decimal_places=2,
+                              blank=True, null=True)
+    hbv = models.NullBooleanField("sérologie HBS")
+    hcv = models.NullBooleanField("sérologie HCV")
+    hiv = models.NullBooleanField("sérologie HIV")
     traitement = models.TextField("Traitement médical",
                                   blank=True)
     risk = models.TextField("Évaluation du risque opératoire",
                             blank=True)
+    decision = models.CharField("décision du médecin traitant",
+                                max_length=255, blank=True)
+
     def __str__(self):
 
         return '%s_fiche_%s' % (self.patient, self.date_fiche)
