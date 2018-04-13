@@ -68,6 +68,38 @@ class DetailPatient(DetailView):
 #       context['stimulations'] = Stimulation.objects.filter(patient=self.object)
         return context
 
+# CreateViews
+
+
+class CreatePatient(CreateView):
+    model = Patient
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
+
+class CreateConsultation(CreateView):
+    model = Consultation
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
+
+class CreateAdmission(CreateView):
+    model = Admission
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
+
+class CreateFicheTechnique(CreateView):
+    model = FicheTechnique
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
+
+class CreateStress(CreateView):
+    model = Stress
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
 
 def consultation_pdf(request, slug, pk):
     entry = Consultation.objects.get(pk=pk)
@@ -86,8 +118,8 @@ def consultation_pdf(request, slug, pk):
 ###########################################################
 # from django.core.files import File
 #      with open('/tmp/hello.world', 'w') as f:
-#...     myfile = File(f)
-#...     myfile.write('Hello World')
+# ..     myfile = File(f)
+# ..     myfile.write('Hello World')
 #####################################################
         process = Popen(
                 ['context', filename, '--purgeall'],
@@ -118,8 +150,8 @@ def admission_pdf(request, slug, pk):
 ###########################################################
 # from django.core.files import File
 #      with open('/tmp/hello.world', 'w') as f:
-#...     myfile = File(f)
-#...     myfile.write('Hello World')
+# ..     myfile = File(f)
+# ..     myfile.write('Hello World')
 #####################################################
         process = Popen(
                 ['context', filename, '--purgeall'],
@@ -150,8 +182,8 @@ def stress_pdf(request, slug, pk):
 ###########################################################
 # from django.core.files import File
 #      with open('/tmp/hello.world', 'w') as f:
-#...     myfile = File(f)
-#...     myfile.write('Hello World')
+# ..     myfile = File(f)
+# ..     myfile.write('Hello World')
 #####################################################
         process = Popen(
                 ['context', filename, '--purgeall'],

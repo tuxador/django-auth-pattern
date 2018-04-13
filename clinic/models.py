@@ -571,6 +571,8 @@ class FicheTechnique(models.Model):
                             blank=True)
     decision = models.CharField("décision du médecin traitant",
                                 max_length=255, blank=True)
+    quotation = models.ManyToManyField('billing.Quotation',
+                                       blank=True, null=True)
 
     def __str__(self):
 

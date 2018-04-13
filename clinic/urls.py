@@ -5,6 +5,16 @@ from . import views
 app_name = 'clinic'
 urlpatterns = [
     path('patients/', views.ListPatients.as_view(), name='patients'),
+    path('patients/new_patient', views.CreatePatient.as_view(),
+         name='create_patient'),
+    path('patients/new_admission', views.CreateAdmission.as_view(),
+         name='create_admission'),
+    path('patients/new_consultation', views.CreateConsultation.as_view(),
+         name='create_consultation'),
+    path('patients/new_fiche', views.CreateFicheTechnique.as_view(),
+         name='create_fiche_technique'),
+    path('patients/new_stress', views.CreateStress.as_view(),
+         name='create_stress'),
     path('patients/<slug:slug>/', views.DetailPatient.as_view(),
          name='patient_detail'),
     path('patients/<slug:slug>_consultation<int:pk>.pdf',
