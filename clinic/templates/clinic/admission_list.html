@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %}{{ block.super }}Hospitalisations{% endblock %}
+
+
+{% block content %}
+
+<div class="container" >
+
+    <div class="container profile-head">
+        <div class="row">
+            <div class="col-sm-10">
+                <h1><huge>ADMISSIONS</huge></h1>
+            </div>
+       </div>
+    </div>
+
+ 
+
+    <div>
+        <hr>
+    </div>
+    <table class="table table-compact table-striped table-hover">
+        <tr>
+            <th>Patient </th>
+            <th>Date </th>
+            <th>Medecin </th>
+            <th>motif </th>
+            
+            <th>urgence?</th>
+            <th>sortant</th>
+            <th>PDF</th>
+            <th>Éditer</th>
+            
+        </tr>
+            
+        {% for admission in admissions %}
+        <tr>
+            <td><a href="#">{{ admission.patient }}</a></td>
+
+
+            <td>{{admission.admission_date }}</td>
+            <td>{{ admission.medecin }}</td>
+            <td> {% for motif in admission.motif_admission.all  %}{{ motif }} {% endfor %}</td>
+                        
+            <td>{% if admission.emergency == true %}<span class="fa fa-ok" ></span>{% else %}<span class="fa fa-remove" ></span>{% endif %}</td>
+
+            <td>{% if admission.sortant == true %} <span class="label label-success">oui</span>{% else %}<span class="label label-danger">non</span>{% endif %}</td>            <td><a href="#"><i class ="fa fa-pdf" ></i></td></a>
+<td><a href="{% url 'clinic:update_admission'  pk=pk %}"><span class ="fa fa-pen" aria-hidden="true"></span> +</td></a>
+        </tr>
+        {% endfor %}
+    </table>
+    <a class="btn btn-default " href="{% url 'clinic:create_admission' %}" >
+        <span class="fa fa-plus" aria-hidden="true"></span> Ajouter admission
+    </a>
+
+            </div>
+
+   
+    {% endblock content %}

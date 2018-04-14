@@ -68,6 +68,21 @@ class DetailPatient(DetailView):
 #       context['stimulations'] = Stimulation.objects.filter(patient=self.object)
         return context
 
+
+class ListAdmissions(ListView):
+    model = Admission
+    context_object_name = 'admissions'
+
+
+class CurrentAdmissions(ListView):
+    model = Admission
+    context_object_name = 'admissions'
+    template_name = 'clinic/admission_current.html'
+
+    def get_queryset(self):
+        return Admission.objects.filter(sortant=False)
+
+
 # CreateViews
 
 
@@ -77,7 +92,22 @@ class CreatePatient(CreateView):
     success_url = 'clinique/patients'
 
 
+class UpdatePatient(UpdateView):
+    model = Patient
+    fields = '__all__'
+#    group_required = u'Cardiologues'
+#    form = PatientForm
+#    success_url = reverse_lazy('detail_patient')
+    success_url = 'clinique/patients'
+
+
 class CreateConsultation(CreateView):
+    model = Consultation
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
+
+class UpdateConsultation(UpdateView):
     model = Consultation
     fields = "__all__"
     success_url = 'clinique/patients'
@@ -89,13 +119,33 @@ class CreateAdmission(CreateView):
     success_url = 'clinique/patients'
 
 
+class UpdateAdmission(UpdateView):
+    model = Admission
+    fields = '__all__'
+#    group_required = u'Cardiologues'
+#    form = PatientForm
+    success_url = 'clinique/patients'
+
+
 class CreateFicheTechnique(CreateView):
     model = FicheTechnique
     fields = "__all__"
     success_url = 'clinique/patients'
 
 
+class UpdateFicheTechnique(UpdateView):
+    model = FicheTechnique
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
+
 class CreateStress(CreateView):
+    model = Stress
+    fields = "__all__"
+    success_url = 'clinique/patients'
+
+
+class UpdateStress(UpdateView):
     model = Stress
     fields = "__all__"
     success_url = 'clinique/patients'

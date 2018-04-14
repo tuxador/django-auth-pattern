@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load tz %}
+
+{% block title %}{{ block.super }}Hospitalisations {% endblock %}
+
+
+{% block content %}
+
+<div class="container" >
+
+    <div class="container profile-head">
+        <div class="row">
+            <div class="col-sm-10">
+                <h1><huge>HOSPITALISATIONS: {% now "DATETIME_FORMAT" %}</huge></h1>
+                <!--      {% if editable %}
+                     <a href="{% url 'profiles:edit_self' %}" class="btn btn-info">Edit Profile</a>
+                     {% endif %} -->
+            </div>
+            
+        </div>
+    </div>
+
+
+
+    <div>
+        <hr>
+    </div>
+    <table class="table table-compact table-striped table-hover">
+        <tr>
+            <th>Patient </th>
+            <th>Date </th>
+            <th>Medecin </th>
+            <th>motif </th>
+            
+            <th>urgence?</th>
+            <th>PDF</th>
+            <th>Éditer</th>
+            
+        </tr>
+            
+        {% for admission in admissions %}
+        <tr>
+            <td><a href="{% url 'clinique:detail_admission' pk=admission.pk %}">{{ admission.patient }}</a></td>
+
+
+            <td>{{admission.admission_date }}</td>
+            <td>{{ admission.medecin }}</td>
+            <td> {% for motif in admission.motif_admission.all  %}{{ motif }} {% endfor %}</td>
+                        
+            <td>{% if admission.emergency == true %}<span class="fa fa-ok" ></span>{% else %}<span class="fa fa-remove" ></span>{% endif %}</td>
+
+<td><a href="{% url 'patients:admission_pdf' pk=admission.pk slug=patient.slug %}"><span class ="fa fa-print" aria-hidden="true"></span></td></a>
+<td><a href="{% url 'clinique:update_admission' pk=admission.pk %}"><span class ="fa fa-pencil" aria-hidden="true"></span></td></a>
+        </tr>
+        {% endfor %}
+    </table>
+    <a class="btn btn-default " href="{% url 'clinic:create_admission' %}" >
+        <span class="fa fa-plus" aria-hidden="true"></span> Ajouter admission
+    </a>
+
+            </div>
+
+   
+    {% endblock content %}
+
