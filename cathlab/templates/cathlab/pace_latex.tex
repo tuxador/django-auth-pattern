@@ -1,0 +1,123 @@
+{% autoescape off %}
+{% load staticfiles %}
+\documentclass[12pt,a4paper]{article}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{graphicx}
+\usepackage{xltxtra}
+\usepackage{xunicode}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage[a4paper,left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\setmainfont[Mapping=tex-text]{Linux Libertine O}
+\setsansfont{Linux Biolinum O}
+\setotherlanguage{arabic}
+\newfontfamily\arabicfont[Script=Arabic]{Amiri}
+
+% définir \tightlist pour la compatibilité avec pandoc 1.14
+\providecommand{\tightlist}{%
+	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% \usepackage{amsmath}
+% \usepackage{amsfonts}
+% \usepackage{amssymb}
+\pagestyle{fancy}
+\usepackage{bidi}
+\author{ {{ stimulation.operateur }} }
+\title{stimulation}
+
+{% load staticfiles %}
+  \begin{document}
+	\lhead{\includegraphics[width=0.75cm,keepaspectratio]
+    { {% static  'site/img/logo4.png' %} }
+  \rhead{\small{\textsf{Pacing}}}
+
+\textcolor{MidnightBlue}{ Établissement hospitalier \hfill
+  \textarabic{الـمـؤسـســة الإسـتـشـفــائـيـة}}
+ 
+        \textcolor{MidnightBlue}{ Dr.Benzerdjeb \hfill \textarabic{الـدكـتــور بـن زرجــب}}
+ 
+ 
+ 
+        \textcolor{MidnightBlue}{ Ain Témouchent \hfill \textarabic{عـيـن تـمــوشـنــت}}
+ 
+        \textcolor{MidnightBlue}{Service de Cardiologie \hfill \textarabic{مصلحة أمراض القلب}}
+ 
+        \textcolor{MidnightBlue}{Téléphone et fax:  043 61 35 09 \hfill \textarabic{الهاتف و الفاكس}}
+{% endautoescape %}
+{% autoescape on %}
+
+          \begin{center} \huge{ Protocole opératoire de
+{% if stimulation.epuisement == False %} primo-implantation
+{% else %}changement de boîtier {% endif %}de Pace-maker
+{% if  stimulation.type_stimulation == 'DDD' %} double chambre
+{% else %} mono chambre {% endif %} type {{ stimulation.type_stimulation }} }}
+	
+                             {% endautoescape %}
+{% autoescape off %}
+        
+          \rule{8cm}{0.4pt}
+\end{center}
+        
+        \section*{Patient}
+
+       
+
+        \begin{description}
+
+        \item[Nom prénom:] {{ stimulation.patient }} .
+        \item[Date de l'intervention:] {{ stimulation.intervention_date }}
+
+        \item[indication:] {% for indic in stimulation.indication.all %}{{ indic }}{% endfor  %}
+		\item[Médecin opérateur:] {{ stimulation.operateur }}
+\end{description}
+
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+
+
+\section*{Protocole}
+\begin{description}
+
+	\item[Modèle du PaceMaker:] {{ stimulation.pacemaker}}.  
+	\item[Mode de stimulation:] {{ stimulation.type_stimulation }}
+   \item[Durée de la procédure:] {{ stimulation.duree }}.
+
+				
+		
+   \end{description}
+
+   \begin{center}
+     \rule{8cm}{0.4pt}
+   \end{center}
+
+   \section*{Procédure}
+   {{ stimulation.procedure }}
+   
+   {% if stimulation.complication %}
+     \section*{Complications}
+     \begin{itemize}
+       {% for complication in stimulation.complication.all %}
+       \item{{ complication }}
+         {% endfor %}
+           
+         \end{itemize}
+         
+         {% endif %}
+           
+           \section*{Dispositions complémentaires}
+           
+           {{ stimulation.dispositions }}
+
+
+
+           \fancyfoot[L]{   {{ stimulation.operateur }}  }
+
+           \fancyfoot[R]{ {{ stimulation.intervention_date }} }
+         \end{document}
+
+
+         {% endautoescape %}
+

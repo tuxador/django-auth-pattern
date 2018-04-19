@@ -1,0 +1,138 @@
+{% autoescape off %}
+\documentclass[12pt,a4paper]{article}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{graphicx}
+\usepackage{xltxtra}
+\usepackage{xunicode}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage[a4paper,left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\setmainfont[Mapping=tex-text]{Linux Libertine O}
+\setsansfont{Linux Biolinum O}
+\setotherlanguage{arabic}
+\newfontfamily\arabicfont[Script=Arabic]{Amiri}
+
+% définir \tightlist pour la compatibilité avec pandoc 1.14
+\providecommand{\tightlist}{%
+	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+%\usepackage{amsmath}
+%\usepackage{amsfonts}
+%\usepackage{amssymb}
+\pagestyle{fancy}
+\usepackage{bidi}
+\author{ {{ coronarographie.operateur }} }
+\title{ {% if coronarographie.conclusion %}Coronarographie {% endif %}{% if coronarographie.procedure %}Angioplastie{% endif %} }
+
+{% load staticfiles %}
+\begin{document}
+	\lhead{\includegraphics[width=0.75cm,keepaspectratio]{% static 'site/img/logo.png' %}
+	\rhead{\small{\textsf{Coronarographie}}}
+ \textcolor{MidnightBlue}{ Établissement hospitalier \hfill \textarabic{الـمـؤسـســة الإسـتـشـفــائـيـة}}
+ 
+ \textcolor{MidnightBlue}{ Dr.Benzerdjeb \hfill \textarabic{الـدكـتــور بـن زرجــب}}
+ 
+ 
+ 
+\textcolor{MidnightBlue}{ Ain Témouchent \hfill \textarabic{عـيـن تـمــوشـنــت}}
+ 
+\textcolor{MidnightBlue}{Service de Cardiologie \hfill \textarabic{مصلحة أمراض القلب}}
+ 
+ \textcolor{MidnightBlue}{Téléphone et fax:  043 61 35 09 \hfill \textarabic{الهاتف و الفاكس}}
+
+
+\begin{center} \huge{ {% if coronarographie.conclusion %}Coronarographie {% endif %}{% if coronarographie.procedure %}Angioplastie{% endif %} }
+	
+
+\end{center}
+
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+\section*{Patient}
+\begin{description}
+
+	\item[Nom prénom:] {{ coronarographie.patient }}
+
+	\item[indication:] {% for indic in coronarographie.indication.all %}{{ indic }} {% endfor  %}
+		\item[Médecin opérateur:] {{ coronarographie.operateur }}
+\end{description}
+\section*{matériel et drogues}
+\begin{description}
+
+	\item[Matériel:] {% for guide in coronarographie.guide.all %} {{ guide }} {% endfor %} - 
+					{% for sonde in coronarographie.sonde.all %} {{ sonde }} {% endfor %} 
+					{% for stent in coronarographie.stent.all %}- {{ stent }} {% endfor %}
+	%\item[Drogues] {% for drogue in coronarographie.drogue.all %}{{ drogue }} {% endfor  %}
+
+					{% for ballon in coronarographie.ballon.all %} {{ ballon }} {% endfor %} 
+		\item[produit de contrast:] {{ coronarographie.iode }} cc.
+		
+\end{description}
+
+{% if coronarographie.conclusion %}
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+
+\section*{Réseau coronaire}
+\begin{description}
+	\item[Tronc commun gauche:] {{  coronarographie.tcg }}
+	\item[Interventriculaire antérieure:] {{  coronarographie.iva }}
+	{% if coronarographie.bissectrice %}\item[Bissectrice] {{ coronarographie.bissectrice }} {% endif %}
+	\item[Circonflexe:]{{  coronarographie.circonflexe }}
+	
+	\item[Coronaire droite:] {{  coronarographie.circonflexe }} \\
+
+	\item[Dominance:] {% if coronarographie.dominance == True %}droite{% elif coronarographie.dominance == False %}gauche{% else %}co-dominance {% endif %}
+
+	
+
+\end{description}
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+
+\section*{Conclusion}
+\begin{center} \large{ {{ coronarographie.conclusion }} }
+\end{center}
+
+\subsection*{Décision du \textit{  {{ coronarographie.staff_date }} }}
+\begin{center}
+\large{ {{ coronarographie.decision }} }
+\end{center}
+
+{% endif %}
+
+{% if coronarographie.procedure %}
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+
+\section*{Angioplastie}
+
+{{ coronarographie.procedure }}
+\\
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+
+\section*{Dispositions complémentaires}
+
+
+\begin{center}
+ {{ coronarographie.dispositions }} 
+\end{center}
+
+{% endif %}
+
+\fancyfoot[L]{ {{ coronarographie.operateur }} } 
+
+\fancyfoot[R]{ {{ coronarographie.intervention_date }} }
+\end{document}
+
+{% endautoescape %}
+
+

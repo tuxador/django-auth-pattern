@@ -189,7 +189,8 @@ class Coronarographie(models.Model):
                              on_delete=models.CASCADE)
     emergency = models.BooleanField("urgence", default=False)
     indication = models.ManyToManyField(Indication, blank=True)
-
+    medecin = models.CharField("médecin demandeur", max_length=50,
+                               blank=True, null=True)
     ABORD = (
                 ('R', 'Radial'),
                 ('F', 'Femoral'),
@@ -200,9 +201,19 @@ class Coronarographie(models.Model):
                              choices=ABORD, default='R', null=True)
     sonde = models.ManyToManyField(Sonde, blank=True)
     guide = models.ManyToManyField(Guidwire, blank=True)
+    ballon = models.ManyToManyField(Ballon, blank=True)
     stent = models.ManyToManyField(Stent, blank=True)
     iode = models.PositiveSmallIntegerField("Produit de contrast",
                                             blank=True, null=True)
+    heparin = models.DecimalField("héparine", max_digits=3, decimal_places=2,
+                                  blank=True, null=True)
+    nitro = models.DecimalField("Risordan", max_digits=3, decimal_places=2,
+                                blank=True, null=True)
+    loxen = models.DecimalField("Loxen", max_digits=3, decimal_places=2,
+                                blank=True, null=True)
+    atropine = models.DecimalField("Atropine", max_digits=3, decimal_places=2,
+                                   blank=True, null=True)
+
     tcg = models.CharField(max_length=255, blank=True, null=True)
     iva = models.CharField("IVA", max_length=255, blank=True, null=True)
     iva_prox = models.ForeignKey(Lesion, blank=True,

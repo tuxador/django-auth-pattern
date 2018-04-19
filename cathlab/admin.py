@@ -10,8 +10,8 @@ from .models import *
 class CoronarographieAdmin(admin.ModelAdmin):
 
         list_display = ("patient", "intervention_date", "operateur", "emergency")
-        list_filter = ('patient', 'intervention_date', 'operateur')
-#        search_fields = ('procedure','decision')
+        list_filter = ('intervention_date', 'operateur')
+        search_fields = ('patient', 'decision')
 
 
 class StimulationAdmin(admin.ModelAdmin):

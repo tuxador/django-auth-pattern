@@ -176,8 +176,9 @@
                         <strong>Interventions</strong>
                     </h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p>
-                       coro1
+                   {% for coro in coronarographies %} <p>
+                        <a href="{% url 'cathlab:coro_pdf' slug=patient.slug pk=coro.pk %}"><span class ="fa fa-file-pdf" aria-hidden="true"></span> intervention {{ coro.intervention_date }}</a></p>
+                        {% endfor %} 
                     </p>
                     <p>
                         coro2

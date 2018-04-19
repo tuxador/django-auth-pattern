@@ -1,0 +1,233 @@
+\mainlanguage[fr]
+\setuppagenumbering[alternative=singlesided,location={footer,inright},
+                    right={ de \totalnumberofpages},
+                    ]
+\setuplayout[header=1cm,leftmargin=1.5cm,rightmargin=1.5cm,footer=1.5cm]
+\definefontfeature[default][default][protrusion=quality,expansion=quality,script=latn]
+\definefontfamily[kad][serif][Linux Libertine O]
+\definefontfamily[kad][sans] [Gillius ADF]
+\definefontfamily[kad][mono] [TeX Gyre Cursor][features=none]
+\definefontfamily[kad][math] [TeX Gyre Pagella Math]
+
+
+\definelayer[logo]	% name of the layer
+    [x=0mm, y=0mm,	% from upper left corner of paper
+      width=\paperwidth, height=\paperheight, % let the layer cover the full paper
+      state=start,
+    ]
+\definelayer[sidelogo]	% name of the layer
+    [x=0mm, y=0mm,	% from upper left corner of paper
+     width=\paperwidth, height=\paperheight, % let the layer cover the full paper
+     state=continue,
+     ]
+
+\setupbackgrounds[page][background={logo,sidelogo}]
+%\setupbackgrounds[page][background={sidelogo}, state=continue]
+    \setlayer[logo]
+    [state=start,hoffset=6.5cm,voffset=1cm]{\externalfigure[kardia]}
+ \setlayer[sidelogo]
+    [state=continue,hoffset=1cm,voffset=1cm]{\externalfigure[kardia][width=2cm]}
+\setupfootertexts[\setups{footertext}]
+
+\startsetups footertext
+  \framed[frame=off, align=normal, style={\ssx}]
+      {Clinique {\sc Kardia}, Cité Sonelgaz  lot n°75/76 Gué de Constantine, Alger\\ Tél/Fax: 021 83 80 13/021 83 20 36 - Email: \from[kardia-email] }
+\stopsetups
+
+\setupbodyfont[kad,11pt]
+
+\usesymbols[fontawesome]
+
+\define\FA{\dosingleargument\doFA}
+\def\doFA[#1]{\inlinedbox
+    {\scale[height=1em]{\symbol[fontawesome][#1]}}} %to scale fontawesome with mainfont
+
+\definecolor[darkgray]  [s=0.5]
+\definecolor[lightgray] [s=0.95]
+\definecolor[darkred]   [r=0.6]
+\definecolor[darkgreen] [g=0.6]
+\definecolor[darkblue]  [b=0.6]
+\definecolor[cyan][r=0.02,g=0.49,b=0.52]
+
+\definecolor[lightred]   [0.95(red,white)]
+\definecolor[lightgreen] [0.95(green,white)]
+\definecolor[lightblue]  [0.95(blue,white)]
+\setuphead[subject][color=darkred,style=\ssa\bf] 
+\setuphead[subsubject][color=darkred, style=\ss\bf]
+\setuphead[subsubsubject][color=cyan, style=\ss]
+
+\defineframedtext[leftbartext]
+  [ width=broad,
+    frame=off,
+    framecolor=darkgray,
+    leftframe=on,
+    rulethickness=2ex,
+    offset=0.25ex,
+    loffset=3ex, 
+    background=color,
+    backgroundcolor=lightgray,
+    ]
+ \defineframedtext
+  [exampletext]
+  [leftbartext]
+  [
+    framecolor=cyan,
+    backgroundcolor=lightgreen,
+  ]
+
+\defineframedtext
+  [alerttext]
+  [leftbartext]
+  [
+    framecolor=darkred,
+    backgroundcolor=lightred,
+  ]
+
+\defineframedtext
+  [blocktext]
+  [leftbartext]
+  [
+    framecolor=darkblue,
+    backgroundcolor=lightblue,
+  ]   
+\define\FA{\dosingleargument\doFA}
+\def\doFA[#1]{\inlinedbox
+    {\scale[height=1em]{\symbol[fontawesome][#1]}}}
+\useURL[kardia-email][mailto:contact@cliniquekardia.com][][contact@cliniquekardia.com]
+\definedescription
+   [description]
+   [headstyle=\ss\bf, headcolor=cyan, style=, location=hanging, width=broad, margin=2ex, alternative=hanging]
+\startsetups table:width
+  \setupTABLE[align={hyphenated,normal}]
+  \setupTABLE[column][1][width=0.3\textwidth]
+  \setupTABLE[column][2][width=0.4\textwidth]
+  \setupTABLE[column][3][width=0.3\textwidth]
+\stopsetups
+% table des patients
+\startsetups table:style
+\setupTABLE[frame=off]
+\setupTABLE[r][1][style=\ss]
+\setupTABLE[r][2][style=\bf]
+\setupTABLE[r][3][style=\ss]
+\setupTABLE[c][3][align=left]
+\setupTABLE[c][2][align=center]
+\setupTABLE[r][4][style=\bf] % how to override the \tt in the second column?
+\stopsetups
+%protocole du stress
+\startsetups table:protocole
+\setupTABLE[frame=off,option=stretch]
+      \setupTABLE[row][odd][background=color, backgroundcolor=lightgreen]
+      \setupTABLE[row][1][style={\ss\bf}, background=color,
+                             backgroundcolor=cyan, foregroundcolor=white]
+      \setupTABLE[column][1][style={\ssx\bf}]
+      \setupTABLE[column][5][align=right]
+      \setupTABLE[column][3][align=center]
+
+\stopsetups
+
+
+\starttext
+
+
+  \startalignment[middle]
+ \dontleavehmode
+\framed
+  [frame=on,
+    framecolor=darkred,
+    background=color,
+    backgroundcolor=,
+    corner=round,
+    offset=0.3cm,
+   ]
+  {\ssc \bf Coronarographie}
+\stopalignment
+
+\blank[1cm]
+
+%\subject[patient]{Patient}
+
+\startframed[frame=on,
+    framecolor=darkred,
+    background=color,
+    backgroundcolor=,
+    corner=round,
+    offset=0.3cm,
+   ]
+
+%\placetable[none]{}
+ {\bTABLE[setups={table:style, table:width}]
+   \bTR
+   \bTD nom \& prénoms \eTD
+   \bTD date de naissance \eTD
+   \bTD Adresse \eTD
+   \eTR
+   \bTR
+   \bTD {{ patient.name }} \eTD
+   \bTD {{ patient.birth }} \eTD
+   \bTD {{ patient.adresse }} \eTD
+   \eTR
+   \bTR
+   \bTD indication \eTD
+   \bTD médecin correspondant\eTD
+   \bTD assurance \eTD
+   \eTR
+\bTR
+   \bTD {% for indication in coronarographie.indication.all %}{{ indication }} - {% endfor %}\eTD
+   \bTD {{ coronarographie.medecin }}\eTD
+   \bTD {% if patient.assurance == 'C' %}CNAS {% elif patient.assurance == 'S' %}CASNOS{% endif %} \eTD
+   \eTR
+\eTABLE} 
+\stopframed
+\startdescription{Abord artériel}
+{% if coronarographie.abord == 'F' %}fémorale{% elif coronarographie.abord == 'O' %}autre {% else %}radial{% endif %} 
+\stopdescription
+\startdescription{Matériel}
+ {% for sonde in coronarographie.sonde.all %}{{ sonde }} {% endfor %} - {% for guide in coronarographie.guide.all %}{{ guide }} {% endfor %} - {% for stent in coronarographie.stent.all %}{{ stent }} {% endfor %}
+\stopdescription
+
+\startdescription{Produits}
+ PDC {{ coronarographie.iode }}cc - Héparine {{ coronarographie.heparin }}cc {% if coronarographie.loxen %}- Loxen {{ coronarographie.loxen }}cc{% endif %}{% if coronarographie.nitro %} - Risordan {{ coronarographie.nitro }}cc{% endif %}.
+\stopdescription
+\subsubject{Réseau coronaire}
+\startdescription{TCG}
+{{ coronarographie.tcg }}
+\stopdescription
+\startdescription{IVA}
+{{ coronarographie.iva }}
+\stopdescription
+{% if coronarographie.bissectrice %}
+\startdescription{Bissectrice}
+{{ coronarographie.bissectrice }}
+\stopdescription
+{% endif %}
+\startdescription{Cx}
+{{ coronarographie.circonflexe }}
+
+\stopdescription
+\startdescription{CD}
+
+{{ coronarographie.coronaire_dte }} 
+\stopdescription
+
+%\bTABLE[setups={table:protocole}]
+%
+%\bTR \bTD \eTD \bTD Symptômes \eTD \bTD PA \eTD \bTD ECG \eTD \bTD echocoeur \eTD \eTR
+%\bTR \bTD Base \eTD \bTD - \eTD \bTD 100/70 \eTD \bTD Normal \eTD \bTD  cinétique homogène\eTD\eTR
+%\bTR \bTD Low-dose \eTD \bTD - \eTD \bTD 120/70 \eTD \bTD non modifié \eTD\bTD pas de modifications de la cinétique\eTD\eTR
+%\bTR \bTD Peak-dose \eTD \bTD - \eTD \bTD 130/90 \eTD \bTD non modifié \eTD \bTD Cinétique normale\eTD \eTR
+%\bTR \bTD Récup. \eTD \bTD - \eTD \bTD 100/70 \eTD \bTD non modifié \eTD \bTD cinétique homogène \eTD\eTR
+%\eTABLE
+
+\subsubject[conclusion]{Conclusion}
+\startalerttext
+{{ coronarographie.conclusion }}
+\stopalerttext
+\subsubsubject[décision thérapeutique]{Décision thérapeutique}
+\startexampletext
+  {{ coronarographie.decision }} .
+\stopexampletext
+\blank[1cm]
+\raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\
+  Alger le \currentdate \hspace[2em]
+  }
+\stoptext

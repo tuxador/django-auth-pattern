@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Patient, Consultation, Stress, Admission, FicheTechnique
 from correspondence.models import (Ordonnance, Courrier, Certificat,
                                    Arret, Stomato)
+from cathlab.models import Coronarographie, Coroscan
 from django.views.generic import (ListView, DetailView, TemplateView,
                                   CreateView, UpdateView)
 from django.http import HttpResponse
@@ -63,8 +64,8 @@ class DetailPatient(DetailView):
         context['certificats'] = Certificat.objects.filter(patient=self.object)
         context['arrets'] = Arret.objects.filter(patient=self.object)
         context['stomatos'] = Stomato.objects.filter(patient=self.object)
-#        context['biologies'] = Biology.objects.filter(patient=self.object)
-#        context['coronarographies'] = Coronarographie.objects.filter(patient=self.object)
+        context['coroscans'] = Coroscan.objects.filter(patient=self.object)
+        context['coronarographies'] = Coronarographie.objects.filter(patient=self.object)
 #       context['stimulations'] = Stimulation.objects.filter(patient=self.object)
         return context
 

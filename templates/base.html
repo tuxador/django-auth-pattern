@@ -49,18 +49,18 @@
                         <a class="nav-link" href="{% url 'clinic:patients' %}">patients</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">réception</a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">cardio</a>
                         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="{% url 'clinic:create_patient' %}">nouveau patient</a>
                             <a class="dropdown-item" href="{% url 'clinic:create_consultation' %}">nouv. consultation</a>
-                            <a class="dropdown-item" href="{% url 'clinic:create_admission' %}">certificat</a>
+                            <a class="dropdown-item" href="{% url 'clinic:create_admission' %}">nouv. admission</a>
                             <a class="dropdown-item" href="{% url 'clinic:create_fiche_technique' %}">nouv. fiche technique</a>
                             <a class="dropdown-item" href="{% url 'clinic:create_stress' %}">nouv. stress echo</a>
                         </div>
                     </li>
                     <!-- Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ajouter</a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">certificats</a>
                         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="{% url 'correspondence:courrier_new' %}">courrier</a>
                             <a class="dropdown-item" href="{% url 'correspondence:arret_new' %}">arrêt de travail</a>

@@ -1,10 +1,11 @@
 from django.urls import path
+from . import views
 
-#from . import views
 
-#urlpatterns = [
-#    path('articles/2003/', views.special_case_2003),
-#    path('articles/<int:year>/', views.year_archive),
-#    path('articles/<int:year>/<int:month>/', views.month_archive),
-#    path('articles/<int:year>/<int:month>/<slug:slug>/', views.article_detail),
-#] 
+app_name='cathlab'
+urlpatterns = [
+    path('<slug:slug>_coro<int:pk>.pdf',
+         views.coronarographie_pdf, name='coro_pdf'),
+    path('<slug:slug>_coroscan<int:pk>.pdf',
+         views.coroscan_pdf, name='coroscan_pdf'),
+    ]
