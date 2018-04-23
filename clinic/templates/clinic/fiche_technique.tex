@@ -142,7 +142,7 @@
   {\ssc \bf Fiche technique}
 \stopalignment
 
-\blank[2cm]
+\blank[1cm]
 
 %\subject[patient]{Patient}
 
@@ -180,16 +180,16 @@
 \eTABLE} 
 \stopframed
 
-{\bf poids:} {{ patient.weight }} kg \hfill {\bf taille:} {{ patient.length }} m \hfill {\bf SC} {{ patient.body_area }} m2.
+{\sc Poids:} {{ patient.weight }} kg \hfill {\sc Taille:} {{ patient.length }} m \hfill {\sc SC} {{ patient.body_area }} m2.
 
-{\bf Diagnostic exact:} {{ fiche.diagnostic }}
+{\sc Diagnostic exact:} {{ fiche.diagnostic }}
 
-{\bf Pathologies associées:} {{ fiche.pthologies_assoc }}
+{\sc Pathologies associées:} {{ fiche.pthologies_assoc }}
 
-{\bf Antécedents de chirurgie cardiaque ou de geste interventionnel:} {{ fiche.surgery_history }}
+{\sc Antécedents de chirurgie cardiaque ou de geste interventionnel:} {{ fiche.surgery_history }}
 
 
-{\bf FDR:}
+{\sc FDR:}
 \startitemize[n,columns, two, packed]
 {% if patient.hta == true %}\startitem HTA \stopitem {% endif %}
 {% if patient.diabete == true %}\startitem Diabète \stopitem {% endif %}
@@ -200,58 +200,83 @@
 {% if patient.heredity == true %}\startitem Héredité coronarienne\stopitem {% endif %}
 \stopitemize
 
-{\bf Stade fonctionnel NYHA:} {{ fiche.nyha }}
+{\sc Stade fonctionnel NYHA:} {{ fiche.nyha }}
 
-{\bf Téléthorax (avec ICT):} {{ fiche.telethorax }}
+{\sc Téléthorax (avec ICT):} {{ fiche.telethorax }}
 
-{\bf ECG:} {{ fiche.ecg }}
+{\sc ECG:} {{ fiche.ecg }}
 
-{\bf Échocoeur (conclusion) :} {{ fiche.echocoeur }}
+{\sc Échocoeur (conclusion) :} {{ fiche.echocoeur }}
 
-{\bf FEVG:} {{ fiche.fevg }} \% \hfill{\bf PAPS:} {{ fiche.paps }} mmHg \hfill{\bf Taill et vacuité de l'OG:} {{ fiche.taille_og }} \hfill{\bf Fonction VD:} {{ fiche.vd }}
+{\sc FEVG:} {{ fiche.fevg }} \% \hfill{\sc PAPS:} {{ fiche.paps }} mmHg \hfill{\sc Taill et vacuité de l'OG:} {{ fiche.taille_og }} \hfill{\sc Fonction VD:} {{ fiche.vd }}
 
 
-{\bf Atteinte valvulaire (grade):} {{ fiche.valvulopathie }}
+{\sc Atteinte valvulaire (grade):} {{ fiche.valvulopathie }}
 
-{\bf Etat de l'aorte:} {{ fiche.aorte }}
+{\sc Etat de l'aorte:} {{ fiche.aorte }}
 
-{\bf Test d'ischémie:} {% if fiche.test_ischemie == 'R' %}IRM cardiaque
+{\sc Test d'ischémie:} {% if fiche.test_ischemie == 'R' %}IRM cardiaque
                        {% elif fiche.test_ischemie == 'C' %} coroscan
                        {% elif fiche.test_ischemie == 'M' %} scintigraphie myocardique
                        {% elif fiche.test_ischemie == 'S' %} stress echo
                        {% elif fiche.test_ischemie == 'E' %} épreuve d'effort{% endif %}
 
-{\bf Résultat du test d'ischémie:} {{ fiche.result_test_ischemie }}
+{\sc Résultat du test d'ischémie:} {{ fiche.result_test_ischemie }}
 
-{\bf Etat des coronaires (coronarographie):} {{ fiche.coro }}
+{\sc Etat des coronaires (coronarographie):} {{ fiche.coro }}
 
-{\bf Syntax score:} {{ fiche.syntax }}
+{\sc Syntax score:} {{ fiche.syntax }}
 
-{\bf Etat des coronaires (coroscanner):} {{ fiche.coroscan }}
+{\sc Etat des coronaires (coroscanner):} {{ fiche.coroscan }}
 
-{\bf Etat des artères périph au doppler ou à l'angio:} {{ fiche.periph }}
+{\sc Etat des artères périph au doppler ou à l'angio:} {{ fiche.periph }}
 
-{\bf Fonction reale (clearance):} {{ fiche.clearance_cr }} ml/min \hfill {\bf (débit de filration glomérulaire:} {{ fiche.dfg }} ml/min/m2
-
-
-{\bf Fonction respiratoire (EFR):} {{ fiche.respir }}
+{\sc Fonction reale (clearance):} {{ fiche.clearance_cr }} ml/min \hfill {\sc (débit de filration glomérulaire:} {{ fiche.dfg }} ml/min/m2
 
 
-{\bf Etat dentaire :} {{ fiche.dentaire }}
+{\sc Fonction respiratoire (EFR):} {{ fiche.respir }}
 
 
-{\bf Biologie principales anomalies:} {{ fiche.biology }}
+{\sc Etat dentaire :} {{ fiche.dentaire }}
 
 
-{\bf Allergies:} {{ patient.allergy }}
+{\sc Biologie principales anomalies:} {{ fiche.biology }}
+\startitemize[2,columns,two,packed]
+\startitem  glycémie {{ fiche.glycemia }} g/l\stopitem 
+\startitem  créatinine {{ fiche.creatinin }} mg/l\stopitem 
+\startitem  Cl_cr {{ fiche.clearance_cr }} ml/min
+{% if fiche.dfb %}- DFG {{ fiche.dfg }} ml/min/1.73m²{% endif %}
+\stopitem
+\startitem  urémie {{ fiche.uremia }} g/l\stopitem 
+\startitem  hémoglobinémie {{ fiche.hemoglobin }} g/dl\stopitem 
+\startitem  plaquettes {{ fiche.platlets }}.000 elt/mm3\stopitem 
+\startitem  globules blancs {{ fiche.wbc }} g/l\stopitem 
+\startitem  TP {{ fiche.tp }}\% \stopitem 
+\startitem  fibrinogènémie {{ fiche.fibrinogen }} g/l\stopitem 
+\startitem  férritine {{ fiche.ferretin }} g/l\stopitem 
+\startitem  calcémie {{ fiche.calcemia }} g/l\stopitem 
+\startitem  hba1c {{ fiche.hba1c }} \% \stopitem 
+\startitem  choletesterol total {{ fiche.cholesterol }} g/l \stopitem 
+\startitem  triglycérides {{ fiche.triglyceride }} g/l \stopitem 
+\startitem  hdl {{ fiche.hdl }} g/l \stopitem 
+\startitem  ldl {{ fiche.ldl }} g/l \stopitem 
+\startitem  sérologies HBS {% if fiche.hbv == true %} (+) {% elif fiche.hbv == false %} (-){% else %} *{% endif %}\stopitem 
+\startitem  sérologies HCV {% if fiche.hcv == true %} (+) {% elif fiche.hcv == false %} (-){% else %} *{% endif %}\stopitem 
+\startitem  sérologies HIV {% if fiche.hiv == true %} (+) {% elif fiche.hiv == false %} (-){% else %} *{% endif %}\stopitem 
+\stopitemize
 
 
-{\bf Traitement médical:} {{ fiche.traitement }}
+{\sc Allergies:} {{ patient.allergy }}
 
 
-{\bf Évaluation du risque opératoire:} {{ fiche.risk }}
+{\sc Traitement médical:} {{ fiche.traitement }}
 
 
+{\sc Évaluation du risque opératoire:} {{ fiche.risk }}
+
+
+{\sc Décision du médecin traitant:} {{ fiche.decision }}
+{\sc Actes demandés:} {{ fiche.quotation1 }}
 
 signature (medecin traitant de la clinique)
 

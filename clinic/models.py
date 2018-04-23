@@ -543,7 +543,7 @@ class FicheTechnique(models.Model):
                                      decimal_places=1, blank=True, null=True)
     platlets = models.PositiveSmallIntegerField("plaquettes (1000elt/mm3)",
                                                 blank=True, null=True)
-    wbc = models.PositiveSmallIntegerField("globules blancs (1000elt/mm3)",
+    wbc = models.PositiveSmallIntegerField("globules blancs (elt/mm3)",
                                            blank=True, null=True)
     tp = models.PositiveSmallIntegerField("TP %",
                                           blank=True, null=True)
