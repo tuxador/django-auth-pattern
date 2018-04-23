@@ -526,32 +526,35 @@ class FicheTechnique(models.Model):
     biology = models.TextField("Biologie: principales anomalies",
                                blank=True)
 
-    glycemia = models.DecimalField(max_digits=4, decimal_places=2,
+    glycemia = models.DecimalField("glucémie g/l", max_digits=4,
+                                   decimal_places=2,
                                    blank=True, null=True)
-    creatinin = models.DecimalField("créatininémie", max_digits=5,
+    creatinin = models.DecimalField("créatininémie mg/l", max_digits=5,
                                     decimal_places=2, blank=True, null=True)
-    clearance_cr = models.PositiveSmallIntegerField("Fonction rénale (clearance)",
-                                                    null=True, blank=True)
-    dfg = models.PositiveSmallIntegerField("Fonction rénale (DFG)",
-                                           null=True, blank=True)
-    uremia = models.DecimalField("urémie", max_digits=3,
+    clearance_cr = models.DecimalField("Fonction rénale (clearance ml/min)",
+                                       max_digits=5, decimal_places=2,
+                                       null=True, blank=True)
+    dfg = models.DecimalField("Fonction rénale (DFG ml/min/1.73m2)",
+                              max_digits=5, decimal_places=2,
+                              null=True, blank=True)
+    uremia = models.DecimalField("urémie (g/l)", max_digits=3,
                                  decimal_places=2, blank=True, null=True)
-    hemoglobin = models.DecimalField("héoglobinémie", max_digits=3,
+    hemoglobin = models.DecimalField("héoglobinémie (g/dl)", max_digits=3,
                                      decimal_places=1, blank=True, null=True)
-    platlets = models.PositiveSmallIntegerField("plaquettes",
+    platlets = models.PositiveSmallIntegerField("plaquettes (1000elt/mm3)",
                                                 blank=True, null=True)
-    wbc = models.PositiveSmallIntegerField("globules blancs",
+    wbc = models.PositiveSmallIntegerField("globules blancs (1000elt/mm3)",
                                            blank=True, null=True)
-    tp = models.PositiveSmallIntegerField("TP",
+    tp = models.PositiveSmallIntegerField("TP %",
                                           blank=True, null=True)
 
-    fibrinogen = models.DecimalField("fibrinogénémie", max_digits=3,
+    fibrinogen = models.DecimalField("fibrinogénémie (g/l)", max_digits=3,
                                      decimal_places=2, blank=True, null=True)
     ferretin = models.PositiveSmallIntegerField("ferritinémie",
                                                 blank=True, null=True)
-    calcemia = models.PositiveSmallIntegerField("calcémie",
-                                                blank=True, null=True)
-    hba1c = models.DecimalField("HBA1c", max_digits=3,
+    calcemia = models.DecimalField("calcémie (mg/l)", max_digits=6, decimal_places=2,
+                                   blank=True, null=True)
+    hba1c = models.DecimalField("HBA1c %", max_digits=3,
                                 decimal_places=1, blank=True, null=True)
 
     cholesterol = models.DecimalField(max_digits=3, decimal_places=2,
@@ -571,8 +574,13 @@ class FicheTechnique(models.Model):
                             blank=True)
     decision = models.CharField("décision du médecin traitant",
                                 max_length=255, blank=True)
-    quotation = models.ManyToManyField('billing.Quotation',
-                                       blank=True, null=True)
+    quotation1 = models.ManyToManyField('billing.Quotation', related_name="q1",
+                                        blank=True, null=True)
+    quotation2 = models.ManyToManyField('billing.Quotation', related_name="q2",
+                                        blank=True, null=True)
+
+    quotation3 = models.ManyToManyField('billing.Quotation', related_name="q3",
+                                        blank=True, null=True)
 
     def __str__(self):
 

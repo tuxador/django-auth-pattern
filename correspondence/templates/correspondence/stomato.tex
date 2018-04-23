@@ -132,7 +132,7 @@ je {% if stomato.salutation == 'A' %}te{% else %}vous{% endif %} confie  {% if p
 
 {% if patient.gender == 'F' %}La patiente{% else %} Le patient {%  endif %} présente {{ stomato.diagnostic }}.
 
-{\bf Risque hémorragique:} {% if stomato.thrombotic_risk == 'I' %}important, patient sous anticoagulants. INR cible à {{ stomato.inr_cible }}. Relais par Lovenox {{ stomato.lovenox }} mg X2/j en sous-cutané.  
+{\bf Risque thrombo embolique:} {% if stomato.thrombotic_risk == 'I' %}important, patient sous anticoagulants. INR cible à {{ stomato.inr_cible }}. Relais par Lovenox {{ stomato.lovenox }} mg X2/j en sous-cutané.  
 {% elif stomato.thrombotic_risk == 'M' %}modéré, patient sous anticoagulants. Possibilité de maintenir ou diminuer la dose de Sintrom pour atteindre une INR cible à {{ stomato.inr_cible }}. Relais par Lovenox pas nécessaire.
 {% else %} faible.{% endif %}
 
