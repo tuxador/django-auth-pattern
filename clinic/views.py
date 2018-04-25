@@ -131,13 +131,13 @@ class UpdateAdmission(UpdateView):
 class CreateFicheTechnique(CreateView):
     model = FicheTechnique
     fields = "__all__"
-    success_url = 'clinique/patients'
+    success_url = '/'
 
 
 class UpdateFicheTechnique(UpdateView):
     model = FicheTechnique
     fields = "__all__"
-    success_url = 'clinique/patients'
+    success_url = '/'
 
 
 class CreateStress(CreateView):

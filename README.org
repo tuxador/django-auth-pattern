@@ -134,6 +134,10 @@ To search for images in other directories, for example
 \setupexternalfigures[directory={images, /home/user/images}]
 #+END_SRC
 
+** TODO using pathlib in views
+[[pathlib.readthedocs.io][pathlib]] is a very useful addition to  *python >=3.4* ,
+ it comes with useful tools such as the `/` operator
+
 * Fiche technique
 nom - prénom - date et lieu de naissance
 age - medecin traitant

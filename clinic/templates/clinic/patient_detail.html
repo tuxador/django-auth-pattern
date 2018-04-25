@@ -16,7 +16,7 @@
     <div class="container">
 
         <section class="card wow fadeIn">
-            <h2>{% if patient.gender == 'F' %} <i class="fa fa-female mr-3">{% else %}<i class="fa fa-male">{% endif %} </i> {{ patient.name }} <small> {{ patient.birth }}</small></h2>
+            <h2>{% if patient.gender == 'F' %} <i class="fa fa-female mr-3">{% else %}<i class="fa fa-male">{% endif %} </i> {{ patient.name }} <small> {{ patient.birth }} ({{ patient.age }} ans) </small></h2>
 <p><small><i class="fa fa-address-card mr-3"></i> {{ patient.adresse }}  
     <i class="fa fa-phone mr-3"></i> {{ patient.phone }}</small> </p>
 

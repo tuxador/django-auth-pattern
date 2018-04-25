@@ -22,7 +22,7 @@
             <td>{{ patient.birth }}</td>
 
             <td>{% if patient.gender == 'F' %} <i class="fa fa-venus ">{% elif patient.gender == 'M' %}<i class="fa fa-mars"> {% else %} indéterminé {% endif %}</td>
-            <td>{% if patient.hta == true %}HTA {% endif %} {% if patient.diabete == true %} diabète {% endif %}{% if patient.dyslipidemia == true %} dyslipidémie {% endif %}{% if patient.obesity == true %} obésité {% endif %}{% if patient.heredity == true %} Hérédité coronaire {% endif %}{% if patient.sedentarity == true %}sédentarité {% endif %}{% if patient.smoker == true %} tabagisme {% endif %}</td>
+            <td>{% if patient.hta == True %}HTA {% endif %} {% if patient.diabete == True %} diabète {% endif %} {% if patient.dyslipidemia == True %} dyslipidémie {% endif %} {% if patient.obesity == True %} obésité {% endif %}{% if patient.heredity == True %} Hérédité coronaire {% endif %} {% if patient.sedentarity == True %}sédentarité {% endif %} {% if patient.smoker == True %} tabagisme {% endif %}</td>
 
             <td>{{ patient.history }}</td>
             <td>{% for tag in patient.tags.all %} <span class="badge badge-md amber darken-2">{{ tag }}</span>  {% endfor %}

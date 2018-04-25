@@ -117,7 +117,7 @@ class Patient(models.Model):
 
     @property
     def age(self):
-        return int((datetime.now().date() - self.birth_date).days / 365.25)
+        return int((datetime.now().date() - self.birth).days / 365.25)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -547,13 +547,19 @@ class FicheTechnique(models.Model):
                                            blank=True, null=True)
     tp = models.PositiveSmallIntegerField("TP %",
                                           blank=True, null=True)
+    crp = models.DecimalField("CRP (mg/l)", max_digits=5,
+                              decimal_places=2, blank=True, null=True)
+    vs_h1 = models.PositiveSmallIntegerField("VS H1 (mm)",
+                                             blank=True, null=True)
+    vs_h2 = models.PositiveSmallIntegerField("VS H2 (mm)",
+                                             blank=True, null=True)
 
     fibrinogen = models.DecimalField("fibrinogénémie (g/l)", max_digits=3,
                                      decimal_places=2, blank=True, null=True)
-    ferretin = models.PositiveSmallIntegerField("ferritinémie",
-                                                blank=True, null=True)
-    calcemia = models.DecimalField("calcémie (mg/l)", max_digits=6, decimal_places=2,
-                                   blank=True, null=True)
+    ferretin = models.DecimalField("ferritinémie", max_digits=5,
+                                   decimal_places=2, blank=True, null=True)
+    calcemia = models.DecimalField("calcémie (mg/l)", max_digits=6,
+                                   decimal_places=2,blank=True, null=True)
     hba1c = models.DecimalField("HBA1c %", max_digits=3,
                                 decimal_places=1, blank=True, null=True)
 
