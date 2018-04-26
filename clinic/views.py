@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import Patient, Consultation, Stress, Admission, FicheTechnique
+from .forms import PatientForm
+from django.utils.text import slugify
 from correspondence.models import (Ordonnance, Courrier, Certificat,
                                    Arret, Stomato)
 from cathlab.models import Coronarographie, Coroscan
@@ -89,13 +91,18 @@ class CurrentAdmissions(ListView):
 
 class CreatePatient(CreateView):
     model = Patient
-    fields = "__all__"
-    success_url = 'clinique/patients'
+    form_class = PatientForm  # fields = '__all__'
+    success_url = '/'
+
+#    def form_valid(self, form):
+#        form.instance.slug = slugify(form.instance.name, form.instance.birth)
+#        form.save()
+#        return super().form_valid(form)
 
 
 class UpdatePatient(UpdateView):
     model = Patient
-    fields = '__all__'
+    form_class = PatientForm  # fields = '__all__'
 #    group_required = u'Cardiologues'
 #    form = PatientForm
 #    success_url = reverse_lazy('detail_patient')

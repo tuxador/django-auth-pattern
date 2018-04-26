@@ -13,6 +13,10 @@ class Wilaya(models.Model):
     wilaya = models.CharField(max_length=25)
     code = models.PositiveSmallIntegerField(null=True)
 
+    class Meta:
+        ordering = ['code']
+
+
     def __str__(self):
         return(self.wilaya)
 
@@ -39,7 +43,7 @@ class Patient(models.Model):
     birth = models.DateField(verbose_name="date de naissance")
     birth_place = models.ForeignKey(Wilaya,
                                     verbose_name="lieu de naisssance",
-                                    on_delete=models.CASCADE,
+                                    on_delete=models.SET_NULL,
                                     related_name='originaires',
                                     blank=True, null=True)
     GENDER_CHOICES = (
@@ -49,7 +53,7 @@ class Patient(models.Model):
                 )
     gender = models.CharField(verbose_name="sexe",
                               max_length=1, choices=GENDER_CHOICES)
-    adresse = models.ForeignKey(Wilaya, on_delete=models.CASCADE,
+    adresse = models.ForeignKey(Wilaya, on_delete=models.SET_NULL,
                                 related_name='demeurants', blank=True,
                                 null=True)
     phone = models.CharField("Téléphone", max_length=10,
@@ -525,8 +529,16 @@ class FicheTechnique(models.Model):
                                 max_length=255, blank=True)
     biology = models.TextField("Biologie: principales anomalies",
                                blank=True)
+    echo_abdo = models.TextField("échographie abdominale",
+                                 blank=True)
 
-    glycemia = models.DecimalField("glucémie g/l", max_digits=4,
+    glycemia = models.DecimalField("glycémie g/l", max_digits=4,
+                                   decimal_places=2,
+                                   blank=True, null=True)
+    natremia = models.DecimalField("natrémie meq/l", max_digits=4,
+                                   decimal_places=1,
+                                   blank=True, null=True)
+    kaliemia = models.DecimalField("kaliémie meq/l", max_digits=3,
                                    decimal_places=2,
                                    blank=True, null=True)
     creatinin = models.DecimalField("créatininémie mg/l", max_digits=5,
@@ -539,7 +551,7 @@ class FicheTechnique(models.Model):
                               null=True, blank=True)
     uremia = models.DecimalField("urémie (g/l)", max_digits=3,
                                  decimal_places=2, blank=True, null=True)
-    hemoglobin = models.DecimalField("héoglobinémie (g/dl)", max_digits=3,
+    hemoglobin = models.DecimalField("hémoglobinémie (g/dl)", max_digits=3,
                                      decimal_places=1, blank=True, null=True)
     platlets = models.PositiveSmallIntegerField("plaquettes (1000elt/mm3)",
                                                 blank=True, null=True)
@@ -559,17 +571,19 @@ class FicheTechnique(models.Model):
     ferretin = models.DecimalField("ferritinémie", max_digits=5,
                                    decimal_places=2, blank=True, null=True)
     calcemia = models.DecimalField("calcémie (mg/l)", max_digits=6,
-                                   decimal_places=2,blank=True, null=True)
+                                   decimal_places=2, blank=True, null=True)
     hba1c = models.DecimalField("HBA1c %", max_digits=3,
                                 decimal_places=1, blank=True, null=True)
 
-    cholesterol = models.DecimalField(max_digits=3, decimal_places=2,
+    cholesterol = models.DecimalField("choletérol total",
+                                      max_digits=3, decimal_places=2,
                                       blank=True, null=True)
-    triglyceride = models.DecimalField(max_digits=3, decimal_places=2,
+    triglyceride = models.DecimalField("triglycérides",
+                                       max_digits=3, decimal_places=2,
                                        blank=True, null=True)
-    hdl = models.DecimalField(max_digits=3, decimal_places=2,
+    hdl = models.DecimalField("HDL", max_digits=3, decimal_places=2,
                               blank=True, null=True)
-    ldl = models.DecimalField(max_digits=3, decimal_places=2,
+    ldl = models.DecimalField("LDL", max_digits=3, decimal_places=2,
                               blank=True, null=True)
     hbv = models.NullBooleanField("sérologie HBS")
     hcv = models.NullBooleanField("sérologie HCV")
@@ -581,12 +595,12 @@ class FicheTechnique(models.Model):
     decision = models.CharField("décision du médecin traitant",
                                 max_length=255, blank=True)
     quotation1 = models.ManyToManyField('billing.Quotation', related_name="q1",
-                                        blank=True, null=True)
+                                        blank=True)
     quotation2 = models.ManyToManyField('billing.Quotation', related_name="q2",
-                                        blank=True, null=True)
+                                        blank=True)
 
     quotation3 = models.ManyToManyField('billing.Quotation', related_name="q3",
-                                        blank=True, null=True)
+                                        blank=True)
 
     def __str__(self):
 

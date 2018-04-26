@@ -109,11 +109,15 @@ class FicheTechniqueAdmin(admin.ModelAdmin, ExportCsvMixin):
         actions = ["export_as_csv"]
 
 
+class WilayaAdmin(admin.ModelAdmin, ExportCsvMixin):
+
+        list_display = ("code", "wilaya")
+
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Reception, ReceptionAdmin)
 admin.site.register(Motif)
 admin.site.register(Prestation)
-admin.site.register(Wilaya)
+admin.site.register(Wilaya,WilayaAdmin)
 admin.site.register(Consultation, ConsultationAdmin)
 admin.site.register(Admission, AdmissionAdmin)
 admin.site.register(Stress, StressAdmin)
