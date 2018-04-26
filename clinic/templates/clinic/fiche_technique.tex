@@ -115,6 +115,16 @@
 \setupTABLE[c][2][align=center]
 \setupTABLE[r][4][style=\bf] % how to override the \tt in the second column?
 \stopsetups
+%table bio
+\startsetups table:bio
+\setupTABLE[frame=off]
+\setupTABLE[align={hyphenated,normal}]
+\setupTABLE[c][1][style=\ss, color=cyan]
+\setupTABLE[c][3][style=\ss, color=cyan]
+\setupTABLE[c][5][style=\ss, color=cyan]
+
+\stopsetups
+
 %protocole du stress
 \startsetups table:protocole
 \setupTABLE[frame=off,option=stretch]
@@ -174,73 +184,98 @@
    
    \bTD {% if patient.correspondant %}{{ patient.correspondant }}{% else %}--{% endif %}
    \eTD
-   \bTD AGE
+   \bTD {{ patient.age }}
 \eTD
    \eTR
+\bTR
+   \bTD poids: {{ patient.weight }} kg \eTD
+   \bTD taille: {{ patient.lenght }} cm \eTD
+   \bTD surface corporelle: {{ patient.body_area }} m2 \eTD
+   \eTR
+
 \eTABLE} 
 \stopframed
 
-{\sc Poids:} {{ patient.weight }} kg \hfill {\sc Taille:} {{ patient.length }} m \hfill {\sc SC} {{ patient.body_area }} m2.
 
-{\sc Diagnostic exact:} {{ fiche.diagnostic }}
+\startdescription{Diagnostic exact:} {{ fiche.diagnostic }}
+\stopdescription
+\startdescription{ Pathologies associées:} {{ fiche.pthologies_assoc }}
+\stopdescription
+\startdescription{ Antécedents de chirurgie cardiaque ou de geste interventionnel:} {{ fiche.surgery_history }}
+\stopdescription
+\startdescription{ FDR:}
+{% if patient.hta == true %}- HTA {% endif %}
+{% if patient.diabete == true %}- Diabète  {% endif %}
+{% if patient.smoker == true %}- Tabagique {% endif %}
+{% if patient.obesity == true %}- Obèse {% endif %}
+{% if patient.dyslipidemia == true %}- Dyslipidémie {% endif %}
+{% if patient.sedentarity == true %}- Sédentarité  {% endif %}
+{% if patient.heredity == true %}- Héredité coronarienne {% endif %}
+\stopdescription
+\bTABLE[setups={table:bio}]
+   \bTR
+   \bTD stade NYHA \eTD
+   \bTD {{ fiche.nyha }} \eTD
+   \bTD téléthorax \eTD
+   \bTD {{ fiche.telethorax }} \eTD
+   \bTD ECG \eTD
+   \bTD {{ fiche.ecg }} \eTD
+   \eTR
+ \eTABLE
 
-{\sc Pathologies associées:} {{ fiche.pthologies_assoc }}
+\startdescription{ECG:} {{ fiche.ecg }}
+\stopdescription
+ \startdescription{Échocoeur (conclusion) :} {{ fiche.echocoeur }}
+\stopdescription
+\bTABLE[setups={table:bio}]
+   \bTR
+   \bTD FEVG \eTD
+   \bTD {{ fiche.fevg }} \eTD
+   \bTD valvulopathies \eTD
+   \bTD {{ fiche.valvulopathy }} \eTD
+   \bTD PAPS \eTD
+   \bTD {{ fiche.paps }} \eTD
+   \eTR
+   \bTR
+   \bTD OG (taille \& vacuité) \eTD
+   \bTD {{ fiche.taille_og }} \eTD
+   \bTD VD \eTD
+   \bTD {{ fiche.vd }} \eTD
+   \bTD état de l'aorte \eTD
+   \bTD {{ fiche.aorte }} \eTD
+   \eTR
 
-{\sc Antécedents de chirurgie cardiaque ou de geste interventionnel:} {{ fiche.surgery_history }}
+ \eTABLE
 
-
-{\sc FDR:}
-\startitemize[n,columns, two, packed]
-{% if patient.hta == true %}\startitem HTA \stopitem {% endif %}
-{% if patient.diabete == true %}\startitem Diabète \stopitem {% endif %}
-{% if patient.smoker == true %}\startitem Tabagique \stopitem {% endif %}
-{% if patient.obesity == true %}\startitem Obèse \stopitem {% endif %}
-{% if patient.dyslipidemia == true %}\startitem Dyslipidémie \stopitem {% endif %}
-{% if patient.sedentarity == true %}\startitem Sédentarité \stopitem {% endif %}
-{% if patient.heredity == true %}\startitem Héredité coronarienne\stopitem {% endif %}
-\stopitemize
-
-{\sc Stade fonctionnel NYHA:} {{ fiche.nyha }}
-
-{\sc Téléthorax (avec ICT):} {{ fiche.telethorax }}
-
-{\sc ECG:} {{ fiche.ecg }}
-
-{\sc Échocoeur (conclusion) :} {{ fiche.echocoeur }}
-
-{\sc FEVG:} {{ fiche.fevg }} \% \hfill{\sc PAPS:} {{ fiche.paps }} mmHg \hfill{\sc Taill et vacuité de l'OG:} {{ fiche.taille_og }} \hfill{\sc Fonction VD:} {{ fiche.vd }}
-
-
-{\sc Atteinte valvulaire (grade):} {{ fiche.valvulopathie }}
-
-{\sc Etat de l'aorte:} {{ fiche.aorte }}
-
-{\sc Test d'ischémie:} {% if fiche.test_ischemie == 'R' %}IRM cardiaque
+\startdescription{Test d'ischémie:} {% if fiche.test_ischemie == 'R' %}IRM cardiaque
                        {% elif fiche.test_ischemie == 'C' %} coroscan
                        {% elif fiche.test_ischemie == 'M' %} scintigraphie myocardique
                        {% elif fiche.test_ischemie == 'S' %} stress echo
                        {% elif fiche.test_ischemie == 'E' %} épreuve d'effort{% endif %}
+\stopdescription
+\startdescription{Résultat du test d'ischémie:} {{ fiche.result_test_ischemie }}
+\stopdescription
+\startdescription{Etat des coronaires (coronarographie):} {{ fiche.coro }}
+\stopdescription
+\startdescription{Syntax score:} {{ fiche.syntax }}
+\stopdescription
+\startdescription{Etat des coronaires (coroscanner):} {{ fiche.coroscan }}
+\stopdescription
+\startdescription{Etat des artères périph au doppler ou à l'angio:} {{ fiche.periph }}
+\stopdescription
+\startdescription{Fonction reale} Clearance_cr: {{ fiche.clearance_cr }} ml/min \hfill {\sc (dfg:} {{ fiche.dfg }} ml/min/m2
 
-{\sc Résultat du test d'ischémie:} {{ fiche.result_test_ischemie }}
+\stopdescription
 
-{\sc Etat des coronaires (coronarographie):} {{ fiche.coro }}
+\startdescription{Fonction respiratoire (EFR):} {{ fiche.respir }}
 
-{\sc Syntax score:} {{ fiche.syntax }}
+\stopdescription
 
-{\sc Etat des coronaires (coroscanner):} {{ fiche.coroscan }}
+\startdescription{Etat dentaire :} {{ fiche.dentaire }}
 
-{\sc Etat des artères périph au doppler ou à l'angio:} {{ fiche.periph }}
+\stopdescription
 
-{\sc Fonction reale (clearance):} {{ fiche.clearance_cr }} ml/min \hfill {\sc (débit de filration glomérulaire:} {{ fiche.dfg }} ml/min/m2
-
-
-{\sc Fonction respiratoire (EFR):} {{ fiche.respir }}
-
-
-{\sc Etat dentaire :} {{ fiche.dentaire }}
-
-
-{\sc Biologie principales anomalies:} {{ fiche.biology }}
+{\bf Biologie principales anomalies:} {{ fiche.biology }}
 \startitemize[2,columns,two,packed]
 \startitem  glycémie {{ fiche.glycemia }} g/l\stopitem 
 \startitem  créatinine {{ fiche.creatinin }} mg/l\stopitem 
@@ -266,19 +301,20 @@
 \stopitemize
 
 
-{\sc Allergies:} {{ patient.allergy }}
+\startdescription{Allergies:} {{ patient.allergy }}
+\stopdescription
+\startdescription{Traitement médical:} {{ fiche.traitement }}
+\stopdescription
+
+\startdescription{Évaluation du risque opératoire:} {{ fiche.risk }}
+\stopdescription
 
 
-{\sc Traitement médical:} {{ fiche.traitement }}
-
-
-{\sc Évaluation du risque opératoire:} {{ fiche.risk }}
-
-
-{\sc Décision du médecin traitant:} {{ fiche.decision }}
-{\sc Actes demandés:} {{ fiche.quotation1 }}
-
-signature (medecin traitant de la clinique)
+\startdescription{Décision du médecin traitant:} {{ fiche.decision }}
+\stopdescription
+\startdescription{Actes demandés:} {% for quotation in fiche.quotation1.all %} {{ quotation }} - {% endfor %}
+{% if fiche.quotation2 %}  {% for quotation in fiche.quotation2.all %} {{ quotation }} - {% endfor %}
+    {% endif %}
 
 \blank[2cm]
 \raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\

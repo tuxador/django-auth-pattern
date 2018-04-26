@@ -501,6 +501,7 @@ class FicheTechnique(models.Model):
     taille_og = models.CharField("Taille et vacuité de l'OG", max_length=255, blank=True)
     vd = models.CharField("Fonction VD", max_length=255, blank=True)
     fevg = models.PositiveSmallIntegerField("FEVG", null=True, blank=True)
+    paps = models.PositiveSmallIntegerField("PAPS", null=True, blank=True)
     valvulopathy = models.CharField("Atteinte valvulaire (grade)",
                                     max_length=255, blank=True)
     aorte = models.CharField("État de l'aorte", max_length=255, blank=True)
