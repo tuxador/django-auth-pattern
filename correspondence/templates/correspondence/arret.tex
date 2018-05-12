@@ -122,7 +122,7 @@
        toaddress={ {{ patient.birth }} },
        subject={Certificat médical {% if arret.type_arret == 'P' %} de prolongation d'arrêt de travail {% elif arret.type_arret == 'R' %} de reprise de travail{% else %}d'arrêt de travail {% endif %} .}]
    
-   Je sous-signé {\sc Dr Yahyaoui}, cardiologue, certifie avoir vu ce jour le {{ arret.redaction_date }}   {% if patient.gender == 'F' %} Madame {% else %}Monsieur {% endif %}  {\sc {{ patient.name }}  } , né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, et déclare  que son état de santé {% if arret.type_arret == 'R' %} autorise la reprise du travail {% elif arret.type_arret == 'P' %} nécessite la prolongation de son arrêt de travail de {{ arret.duree }} jours{% else %} nécessite un arrêt de travail de {{ arret.duree }} jours {% endif %} à compter du {{ arret.arret_date }}{% if arret.type_arret == 'P' or arret.type_arret == 'A' %},  sauf complication intercurrente {% endif %} .
+   Je sous-signé {\sc Dr Yahyaoui}, cardiologue, certifie avoir vu ce jour le {{ arret.redaction_date }}   {% if patient.gender == 'F' %} Madame {% else %}Monsieur {% endif %}  {\sc {{ patient.name }}  } , né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }} ( {{ patient.age }} ans), et déclare  que son état de santé {% if arret.type_arret == 'R' %} autorise la reprise du travail {% elif arret.type_arret == 'P' %} nécessite la prolongation de son arrêt de travail de {{ arret.duree }} jours{% else %} nécessite un arrêt de travail de {{ arret.duree }} jours {% endif %} à compter du {{ arret.arret_date }}{% if arret.type_arret == 'P' or arret.type_arret == 'A' %},  sauf complication intercurrente {% endif %} .
 
    
    \blank[2*big]

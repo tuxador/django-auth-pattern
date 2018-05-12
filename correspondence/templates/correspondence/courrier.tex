@@ -128,13 +128,14 @@
    {% elif courrier.salutation == 'M' %}Cher maître,
    {% else %}Cher confrère, chère consoeur,{% endif %}
 {% if courrier.reponse == True %}
-   le bilan cardiovasculaire  {% if patient.gender == 'F' %}de la patiente{% else %}du patient{% endif %}  {\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %} adressé{% if patient.gender == 'F' %}e{% endif %} pour  {{ courrier.diagnostic }}, est revenu en faveur de  {{ courrier.declaration }}.
+   le bilan cardiovasculaire  {% if patient.gender == 'F' %}de la patiente{% else %}du patient{% endif %}  {\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }} ( {{ patient.age }} ans), {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %} adressé{% if patient.gender == 'F' %}e{% endif %} pour  {{ courrier.diagnostic }}, est revenu en faveur de  {{ courrier.declaration }}.
 {% else %}
 je {% if courrier.salutation == 'A' %}te{% else %}vous{% endif %} confie  {% if patient.gender == 'F' %} la patiente {% else %} le patient {% endif %} {\sc {{ patient.name }} } né{% if patient.gender == 'F' %}e{% endif %} le {{ patient.birth }}, {% if patient.hta == True %}HTA,{% endif %} {% if patient.diabete == True %}diabétique{% endif %}, et aux antécédents de {{ patient.history }} pour {{ courrier.diagnostic }}.
 
 L'examen retrouve:   {{ courrier.declaration }}.
     
-  {% endif %} %%%%%%%%% boucle "reponse = true" 
+  {% endif %} %%%%%%%%% boucle "reponse = true"
+
 {% if courrier.conclusion %} {% if courrier.reponse == False %}{\bf objectif:}{% endif %}  {{ courrier.conclusion }} {% endif %}
 
 {% if courrier.reponse == True %}

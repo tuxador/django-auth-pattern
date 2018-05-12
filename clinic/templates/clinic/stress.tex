@@ -196,26 +196,18 @@
 {{ stress.medication }}
 \subsubject{Protocole}
 \startdescription{Objectifs}
-{% if stress.objectif == 'M' %}évaluation de fuite mitrale  
-{% elif stress.objectif == 'G' %}évaluation de gradient trans-aortique
-{% elif stress.objectif == 'R' %}évaluation de la reserve contractile 
-  {% elif stress.objectif == 'V' %}recherche de viabilité myocardique
+{% if stress.objectif == 'M' %}évaluation de fuite mitrale %  
+{% elif stress.objectif == 'G' %}évaluation de gradient trans-aortique %
+{% elif stress.objectif == 'R' %}évaluation de la reserve contractile %
+  {% elif stress.objectif == 'V' %}recherche de viabilité myocardique %
     {% else %}recherche d'ischémie myocardique  {% endif %}.
 \stopdescription
 \subsubsubject{Drogues utilisées}
 \startdescription{Dobutamine}
-{% if stress.dobu_5 == True %}5\gamma {% endif %}
-{% if stress.dobu_10 == True %}10\gamma {% endif %}
-{% if stress.dobu_15 == True %}15\gamma {% endif %}
-{% if stress.dobu_20 == True %}20\gamma {% endif %}
-{% if stress.dobu_30 == True %}30\gamma {% endif %}
-{% if stress.dobu_40 == True %}40\gamma {% endif %}
+{% if stress.dobu_5 == True %}5\gamma {% endif %} {% if stress.dobu_10 == True %}- 10\gamma {% endif %}{% if stress.dobu_15 == True %} - 15\gamma {% endif %}{% if stress.dobu_20 == True %} - 20\gamma {% endif %}{% if stress.dobu_30 == True %} - 30\gamma {% endif %}{% if stress.dobu_40 == True %} - 40\gamma {% endif %}
 \stopdescription
 \startdescription{Atropine}
-{% if stress.atropine_1 == True %}0.25mg {% endif %}
-{% if stress.atropine_2 == True %}0.50mg {% endif %}
-{% if stress.atropine_3 == True %}0.75mg {% endif %}
-{% if stress.atropine_4 == True %}1.0mg {% endif %}
+{% if stress.atropine_1 == True %}0.25mg {% endif %}{% if stress.atropine_2 == True %} 0.50mg {% endif %} {% if stress.atropine_3 == True %} 0.75mg {% endif %}{% if stress.atropine_4 == True %} 1.0mg {% endif %}
 \stopdescription
 
 \startdescription{anti ischémiques}
@@ -229,8 +221,8 @@
 \eTR
 \bTR \bTD Base \eTD \bTD - \eTD \bTD {{stress.base_systolic_bp  }}/{{ stress.base_diastolic_bp }} \eTD \bTD {{ stress.base_ecg }} \eTD \bTD {{ stress.base_echo }}\eTD \eTR
 \bTR \bTD Low-dose \eTD \bTD {{ stress.low_symptoma }} \eTD \bTD {{stress.low_systolic_bp  }}/{{ stress.low_diastolic_bp }} \eTD \bTD {{ stress.low_ecg }} \eTD \bTD {{ stress.low_echo }}\eTD\eTR
-\bTR \bTD Peak-dose \eTD \bTD -{{ stress.peak_symptoma }} \eTD \bTD {{stress.peak_systolic_bp  }}/{{ stress.peak_diastolic_bp }} \eTD \bTD {{ stress.peak_ecg }} \eTD \bTD {{ stress.peak_echo }}\eTD \eTR
-\bTR \bTD Récup. \eTD \bTD - {{ stress.recup_symptoma }}\eTD \bTD {{stress.recup_systolic_bp  }}/{{ stress.recup_diastolic_bp }} \eTD \bTD {{ stress.recup_ecg }} \eTD \bTD {{ stress.recup_echo }}\eTD \eTR
+\bTR \bTD Peak-dose \eTD \bTD {{ stress.peak_symptoma }} \eTD \bTD {{stress.peak_systolic_bp  }}/{{ stress.peak_diastolic_bp }} \eTD \bTD {{ stress.peak_ecg }} \eTD \bTD {{ stress.peak_echo }}\eTD \eTR
+\bTR \bTD Récup. \eTD \bTD {{ stress.recup_symptoma }}\eTD \bTD {{stress.recup_systolic_bp  }}/{{ stress.recup_diastolic_bp }} \eTD \bTD {{ stress.recup_ecg }} \eTD \bTD {{ stress.recup_echo }}\eTD \eTR
 \eTABLE
 \subsubject[conclusion]{Conclusion}
 \startalerttext
