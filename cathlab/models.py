@@ -175,7 +175,6 @@ class Coroscan(models.Model):
         return 'Coroscan %s -- %s' % (self.patient, self.coroscan_date)
 
 
-
 class Coronarographie(models.Model):
 
     patient = models.ForeignKey('clinic.Patient', on_delete=models.CASCADE)

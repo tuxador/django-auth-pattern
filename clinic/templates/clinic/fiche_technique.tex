@@ -125,6 +125,10 @@
 
 \stopsetups
 
+
+\stopsetups
+
+
 %protocole du stress
 \startsetups table:protocole
 \setupTABLE[frame=off,option=stretch]
@@ -217,9 +221,7 @@
    \bTD stade NYHA \eTD
    \bTD {{ fiche.nyha }} \eTD
    \bTD téléthorax \eTD
-   \bTD {{ fiche.telethorax }} \eTD
-   \bTD ECG \eTD
-   \bTD {{ fiche.ecg }} \eTD
+   \bTD RCT = {{ fiche.telethorax }} \eTD
    \eTR
  \eTABLE
 
@@ -230,15 +232,17 @@
 \bTABLE[setups={table:bio}]
    \bTR
    \bTD FEVG \eTD
-   \bTD {{ fiche.fevg }} \eTD
+   \bTD {{ fiche.fevg }} \% \eTD
    \bTD valvulopathies \eTD
    \bTD {{ fiche.valvulopathy }} \eTD
-   \bTD PAPS \eTD
-   \bTD {{ fiche.paps }} \eTD
    \eTR
    \bTR
+\bTD PAPS \eTD
+   \bTD {% if fiche.paps %}{{ fiche.paps }} mmHg{% else %} normale{% endif %} \eTD
    \bTD OG (taille \& vacuité) \eTD
    \bTD {{ fiche.taille_og }} \eTD
+   \eTR
+   \bTR
    \bTD VD \eTD
    \bTD {{ fiche.vd }} \eTD
    \bTD état de l'aorte \eTD
@@ -263,11 +267,7 @@
 \stopdescription
 \startdescription{Etat des artères périph au doppler ou à l'angio:} {{ fiche.periph }}
 \stopdescription
-\startdescription{Fonction reale} Clearance_cr: {{ fiche.clearance_cr }} ml/min \hfill {\sc (dfg:} {{ fiche.dfg }} ml/min/m2
-
-\stopdescription
-
-\startdescription{Fonction respiratoire (EFR):} {{ fiche.respir }}
+\startdescription{Fonction respiratoire (EFR):} VEMS = {{ fiche.respir }}
 
 \stopdescription
 
@@ -276,29 +276,97 @@
 \stopdescription
 
 {\bf Biologie principales anomalies:} {{ fiche.biology }}
-\startitemize[2,columns,two,packed]
-\startitem  glycémie {{ fiche.glycemia }} g/l\stopitem 
-\startitem  créatinine {{ fiche.creatinin }} mg/l\stopitem 
-\startitem  Cl_cr {{ fiche.clearance_cr }} ml/min
-{% if fiche.dfb %}- DFG {{ fiche.dfg }} ml/min/1.73m²{% endif %}
-\stopitem
-\startitem  urémie {{ fiche.uremia }} g/l\stopitem 
-\startitem  hémoglobinémie {{ fiche.hemoglobin }} g/dl\stopitem 
-\startitem  plaquettes {{ fiche.platlets }}.000 elt/mm3\stopitem 
-\startitem  globules blancs {{ fiche.wbc }} g/l\stopitem 
-\startitem  TP {{ fiche.tp }}\% \stopitem 
-\startitem  fibrinogènémie {{ fiche.fibrinogen }} g/l\stopitem 
-\startitem  férritine {{ fiche.ferretin }} g/l\stopitem 
-\startitem  calcémie {{ fiche.calcemia }} g/l\stopitem 
-\startitem  hba1c {{ fiche.hba1c }} \% \stopitem 
-\startitem  choletesterol total {{ fiche.cholesterol }} g/l \stopitem 
-\startitem  triglycérides {{ fiche.triglyceride }} g/l \stopitem 
-\startitem  hdl {{ fiche.hdl }} g/l \stopitem 
-\startitem  ldl {{ fiche.ldl }} g/l \stopitem 
-\startitem  sérologies HBS {% if fiche.hbv == true %} (+) {% elif fiche.hbv == false %} (-){% else %} *{% endif %}\stopitem 
-\startitem  sérologies HCV {% if fiche.hcv == true %} (+) {% elif fiche.hcv == false %} (-){% else %} *{% endif %}\stopitem 
-\startitem  sérologies HIV {% if fiche.hiv == true %} (+) {% elif fiche.hiv == false %} (-){% else %} *{% endif %}\stopitem 
-\stopitemize
+%% \startitemize[2,columns,two,packed]
+%% \startitem  glycémie {{ fiche.glycemia }} g/l\stopitem 
+%% \startitem  créatinine {{ fiche.creatinin }} mg/l\stopitem 
+%% \startitem  Cl_cr {{ fiche.clearance_cr }} ml/min
+%% {% if fiche.dfb %}- DFG {{ fiche.dfg }} ml/min/1.73m²{% endif %}
+%% \stopitem
+%% \startitem  urémie {{ fiche.uremia }} g/l\stopitem 
+%% \startitem  hémoglobinémie {{ fiche.hemoglobin }} g/dl\stopitem 
+%% \startitem  plaquettes {{ fiche.platlets }}.000 elt/mm3\stopitem 
+%% \startitem  globules blancs {{ fiche.wbc }} g/l\stopitem 
+%% \startitem  TP {{ fiche.tp }}\% \stopitem 
+%% \startitem  fibrinogènémie {{ fiche.fibrinogen }} g/l\stopitem 
+%% \startitem  férritine {{ fiche.ferretin }} g/l\stopitem 
+%% \startitem  calcémie {{ fiche.calcemia }} g/l\stopitem 
+%% \startitem  hba1c {{ fiche.hba1c }} \% \stopitem 
+%% \startitem  choletesterol total {{ fiche.cholesterol }} g/l \stopitem 
+%% \startitem  triglycérides {{ fiche.triglyceride }} g/l \stopitem 
+%% \startitem  hdl {{ fiche.hdl }} g/l \stopitem 
+%% \startitem  ldl {{ fiche.ldl }} g/l \stopitem 
+%% \startitem  sérologies HBS {% if fiche.hbv == true %} (+) {% elif fiche.hbv == false %} (-){% else %} *{% endif %}\stopitem 
+%% \startitem  sérologies HCV {% if fiche.hcv == true %} (+) {% elif fiche.hcv == false %} (-){% else %} *{% endif %}\stopitem 
+%% \startitem  sérologies HIV {% if fiche.hiv == true %} (+) {% elif fiche.hiv == false %} (-){% else %} *{% endif %}\stopitem 
+%% %% \stopitemize
+\bTABLE[setups={table:bio}]
+   \bTR
+   \bTD glycémie \eTD
+   \bTD {{ fiche.glycemia }} g/l \eTD
+   \bTD créatinine \eTD
+   \bTD {{ fiche.creatinin }} mg/l\eTD
+   \bTD Clearance créat \eTD
+   \bTD {{ fiche.clearance_cr }} ml/min\eTD
+   \eTR
+ \bTR
+   \bTD Natérmie \eTD
+   \bTD {{ fiche.natremia }} meq/l \eTD
+   \bTD Kaliémie \eTD
+   \bTD {{ fiche.kaliemia }} meq/l\eTD
+   \bTD débit filtration glom \eTD
+   \bTD {{ fiche.dfg}} ml/min/1.73m2\eTD
+   \eTR
+  \bTR
+   \bTD urémie \eTD
+   \bTD {{ fiche.uremia }} g/l\eTD
+   \bTD Hémoglobinémie \eTD
+   \bTD {{ fiche.hemoglobin }} g/dl\eTD
+   \bTD plaquettes \eTD
+   \bTD {{ fiche.platlets }}.000 elt/mm3 \eTD
+   \eTR
+ \bTR
+   \bTD Leucocytes \eTD
+   \bTD {{ fiche.wbc }} elt/mm3\eTD
+   \bTD TP \eTD
+   \bTD {{ fiche.tp }}\% \eTD
+   \bTD CRP \eTD
+   \bTD {% if fiche.crp %}{{ fiche.crp }} mg/l{% else %} négative{% endif %}\eTD
+   \eTR
+ \bTR
+   \bTD VS \eTD
+   \bTD {{ fiche.vs_h1 }}/{{ fiche.vs_h2 }} mm\eTD
+   \bTD fibrinogène \eTD
+   \bTD {{ fiche.fibrinogen }} g/l\eTD
+   \bTD ferritinémie \eTD
+   \bTD {{ fiche.ferritin }} mg/l\eTD
+   \eTR
+ \bTR
+   \bTD calcémie \eTD
+   \bTD {{ fiche.calcemia }} mg/l\eTD
+   \bTD HbA1c \eTD
+   \bTD {{ fiche.hba1c }} \% \eTD
+   \bTD choleterol total \eTD
+   \bTD {{ fiche.cholesterol }} g/l\eTD
+   \eTR
+\bTR
+   \bTD triglycéridémie \eTD
+   \bTD {{ fiche.triglyceride }} g/l\eTD
+   \bTD HDLc \eTD
+   \bTD {{ fiche.hdl }} g/l \eTD
+   \bTD LDL \eTD
+   \bTD {{ fiche.ldl }} g/l\eTD
+   \eTR
+\bTR
+   \bTD Sérologie HBS \eTD
+   \bTD {% if fiche.hbv == true %} positive {% else %} négative {% endif %}\eTD
+   \bTD sérologie HCV \eTD
+   \bTD {% if fiche.hcv == true %} positive {% else %} négative {% endif %}\eTD
+   \bTD sérologie HIV \eTD
+   \bTD {% if fiche.hiv == true %} positive {% else %} négative {% endif %}\eTD
+   \eTR
+
+ \eTABLE
+
 
 
 \startdescription{Allergies:} {{ patient.allergy }}
