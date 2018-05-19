@@ -314,7 +314,7 @@
    \bTD Kaliémie \eTD
    \bTD {{ fiche.kaliemia }} meq/l\eTD
    \bTD débit filtration glom \eTD
-   \bTD {{ fiche.dfg}} ml/min/1.73m2\eTD
+   \bTD {% if fiche.dfg %}{{ fiche.dfg}} ml/min/1.73m2 {% else %} {% endif %}\eTD
    \eTR
   \bTR
    \bTD urémie \eTD
@@ -338,13 +338,13 @@
    \bTD fibrinogène \eTD
    \bTD {{ fiche.fibrinogen }} g/l\eTD
    \bTD ferritinémie \eTD
-   \bTD {{ fiche.ferritin }} mg/l\eTD
+   \bTD {% if fiche.ferritin %}{{ fiche.ferritin }} mg/l {% else %} {% endif %}\eTD
    \eTR
  \bTR
    \bTD calcémie \eTD
-   \bTD {{ fiche.calcemia }} mg/l\eTD
+   \bTD {% if fiche.calcemia %}{{ fiche.calcemia }} mg/l{% else %} {% endif %}\eTD
    \bTD HbA1c \eTD
-   \bTD {{ fiche.hba1c }} \% \eTD
+   \bTD {% if fiche.hba1c %}{{ fiche.hba1c }} \% {% else %}{% endif %}\eTD
    \bTD choleterol total \eTD
    \bTD {{ fiche.cholesterol }} g/l\eTD
    \eTR
@@ -380,10 +380,9 @@
 
 \startdescription{Décision du médecin traitant:} {{ fiche.decision }}
 \stopdescription
-\startdescription{Actes demandés:} {% for quotation in fiche.quotation1.all %} {{ quotation }} - {% endfor %}
-{% if fiche.quotation2 %}  {% for quotation in fiche.quotation2.all %} {{ quotation }} - {% endfor %}
-    {% endif %}
-
+\startdescription{Actes demandés:} {% for quotation in fiche.quotation1.all %} {{ quotation }} - {% endfor %} .
+{% if fiche.quotation2.all  %} OU {% for quotation in fiche.quotation2.all %} {{ quotation }} - {% endfor %} {% endif %}
+{% if fiche.quotation3.all  %} OU {% for quotation in fiche.quotation3.all %} {{ quotation }} - {% endfor %} {% endif %}
 \blank[2cm]
 \raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\
   Alger le {{ fiche.date_fiche }} \hspace[2em]

@@ -1,3 +1,4 @@
+{% autoescape off %}
 \mainlanguage[fr]
 \setuppagenumbering[alternative=singlesided,location={footer,inright},
                     right={ de \totalnumberofpages},
@@ -139,7 +140,7 @@
     corner=round,
     offset=0.3cm,
    ]
-  {\ssc \bf Coronarographie}
+  {\ssc \bf {% if coronarographie.conclusion %}Coronarographie {% endif %} {% if coronarographie.procedure %}Angioplastie {% endif %} }
 \stopalignment
 
 \blank[1cm]
@@ -226,8 +227,17 @@
 \startexampletext
   {{ coronarographie.decision }} .
 \stopexampletext
+{% if coronarographie.procedure %}
+\subsubject{Procédure}
+{{ coronarographie.procedure }}
+\subsubject[dispositios]{Dispositions complémentaires}
+\startalerttext
+{{ coronarographie.dispositions }}
+\stopalerttext
+{% endif %}
 \blank[1cm]
 \raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\
   Alger le \currentdate \hspace[2em]
-  }
+  
 \stoptext
+   {% endautoescape %}
