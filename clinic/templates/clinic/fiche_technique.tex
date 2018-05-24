@@ -203,18 +203,18 @@
 
 \startdescription{Diagnostic exact:} {{ fiche.diagnostic }}
 \stopdescription
-\startdescription{ Pathologies associées:} {{ fiche.pthologies_assoc }}
+\startdescription{ Pathologies associées:} {{ fiche.pathologies_assoc }}
 \stopdescription
 \startdescription{ Antécedents de chirurgie cardiaque ou de geste interventionnel:} {{ fiche.surgery_history }}
 \stopdescription
 \startdescription{ FDR:}
-{% if patient.hta == true %}- HTA {% endif %}
-{% if patient.diabete == true %}- Diabète  {% endif %}
-{% if patient.smoker == true %}- Tabagique {% endif %}
-{% if patient.obesity == true %}- Obèse {% endif %}
-{% if patient.dyslipidemia == true %}- Dyslipidémie {% endif %}
-{% if patient.sedentarity == true %}- Sédentarité  {% endif %}
-{% if patient.heredity == true %}- Héredité coronarienne {% endif %}
+{% if patient.hypertension == True %}- HTA {% endif %} %
+{% if patient.diabete == True %}- Diabète  {% endif %} %
+{% if patient.smoker == True %}- Tabagique {% endif %} %
+{% if patient.obesity == True %}- Obèse {% endif %} %
+{% if patient.dyslipidemia == True %}- Dyslipidémie {% endif %} %
+{% if patient.sedentarity == True %}- Sédentarité  {% endif %} %
+{% if patient.heredity == True %}- Héredité coronarienne {% endif %} %
 \stopdescription
 \bTABLE[setups={table:bio}]
    \bTR
@@ -267,7 +267,7 @@
 \stopdescription
 \startdescription{Etat des artères périph au doppler ou à l'angio:} {{ fiche.periph }}
 \stopdescription
-\startdescription{Fonction respiratoire (EFR):} VEMS = {{ fiche.respir }}
+\startdescription{Fonction respiratoire (EFR):}  {{ fiche.respir }}
 
 \stopdescription
 
@@ -381,7 +381,9 @@
 \startdescription{Décision du médecin traitant:} {{ fiche.decision }}
 \stopdescription
 \startdescription{Actes demandés:} {% for quotation in fiche.quotation1.all %} {{ quotation }} - {% endfor %} .
+
 {% if fiche.quotation2.all  %} OU {% for quotation in fiche.quotation2.all %} {{ quotation }} - {% endfor %} {% endif %}
+
 {% if fiche.quotation3.all  %} OU {% for quotation in fiche.quotation3.all %} {{ quotation }} - {% endfor %} {% endif %}
 \blank[2cm]
 \raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\
