@@ -382,9 +382,11 @@
 \stopdescription
 \startdescription{Actes demandés:} {% for quotation in fiche.quotation1.all %} {{ quotation }} - {% endfor %} .
 
-{% if fiche.quotation2.all  %} OU {% for quotation in fiche.quotation2.all %} {{ quotation }} - {% endfor %} {% endif %}
+{% if fiche.quotation2.all  %} Ou {% for quotation in fiche.quotation2.all %} {{ quotation }} - {% endfor %} {% endif %}
 
-{% if fiche.quotation3.all  %} OU {% for quotation in fiche.quotation3.all %} {{ quotation }} - {% endfor %} {% endif %}
+{% if fiche.quotation3.all  %} Ou {% for quotation in fiche.quotation3.all %} {{ quotation }} - {% endfor %} {% endif %}
+
+{% if fiche.quotation4.all  %} Ou {% for quotation in fiche.quotation4.all %} {{ quotation }} - {% endfor %} {% endif %}
 \blank[2cm]
 \raggedleft{Dr {\sc Yahyaoui M K} --  Cardiologue\\
   Alger le {{ fiche.date_fiche }} \hspace[2em]

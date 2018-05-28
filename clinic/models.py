@@ -602,6 +602,9 @@ class FicheTechnique(models.Model):
 
     quotation3 = models.ManyToManyField('billing.Quotation', related_name="q3",
                                         blank=True)
+    quotation4 = models.ManyToManyField('billing.Quotation', related_name="q4",
+                                        blank=True)
+    note = models.CharField("Note", max_length=255, blank=True)
 
     def __str__(self):
 
