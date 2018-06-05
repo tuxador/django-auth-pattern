@@ -121,7 +121,12 @@ class Patient(models.Model):
 
     @property
     def age(self):
-        return int((datetime.now().date() - self.birth).days / 365.25)
+        a = int((datetime.now().date() - self.birth).days / 365.25)
+        if a < 3:
+            a = str(int((datetime.now().date() - self.birth).days / 30)) + ' mois'
+        else:
+            a = str(int((datetime.now().date() - self.birth).days / 365.25)) + ' ans'
+        return a
 
     def save(self, *args, **kwargs):
         if not self.slug:
